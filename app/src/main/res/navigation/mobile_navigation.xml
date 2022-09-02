@@ -7,19 +7,25 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.svalero.toteco_app_aa2.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:name="com.svalero.toteco_app_aa2.view.HomeFragment"
+        android:label="@string/nav_publications"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.svalero.toteco_app_aa2.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_add_publication"
+        android:name="com.svalero.toteco_app_aa2.view.AddPublicationFragment"
+        android:label="@string/nav_add_publication"
+        tools:layout="@layout/fragment_add_publication" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.svalero.toteco_app_aa2.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_locations"
+        android:name="com.svalero.toteco_app_aa2.view.LocationsFragment"
+        android:label="@string/nav_locations"
+        tools:layout="@layout/fragment_locations" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.svalero.toteco_app_aa2.view.LocationsFragment"
+        android:label="@string/nav_settings"
+        tools:layout="@layout/fragment_locations" />
 </navigation>

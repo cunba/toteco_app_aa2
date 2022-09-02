@@ -3,7 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_logout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.23480243161094225" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/dialog_add_establishment.xml" value="0.22796352583586627" />
+        <entry key="app/src/main/res/layout/dialog_add_product.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/dialog_product.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/fragment_add_product.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/fragment_add_publication.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/fragment_locations.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/fragment_modify_product.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/layout/publication_list_item.xml" value="0.23480243161094225" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.3836734693877551" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.2611111111111111" />
       </map>
     </option>
   </component>
