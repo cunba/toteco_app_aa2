@@ -40,7 +40,7 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
         binding = FragmentLocationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        supportMapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
+        supportMapFragment = (SupportMapFragment) getParentFragmentManager()
                 .findFragmentById(R.id.locations_map);
         if (supportMapFragment != null) {
             supportMapFragment.getMapAsync(this);
@@ -56,7 +56,7 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
         super.onDestroyView();
         binding = null;
         if (null != supportMapFragment) {
-            getActivity().getSupportFragmentManager().beginTransaction()
+            getParentFragmentManager().beginTransaction()
                     .remove(supportMapFragment)
                     .commit();
         }
@@ -81,6 +81,7 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        System.out.println("entra");
         map = googleMap;
         googleMap.setOnMarkerClickListener(this);
 
@@ -101,7 +102,7 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
 //    public void onDestroy() {
 //        super.onDestroy();
 //        if (null != supportMapFragment) {
-//            getActivity().getSupportFragmentManager().beginTransaction()
+//            getParenstFragmentActivity().beginTransaction()
 //                    .remove(supportMapFragment)
 //                    .commit();
 //        }

@@ -48,6 +48,7 @@
     <string name="add_product_submit">Añadir</string>
     <string name="add_product_cancel">Cancelar</string>
     <!--    Add establishment  -->
+    <string name="add_establishment_title">AÑADIR ESTABLECIMIENTO</string>
     <string name="add_establishment">Añadir establecimiento</string>
     <string name="add_establishment_name">Nombre</string>
     <string name="add_establishment_punctuation">Puntuación</string>

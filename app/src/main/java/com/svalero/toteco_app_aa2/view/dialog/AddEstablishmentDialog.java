@@ -180,6 +180,8 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
         } else {
             addPublicationFragment.showToast(error);
         }
+
+        addPublicationFragment.makeSummary();
     }
 
     @Override
