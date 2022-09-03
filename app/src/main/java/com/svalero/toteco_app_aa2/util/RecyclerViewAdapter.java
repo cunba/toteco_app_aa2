@@ -17,7 +17,7 @@ import androidx.room.Room;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
 import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
@@ -109,8 +109,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             AppDatabase.class, "toteco").allowMainThreadQueries()
                     .fallbackToDestructiveMigration().build();
             PublicationToRecyclerView publicationToRecyclerView = publications.get(position);
-            Publication publication = db.publicationDao().findById(publicationToRecyclerView.getPublicationId());
-            DialogFragment newFragment = new DeletePublicationDialog(homeFragment, publication);
+            PublicationLocal publicationLocal = db.publicationDao().findById(publicationToRecyclerView.getPublicationId());
+            DialogFragment newFragment = new DeletePublicationDialog(homeFragment, publicationLocal);
             newFragment.show(mFragment, "delete");
         });
 

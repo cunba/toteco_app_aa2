@@ -21,6 +21,7 @@ import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.LocationsContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentLocationsBinding;
 import com.svalero.toteco_app_aa2.domain.Establishment;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 import com.svalero.toteco_app_aa2.presenter.LocationsPresenter;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private FragmentLocationsBinding binding;
-    private List<Establishment> establishments;
+    private List<EstablishmentLocal> establishments;
     private GoogleMap map;
     private LocationsPresenter presenter;
     private SupportMapFragment supportMapFragment;

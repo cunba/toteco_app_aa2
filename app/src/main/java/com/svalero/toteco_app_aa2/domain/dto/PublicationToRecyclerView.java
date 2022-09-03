@@ -1,6 +1,6 @@
 package com.svalero.toteco_app_aa2.domain.dto;
 
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 
 import java.util.List;
 
@@ -9,16 +9,16 @@ public class PublicationToRecyclerView {
     private String establishmentName;
     private String establishmentPunctuation;
     private byte[] image;
-    private List<Product> products;
+    private List<ProductLocal> productLocals;
     private String totalPrice;
     private String totalPunctuation;
 
-    public PublicationToRecyclerView(int publicationId, String establishmentName, String establishmentPunctuation, byte[] image, List<Product> products, String totalPrice, String totalPunctuation) {
+    public PublicationToRecyclerView(int publicationId, String establishmentName, String establishmentPunctuation, byte[] image, List<ProductLocal> productLocals, String totalPrice, String totalPunctuation) {
         this.publicationId = publicationId;
         this.establishmentName = establishmentName;
         this.establishmentPunctuation = establishmentPunctuation;
         this.image = image;
-        this.products = products;
+        this.productLocals = productLocals;
         this.totalPrice = totalPrice;
         this.totalPunctuation = totalPunctuation;
     }
@@ -39,12 +39,12 @@ public class PublicationToRecyclerView {
         this.establishmentName = establishmentName;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<ProductLocal> getProducts() {
+        return productLocals;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProducts(List<ProductLocal> productLocals) {
+        this.productLocals = productLocals;
     }
 
     public String getTotalPrice() {

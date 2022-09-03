@@ -7,7 +7,7 @@ import androidx.room.Room;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.dialog.ProductDialogContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.ProductDialogDTO;
 
 public class ProductDialogModel implements ProductDialogContract.Model {
@@ -43,13 +43,15 @@ public class ProductDialogModel implements ProductDialogContract.Model {
             return context.getString(R.string.add_product_error_punctuation);
         }
 
-        Product newProduct = new Product(productDialogDTO.getName(), price, punctuation, 1);
-        db.productDao().insert(newProduct);
+        ProductLocal newProductLocal = new ProductLocal(
+//                productDialogDTO.getName(), price, punctuation, 1
+        );
+        db.productDao().insert(newProductLocal);
         return "";
     }
 
     @Override
-    public String modifyProduct(ProductDialogDTO productDialogDTO, Product product) {
+    public String modifyProduct(ProductDialogDTO productDialogDTO, ProductLocal productLocal) {
         if (productDialogDTO.getName().equals("")) {
             return context.getString(R.string.error_field_empty);
         }
@@ -70,10 +72,10 @@ public class ProductDialogModel implements ProductDialogContract.Model {
             return context.getString(R.string.add_product_error_punctuation);
         }
 
-        product.setName(productDialogDTO.getName());
-        product.setPunctuation(punctuation);
-        product.setPrice(price);
-        db.productDao().update(product);
+//        productLocal.setName(productDialogDTO.getName());
+        productLocal.setPunctuation(punctuation);
+        productLocal.setPrice(price);
+        db.productDao().update(productLocal);
         return "";
     }
 }

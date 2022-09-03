@@ -1,6 +1,6 @@
 package com.svalero.toteco_app_aa2.contract;
 
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public interface LoginContract {
     interface Model {
         void createAuxEstablishment();
         void createAuxPublication();
-        List<User> getUser(String username, String password);
+        List<UserLocal> getUser(String username, String password);
     }
 
     interface View {

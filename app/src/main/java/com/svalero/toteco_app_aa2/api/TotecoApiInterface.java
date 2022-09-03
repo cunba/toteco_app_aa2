@@ -1,0 +1,291 @@
+package com.svalero.toteco_app_aa2.api;
+
+import com.svalero.toteco_app_aa2.domain.Establishment;
+import com.svalero.toteco_app_aa2.domain.Menu;
+import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.ProductType;
+import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.dto.EstablishmentDTO;
+import com.svalero.toteco_app_aa2.domain.dto.MenuDTO;
+import com.svalero.toteco_app_aa2.domain.dto.PasswordChangeDTO;
+import com.svalero.toteco_app_aa2.domain.dto.ProductDTO;
+import com.svalero.toteco_app_aa2.domain.dto.ProductTypeDTO;
+import com.svalero.toteco_app_aa2.domain.dto.PublicationDTO;
+import com.svalero.toteco_app_aa2.domain.dto.UserDTO;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.PATCH;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
+public interface TotecoApiInterface {
+
+    // ESTABLISHMENTS
+
+    @GET("establishments")
+    Call<List<Establishment>> getAllEstablishments();
+
+    @GET("establishments/{id}")
+    Call<Establishment> getEstablishmentById(@Path("id") int id);
+
+    @GET("establishments/name/{name}")
+    Call<List<Establishment>> getEstablishmentsByName(@Path("name") String name);
+
+    @GET("establishments/date/{date}")
+    Call<List<Establishment>> getEstablishmentsByCreationDate(@Path("date") long date);
+
+    @GET("establishments/date/between")
+    Call<List<Establishment>> getEstablishmentsByCreationDateBetween(@Query("minDate") long minDate,
+                                                                     @Query("maxDate") long maxDate);
+
+    @GET("establishments/open/{open}")
+    Call<List<Establishment>> getEstablishmentsByOpen(@Path("open") boolean open);
+
+    @GET("establishments/punctuation/{punctuation}")
+    Call<List<Establishment>> getEstablishmentsByPunctuation(@Path("punctuation") float punctuation);
+
+    @GET("establishments/punctuation/between")
+    Call<List<Establishment>> getEstablishmentsByPunctuationBetween(@Query("minPunctuation") float minPunctuation,
+                                                                    @Query("maxPunctuation") float maxPunctuation);
+
+    @POST("establishments")
+    Call<Establishment> createEstablishment(@Body EstablishmentDTO establishmentDTO);
+
+    @PUT("establishments/{id}")
+    Call<Establishment> updateEstablishment(@Body EstablishmentDTO establishment, @Path("id") int id);
+
+    @PATCH("establishments/{id}/punctuation")
+    Call<String> updateEstablishmentsPunctuation(@Path("id") int id);
+
+    @DELETE("establishments/{id}")
+    Call<String> deleteEstablishment(@Path("id") int id);
+
+    @DELETE("establishments")
+    Call<String> deleteAllEstablishments();
+
+
+    // MENUS
+
+    @GET("menus/date/{date}")
+    Call<List<Menu>> getMenuByDate(@Path("date") long date);
+
+    @GET("menus/date/between")
+    Call<List<Menu>> getMenusByDateBetween(@Query("minDate") long minDate, @Query("maxDate") long maxDate);
+
+    @GET("menus/price/{price}")
+    Call<List<Menu>> getMenusByPrice(@Path("price") float price);
+
+    @GET("menus/price/between")
+    Call<List<Menu>> getMenusByPriceBetween(@Query("minPrice") float minPrice, @Query("maxPrice") float maxPrice);
+
+    @GET("menus/punctuation/{punctuation}")
+    Call<List<Menu>> getMenusByPunctuation(@Path("punctuation") float punctuation);
+
+    @GET("menus/punctuation/between")
+    Call<List<Menu>> getMenusByPunctuationBetween(@Query("minPunctuation") float minPunctuation,
+                                                  @Query("maxPunctuation") float maxPunctuation);
+
+    @GET("menus/{id}")
+    Call<Menu> getMenuById(@Path("id") int id);
+
+    @GET("menus")
+    Call<List<Menu>> getAllMenus();
+
+    @POST("menus")
+    Call<Menu> createMenu(@Body MenuDTO menuDTO);
+
+    @PUT("menus/{id}")
+    Call<Menu> updateMenu(@Body MenuDTO menuDTO, @Path("id") int id);
+
+    @DELETE("menus/{id}")
+    Call<String> deleteMenu(@Path("id") int id);
+
+    @DELETE("menus")
+    Call<String> deleteAllMenus();
+
+
+    // PRODUCTS
+
+    @GET("products")
+    Call<List<Product>> getAllProducts();
+
+    @GET("products/{id}")
+    Call<List<Product>> getProductById(@Path("id") int id);
+
+    @GET("products/date/{date}")
+    Call<List<Product>> getProductsByDate(@Path("date") long date);
+
+    @GET("products/date/between")
+    Call<List<Product>> getProductsByDateBetween(@Query("minDate") long minDate, @Query("maxDate") long maxDate);
+
+    @GET("products/inMenu/{inMenu}")
+    Call<List<Product>> getProductsByInMenu(@Path("inMenu") boolean inMenu);
+
+    @GET("products/price/{price}")
+    Call<List<Product>> getProductsByPrice(@Path("price") float price);
+
+    @GET("products/price/between")
+    Call<List<Product>> getProductsByPriceBetween(@Query("minPrice") float minPrice, @Query("maxPrice") float maxPrice);
+
+    @GET("products/punctuation/{punctuation}")
+    Call<List<Product>> getProductsByPunctuation(@Path("punctuation") float punctuation);
+
+    @GET("products/punctuation/between")
+    Call<List<Product>> getProductsByPunctuationBetween(@Query("minPunctuation") float minPunctuation,
+                                                        @Query("maxPunctuation") float maxPunctuation);
+
+    @GET("products/type/{id}")
+    Call<List<Product>> getProductsByTypeId(@Path("id") int typeId);
+
+    @GET("products/menu/{id}")
+    Call<List<Product>> getProductsByMenuId(@Path("id") int menuId);
+
+    @GET("products/publication/{id}")
+    Call<List<Product>> getProductsByPublicationId(@Path("id") int publicationId);
+
+    @POST("products")
+    Call<Product> createProduct(@Body ProductDTO productDTO);
+
+    @PUT("products/{id}")
+    Call<Product> updateProduct(@Body ProductDTO productDTO, @Path("id") int id);
+
+    @PATCH("products/{id}/price/{price}")
+    Call<String> updateProductPrice(@Path("id") int id, @Path("price") float price);
+
+    @PATCH("products/{id}/punctuation/{punctuation}")
+    Call<String> updateProductsPunctuation(@Path("id") int id, @Path("punctuation") float punctuation);
+
+    @DELETE("products/{id}")
+    Call<String> deleteProduct(@Path("id") int id);
+
+    @DELETE("products")
+    Call<String> deleteAllProducts();
+
+
+    // PRODUCT TYPES
+
+    @GET("types")
+    Call<List<ProductType>> getAllProductTypes();
+
+    @GET("types/{id}")
+    Call<ProductType> getProductTypeById(@Path("id") int id);
+
+    @GET("types/name/{name}")
+    Call<List<ProductType>> getProductTypesByName(@Path("name") String name);
+
+    @GET("types/type/{type}")
+    Call<List<ProductType>> getProductTypesByType(@Path("type") String type);
+
+    @GET("types/name/{name}/type/{type}")
+    Call<List<ProductType>> getProductTypesByNameAndType(@Path("name") String name, @Path("type") String type);
+
+    @POST("types")
+    Call<ProductType> createProductType(@Body ProductTypeDTO productTypeDTO);
+
+    @PUT("types/{id}")
+    Call<ProductType> updateProductType(@Body ProductTypeDTO productTypeDTO, @Path("id") int id);
+
+    @DELETE("types/{id}")
+    Call<String> deleteProductType(@Path("id") int id);
+
+    @DELETE("types")
+    Call<String> deleteAllProductTypes();
+
+
+    // PUBLICATIONS
+
+    @GET("publications")
+    Call<List<Publication>> getAllPublications();
+
+    @GET("publications/{id}")
+    Call<Publication> getPublicationById(@Path("id") int id);
+
+    @GET("publications/date/{date}")
+    Call<List<Publication>> getPublicationsByDate(@Path("date") long date);
+
+    @GET("publications/date/between")
+    Call<List<Publication>> getPublicationsByDateBetween(@Query("minDate") long minDate,
+                                                         @Query("maxDate") long maxDate);
+
+    @GET("publications/price/{price}")
+    Call<List<Publication>> getPublicationsByPrice(@Path("price") float price);
+
+    @GET("publications/price/between")
+    Call<List<Publication>> getPublicationsByPriceBetween(@Query("minPrice") float minPrice,
+                                                          @Query("maxPrice") float maxPrice);
+
+    @GET("publications/punctuation/{punctuation}")
+    Call<List<Publication>> getPublicationsByPunctuation(@Path("punctuation") float punctuation);
+
+    @GET("publications/punctuation/between")
+    Call<List<Publication>> getPublicationsByPunctuationBetween(@Query("minPunctuation") float minPunctuation,
+                                                                @Query("maxPunctuation") float maxPunctuation);
+
+    @GET("publications/establishment/{id}")
+    Call<List<Publication>> getPublicationsByEstablishmentId(@Path("id") int establishmentId);
+
+    @GET("publications/user/{id}")
+    Call<List<Publication>> getPublicationsByUserId(@Path("id") int userId);
+
+    @GET("publications/type/{type}")
+    Call<List<Publication>> getPublicationsByType(@Path("type") String type);
+
+    @GET("publications/date/price/punctuation/between")
+    Call<List<Publication>> getPublicationsByDateAndPriceAndPunctuationBetween(@Query("minDate") long minDate,
+                                                                               @Query("maxDate") long maxDate,
+                                                                               @Query("minPrice") float minPrice,
+                                                                               @Query("maxPrice") float maxPrice,
+                                                                               @Query("minPunctuation") float minPunctuation,
+                                                                               @Query("maxPunctuation") float maxPunctuation);
+
+    @POST("publications")
+    Call<Publication> createPublication(@Body PublicationDTO publicationDTO);
+
+    @PUT("publications/{id}")
+    Call<Publication> updatePublication(@Body PublicationDTO publicationDTO, @Path("id") int id);
+
+    @PATCH("publications/{id}/price-punctuation")
+    Call<String> updatePublicationPriceAndPunctuation(@Path("id") int id);
+
+    @DELETE("publications/{id}")
+    Call<String> deletePublication(@Path("id") int id);
+
+    @DELETE("publications")
+    Call<String> deleteAllPublications();
+
+
+    // USERS
+
+    @GET("users")
+    Call<List<User>> getAllUsers();
+
+    @GET("users/{id}")
+    Call<User> getUserById(@Path("id") int id);
+
+    @POST("users")
+    Call<User> createUser(@Body UserDTO userDTO);
+
+    @PATCH("users/{id}/publications-number")
+    Call<String> updateUserPublicationsNumber(@Path("id") int id);
+
+    @PATCH("users/{id}/money-spent")
+    Call<String> updateUserMoneySpent(@Path("id") int id);
+
+    @PATCH("users/{id}/password")
+    Call<String> updateUserPassword(@Path("id") int id, @Body PasswordChangeDTO passwordChangeDTO);
+
+    @PATCH("users/{id}/disable")
+    Call<String> disableUser(@Path("id") int id);
+
+    @PATCH("users/{id}/activate")
+    Call<String> activateUser(@Path("id") int id);
+
+}

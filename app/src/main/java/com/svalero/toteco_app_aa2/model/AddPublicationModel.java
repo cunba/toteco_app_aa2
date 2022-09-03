@@ -2,23 +2,19 @@ package com.svalero.toteco_app_aa2.model;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.room.Room;
 
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
-import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
 import com.svalero.toteco_app_aa2.util.Utils;
 
 import java.util.List;
-
-import okhttp3.internal.Util;
 
 public class AddPublicationModel implements AddPublicationContract.Model {
 
@@ -33,7 +29,7 @@ public class AddPublicationModel implements AddPublicationContract.Model {
     }
 
     @Override
-    public List<Product> loadProducts() {
+    public List<ProductLocal> loadProducts() {
         try {
             return db.productDao().findByPublicationId(1);
         } catch (Exception e) {
@@ -44,18 +40,18 @@ public class AddPublicationModel implements AddPublicationContract.Model {
 
     @Override
     public AddPublicationSummaryDTO makeSummary(double establishmentPunctuation) {
-        List<Product> products = loadProducts();
-        if (products.size() != 0) {
-            totalPrice = products.stream()
-                    .map(Product::getPrice)
+        List<ProductLocal> productLocals = loadProducts();
+        if (productLocals.size() != 0) {
+            totalPrice = productLocals.stream()
+                    .map(ProductLocal::getPrice)
                     .mapToDouble(price -> price)
                     .sum();
             totalPrice = Utils.roundNumber(totalPrice);
 
-            totalPunctuation = (products.stream()
-                    .map(Product::getPunctuation)
+            totalPunctuation = (productLocals.stream()
+                    .map(ProductLocal::getPunctuation)
                     .mapToDouble(punctuation -> punctuation)
-                    .sum() + establishmentPunctuation) / (products.size() + 1);
+                    .sum() + establishmentPunctuation) / (productLocals.size() + 1);
             totalPunctuation = Utils.roundNumber(totalPunctuation);
             return new AddPublicationSummaryDTO(totalPrice, totalPunctuation);
         }
@@ -65,60 +61,61 @@ public class AddPublicationModel implements AddPublicationContract.Model {
 
     @Override
     public void onPressSubmit(AddPublicationDTO addPublicationDTO) {
-        Establishment establishment = addPublicationDTO.getEstablishment();
+        EstablishmentLocal establishment = addPublicationDTO.getEstablishment();
 //        String p = addPublicationDTO.getEstablishmentPunctuation();
 //        double newEstablishmentPunctuation = Utils.roundNumber(Float.parseFloat(p));
 //        AddPublicationSummaryDTO summary = makeSummary(newEstablishmentPunctuation);
-        List<Product> products = loadProducts();
+        List<ProductLocal> productLocals = loadProducts();
 //        double establishmentPunctuation = summary.getTotalPunctuation();
 
         // if the establishment doesnt exists we create it
         if (establishment.getId() == 1) {
-            Establishment newEstablishment = new Establishment(
-                    establishment.getName(),
-                    establishment.getLatitude(),
-                    establishment.getLongitude(),
-                    true,
-                    (float) totalPunctuation
+            EstablishmentLocal newEstablishment = new EstablishmentLocal(
+//                    establishment.getName(),
+//                    establishment.getLatitude(),
+//                    establishment.getLongitude(),
+//                    true,
+//                    (float) totalPunctuation
             );
             db.establishmentDao().insert(newEstablishment);
             establishment = db.establishmentDao().findLast();
         } else {
             // Recalculate the establishment punctuation
             int establishmentPublications = db.establishmentDao().countPublicationsByEstablishmentId(establishment.getId()) + 1;
-            Establishment e = db.establishmentDao().findById(establishment.getId());
+            EstablishmentLocal e = db.establishmentDao().findById(establishment.getId());
             float punctuation = (float) ((e.getPunctuation() + totalPunctuation) / establishmentPublications);
             System.out.println(punctuation);
             establishment.setPunctuation(punctuation);
             db.establishmentDao().update(establishment);
         }
 
-        Publication publication = new Publication(
-                (float) totalPrice,
-                (float) totalPunctuation,
-                1,
-                establishment.getId());
+        PublicationLocal publicationLocal = new PublicationLocal(
+//                (float) totalPrice,
+//                (float) totalPunctuation,
+//                1,
+//                establishment.getId()
+        );
 
-        publication.setImage(addPublicationDTO.getImage());
+        publicationLocal.setPhoto(addPublicationDTO.getImage());
 
-        db.publicationDao().insert(publication);
-        Publication addedPublication = db.publicationDao().findLast();
+        db.publicationDao().insert(publicationLocal);
+        PublicationLocal addedPublicationLocal = db.publicationDao().findLast();
 
-        products.stream().forEach(p -> {
-            p.setPublicationId(addedPublication.getId());
+        productLocals.stream().forEach(p -> {
+            p.setPublicationId(addedPublicationLocal.getId());
             db.productDao().update(p);
         });
 
     }
 
     @Override
-    public Establishment clearEstablishmentAux() {
-        Establishment establishment = new Establishment(
-                "",
-                0,
-                0,
-                true,
-                0
+    public EstablishmentLocal clearEstablishmentAux() {
+        EstablishmentLocal establishment = new EstablishmentLocal(
+//                "",
+//                0,
+//                0,
+//                true,
+//                0
         );
         establishment.setId(1);
         db.establishmentDao().update(establishment);
@@ -127,14 +124,15 @@ public class AddPublicationModel implements AddPublicationContract.Model {
     }
 
     @Override
-    public Establishment getEstablishment() {
+    public EstablishmentLocal getEstablishment() {
         try {
-            Establishment establishment = db.establishmentDao().findById(1);
+            EstablishmentLocal establishment = db.establishmentDao().findById(1);
             if (!establishment.getName().equals("")) {
-                List<Establishment> exists = db.establishmentDao().findByNameExceptAux(establishment.getName());
+                List<EstablishmentLocal> exists = db.establishmentDao().findByNameExceptAux(establishment.getName());
                 if (exists.size() != 0) {
                     exists.stream().forEach(e -> {
-                        if (e.getLatitude() == establishment.getLatitude() && e.getLongitude() == establishment.getLongitude()) {
+                        if (e.getLatitude() == establishment.getLatitude() &&
+                                e.getLongitude() == establishment.getLongitude()) {
                             establishment.setId(e.getId());
                             establishment.setOpen(e.isOpen());
                         }

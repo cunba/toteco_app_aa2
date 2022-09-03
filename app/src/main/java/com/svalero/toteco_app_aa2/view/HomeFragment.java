@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.HomeContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentHomeBinding;
-import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
 import com.svalero.toteco_app_aa2.presenter.HomePresenter;
 import com.svalero.toteco_app_aa2.util.RecyclerViewAdapter;
-import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,7 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
-    private List<Publication> publications;
+    private List<PublicationLocal> publicationLocals;
     private List<PublicationToRecyclerView> publicationsToRecyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView rv;
@@ -63,7 +61,7 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     private void initializePublicationsList() {
-        publications = new ArrayList<>();
+        publicationLocals = new ArrayList<>();
         publicationsToRecyclerView = new ArrayList<>();
         convertPublications();
         createRecyclerView();
@@ -93,8 +91,8 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     @Override
     public void loadPublications() {
-        publications.clear();
-        publications.addAll(presenter.loadPublications());
+        publicationLocals.clear();
+        publicationLocals.addAll(presenter.loadPublications());
     }
 
     @SuppressLint("NotifyDataSetChanged")

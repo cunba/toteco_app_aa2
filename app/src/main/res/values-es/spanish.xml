@@ -27,7 +27,7 @@
     <!--    Publications activity   -->
     <string name="card_price">PRECIO: %s €</string>
     <string name="card_punctuation">PUNTUACIÓN: %s/5 ★</string>
-    <!--    Add publication -->
+    <!--    Add publicationLocal -->
     <string name="add_publication_total_price">PRECIO TOTAL: %s €</string>
     <string name="add_publication_total_punctuation">PUNTUACIÓN TOTAL: %s / 5 ★</string>
     <string name="add_publication_establishment_punctuation_print">%s / 5 ★</string>
@@ -38,7 +38,7 @@
     <string name="add_publication_add_image">Añadir imagen</string>
     <string name="add_publication_establishment_add">Selecciona establecimiento</string>
     <string name="add_publication_establishment_punctuation">Puntuación del lugar</string>
-    <!--    Add product     -->
+    <!--    Add productLocal     -->
     <string name="add_product_title">AÑADIR PRODUCTO</string>
     <string name="add_product_name">Nombre</string>
     <string name="add_product_price">Precio</string>
@@ -52,18 +52,18 @@
     <string name="add_establishment">Añadir establecimiento</string>
     <string name="add_establishment_name">Nombre</string>
     <string name="add_establishment_punctuation">Puntuación</string>
-    <!--    Modify product  -->
+    <!--    Modify productLocal  -->
     <string name="modify_product_title">MODIFICAR PRODUCTO</string>
     <string name="modify_product_name">Nombre</string>
     <string name="modify_product_price">Precio</string>
     <string name="modify_product_punctuation">Punctuación</string>
     <string name="modify_product_submit">Modificar</string>
     <string name="modify_product_cancel">Cancelar</string>
-    <!--    Delete product  -->
+    <!--    Delete productLocal  -->
     <string name="delete_product_message">¿Estás seguro que quieres eliminar %s?</string>
     <string name="delete_submit">Eliminar</string>
     <string name="delete_cancel">Cancelar</string>
-    <!--    Delete publication  -->
+    <!--    Delete publicationLocal  -->
     <string name="delete_publication_message">¿Estás seguro que quieres eliminar la publicación?</string>
     <!--    Drawer  -->
     <string name="nav_open">Open</string>

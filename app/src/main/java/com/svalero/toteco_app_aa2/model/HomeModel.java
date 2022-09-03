@@ -8,8 +8,9 @@ import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.HomeContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
-import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
 import com.svalero.toteco_app_aa2.util.Utils;
 
@@ -28,7 +29,7 @@ public class HomeModel implements HomeContract.Model {
     }
 
     @Override
-    public List<Publication> loadPublications() {
+    public List<PublicationLocal> loadPublications() {
         return db.publicationDao().findAllExceptAux();
     }
 
@@ -43,19 +44,19 @@ public class HomeModel implements HomeContract.Model {
 
     @Override
     public List<PublicationToRecyclerView> convertPublications() {
-        List<Publication> publications = loadPublications();
+        List<PublicationLocal> publicationLocals = loadPublications();
         List<PublicationToRecyclerView> publicationsToRecyclerView = new ArrayList<>();
-        publications.stream().forEach(p -> {
-            Establishment establishment = db.establishmentDao().findById(p.getEstablishmentId());
-            List<Product> products = db.productDao().findByPublicationId(p.getId());
+        publicationLocals.stream().forEach(p -> {
+            EstablishmentLocal establishment = db.establishmentDao().findById(p.getEstablishmentId());
+            List<ProductLocal> productLocals = db.productDao().findByPublicationId(p.getId());
             double totalPrice = Utils.roundNumber(p.getTotalPrice());
             double totalPunctuation = Utils.roundNumber(p.getTotalPunctuation());
             PublicationToRecyclerView publicationToRecyclerView = new PublicationToRecyclerView(
                     p.getId(),
                     establishment.getName(),
                     String.valueOf(establishment.getPunctuation()),
-                    p.getImage(),
-                    products,
+                    p.getPhoto(),
+                    productLocals,
                     context.getString(R.string.card_price, String.valueOf(totalPrice)),
                     context.getString(R.string.card_punctuation, String.valueOf(totalPunctuation))
             );

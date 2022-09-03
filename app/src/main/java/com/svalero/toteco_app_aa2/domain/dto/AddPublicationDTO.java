@@ -1,23 +1,23 @@
 package com.svalero.toteco_app_aa2.domain.dto;
 
-import com.svalero.toteco_app_aa2.domain.Establishment;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 
 public class AddPublicationDTO {
-    private Establishment establishment;
+    private EstablishmentLocal establishment;
     private String establishmentPunctuation;
     private byte[] image;
 
-    public AddPublicationDTO(Establishment establishment, String establishmentPunctuation, byte[] image) {
+    public AddPublicationDTO(EstablishmentLocal establishment, String establishmentPunctuation, byte[] image) {
         this.establishment = establishment;
         this.establishmentPunctuation = establishmentPunctuation;
         this.image = image;
     }
 
-    public Establishment getEstablishment() {
+    public EstablishmentLocal getEstablishment() {
         return establishment;
     }
 
-    public void setEstablishment(Establishment establishment) {
+    public void setEstablishment(EstablishmentLocal establishment) {
         this.establishment = establishment;
     }
 

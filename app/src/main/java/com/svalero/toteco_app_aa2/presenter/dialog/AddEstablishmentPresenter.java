@@ -5,6 +5,7 @@ import android.content.Context;
 import com.svalero.toteco_app_aa2.contract.dialog.AddEstablishmentContract;
 import com.svalero.toteco_app_aa2.domain.Establishment;
 import com.svalero.toteco_app_aa2.domain.dto.AddEstablishmentDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 import com.svalero.toteco_app_aa2.model.dialog.AddEstablishmentModel;
 import com.svalero.toteco_app_aa2.view.dialog.AddEstablishmentDialog;
 
@@ -20,7 +21,7 @@ public class AddEstablishmentPresenter implements AddEstablishmentContract.Prese
     }
 
     @Override
-    public List<Establishment> loadEstablishments() {
+    public List<EstablishmentLocal> loadEstablishments() {
         return model.loadEstablishments();
     }
 
@@ -30,7 +31,7 @@ public class AddEstablishmentPresenter implements AddEstablishmentContract.Prese
     }
 
     @Override
-    public List<Establishment> findByName(String name) {
+    public List<EstablishmentLocal> findByName(String name) {
         return model.findByName(name);
     }
 }

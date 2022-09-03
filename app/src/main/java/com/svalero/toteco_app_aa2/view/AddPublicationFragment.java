@@ -24,7 +24,8 @@ import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentAddPublicationBinding;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
 import com.svalero.toteco_app_aa2.presenter.AddPublicationPresenter;
@@ -42,9 +43,9 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
 
     private FragmentAddPublicationBinding binding;
     private AddPublicationPresenter presenter;
-    private List<Product> products;
-    private ArrayAdapter<Product> productsAdapter;
-    private Establishment establishment;
+    private List<ProductLocal> productLocals;
+    private ArrayAdapter<ProductLocal> productsAdapter;
+    private EstablishmentLocal establishment;
     private final int SELECT_PICTURE_RESULT = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -89,9 +90,9 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
 
     @Override
     public void initializeProducts() {
-        products = new ArrayList<>();
+        productLocals = new ArrayList<>();
         ListView lvProducts = binding.getRoot().findViewById(R.id.add_publication_product_list);
-        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, products);
+        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, productLocals);
         lvProducts.setAdapter(productsAdapter);
         lvProducts.setOnItemClickListener(this);
         lvProducts.setOnItemLongClickListener(this);
@@ -172,7 +173,7 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
             showError(getString(R.string.error_establishment_empty));
             return;
         }
-        if (products.size() == 0) {
+        if (productLocals.size() == 0) {
             showError(getString(R.string.error_products_empty));
             return;
         }
@@ -196,7 +197,7 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
         tvEstablishmentName.setText(R.string.add_publication_establishment_add);
         tvEstablishmentPunctuation.setText(R.string.add_publication_establishment_punctuation);
         showError("");
-        products.clear();
+        productLocals.clear();
 
         establishment = presenter.clearEstablishmentAux();
 
@@ -217,21 +218,21 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
 
     @Override
     public void loadProducts() {
-        products.clear();
-        products.addAll(presenter.loadProducts());
+        productLocals.clear();
+        productLocals.addAll(presenter.loadProducts());
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Product product = products.get(i);
-        DialogFragment newFragment = new ProductDialog(this, product);
+        ProductLocal productLocal = productLocals.get(i);
+        DialogFragment newFragment = new ProductDialog(this, productLocal);
         newFragment.show(getParentFragmentManager(), "modify");
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Product product = products.get(i);
-        DialogFragment newFragment = new DeleteProductDialog(this, product);
+        ProductLocal productLocal = productLocals.get(i);
+        DialogFragment newFragment = new DeleteProductDialog(this, productLocal);
         newFragment.show(getParentFragmentManager(), "delete");
         return true;
     }

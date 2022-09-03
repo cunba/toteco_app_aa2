@@ -3,7 +3,7 @@ package com.svalero.toteco_app_aa2.presenter.dialog;
 import android.content.Context;
 
 import com.svalero.toteco_app_aa2.contract.dialog.ProductDialogContract;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.ProductDialogDTO;
 import com.svalero.toteco_app_aa2.model.dialog.ProductDialogModel;
 import com.svalero.toteco_app_aa2.view.dialog.ProductDialog;
@@ -24,8 +24,8 @@ public class ProductDialogPresenter implements ProductDialogContract.Presenter {
     }
 
     @Override
-    public String modifyProduct(ProductDialogDTO productDialogDTO, Product product) {
-        return model.modifyProduct(productDialogDTO, product);
+    public String modifyProduct(ProductDialogDTO productDialogDTO, ProductLocal productLocal) {
+        return model.modifyProduct(productDialogDTO, productLocal);
     }
 
 }

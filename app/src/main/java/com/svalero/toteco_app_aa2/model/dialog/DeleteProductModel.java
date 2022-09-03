@@ -5,10 +5,8 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.svalero.toteco_app_aa2.contract.dialog.DeleteProductContract;
-import com.svalero.toteco_app_aa2.contract.dialog.DeletePublicationContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.Product;
-import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 
 public class DeleteProductModel implements DeleteProductContract.Model {
     private AppDatabase db;
@@ -19,7 +17,7 @@ public class DeleteProductModel implements DeleteProductContract.Model {
     }
 
     @Override
-    public void delete(Product product) {
-        db.productDao().delete(product);
+    public void delete(ProductLocal productLocal) {
+        db.productDao().delete(productLocal);
     }
 }

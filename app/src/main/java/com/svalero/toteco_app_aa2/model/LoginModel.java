@@ -7,8 +7,9 @@ import androidx.room.Room;
 import com.svalero.toteco_app_aa2.contract.LoginContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Publication;
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 
 import java.util.List;
 
@@ -23,27 +24,31 @@ public class LoginModel implements LoginContract.Model {
 
     @Override
     public void createAuxEstablishment() {
-        List<Establishment> establishments = db.establishmentDao().findAll();
+        List<EstablishmentLocal> establishments = db.establishmentDao().findAll();
         if (establishments.size() == 0) {
-            Establishment establishment = new Establishment("", 0, 0, true, 0);
+            EstablishmentLocal establishment = new EstablishmentLocal(
+//                    "", 0, 0, true, 0
+            );
             db.establishmentDao().insert(establishment);
         }
     }
 
     @Override
     public void createAuxPublication() {
-        List<Publication> publications = db.publicationDao().findAll();
-        if (publications.size() == 0) {
-            List<User> users = db.userDao().findAll();
-            if (users.size() != 0) {
-                Publication publication = new Publication(0, 0, 1, 1);
-                db.publicationDao().insert(publication);
+        List<PublicationLocal> publicationLocals = db.publicationDao().findAll();
+        if (publicationLocals.size() == 0) {
+            List<UserLocal> userLocals = db.userDao().findAll();
+            if (userLocals.size() != 0) {
+                PublicationLocal publicationLocal = new PublicationLocal(
+//                        0, 0, 1, 1
+                );
+                db.publicationDao().insert(publicationLocal);
             }
         }
     }
 
     @Override
-    public List<User> getUser(String username, String password) {
+    public List<UserLocal> getUser(String username, String password) {
         return db.userDao().findByUsernameAndPassword(username, password);
     }
 

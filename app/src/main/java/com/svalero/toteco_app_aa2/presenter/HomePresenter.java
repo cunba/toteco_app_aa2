@@ -1,7 +1,7 @@
 package com.svalero.toteco_app_aa2.presenter;
 
 import com.svalero.toteco_app_aa2.contract.HomeContract;
-import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
 import com.svalero.toteco_app_aa2.model.HomeModel;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
@@ -19,7 +19,7 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public List<Publication> loadPublications() {
+    public List<PublicationLocal> loadPublications() {
         return model.loadPublications();
     }
 

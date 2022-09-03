@@ -27,6 +27,7 @@ import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.dialog.AddEstablishmentContract;
 import com.svalero.toteco_app_aa2.domain.Establishment;
 import com.svalero.toteco_app_aa2.domain.dto.AddEstablishmentDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 import com.svalero.toteco_app_aa2.presenter.dialog.AddEstablishmentPresenter;
 import com.svalero.toteco_app_aa2.view.AddPublicationFragment;
 
@@ -38,7 +39,7 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
 
     private final AddPublicationFragment addPublicationFragment;
     private final AddEstablishmentPresenter presenter;
-    private Establishment establishment;
+    private EstablishmentLocal establishment;
     private GoogleMap map;
     private static View view;
     private SupportMapFragment supportMapFragment;
@@ -105,7 +106,7 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
             // If the establishment does exists we print the name in the editor
             etEstablishmentName.setText(marker.getTitle());
             etEstablishmentName.setEnabled(false);
-            List<Establishment> establishment1 = presenter.findByName(marker.getTitle());
+            List<EstablishmentLocal> establishment1 = presenter.findByName(marker.getTitle());
             establishment = establishment1.get(0);
         } else {
             etEstablishmentName.setText("");
@@ -136,7 +137,7 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
 
     @Override
     public void loadEstablishments() {
-        List<Establishment> establishments = presenter.loadEstablishments();
+        List<EstablishmentLocal> establishments = presenter.loadEstablishments();
         establishments.stream().forEach(p -> {
             LatLng latLng = new LatLng(p.getLatitude(), p.getLongitude());
             map.addMarker(new MarkerOptions()
@@ -151,12 +152,13 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
         EditText etEstablishmentName = view.findViewById(R.id.add_establishment_name);
         etEstablishmentName.setEnabled(true);
         String establishmentName = etEstablishmentName.getText().toString();
-        establishment = new Establishment(
-                establishmentName,
-                latLng.latitude,
-                latLng.longitude,
-                true,
-                0);
+        establishment = new EstablishmentLocal(
+//                establishmentName,
+//                latLng.latitude,
+//                latLng.longitude,
+//                true,
+//                0
+        );
     }
 
     @Override

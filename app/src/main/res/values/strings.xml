@@ -12,7 +12,7 @@
     <string name="error_field_empty">Fields can not be empty</string>
     <string name="error_password">Both passwords must be the same</string>
     <string name="error_username">User %s already exists</string>
-    <string name="error_products_empty">There are no added products</string>
+    <string name="error_products_empty">There are no added productLocals</string>
     <string name="error_establishment_empty">There is no establishment added</string>
     <string name="error_empty_image">There is no image added</string>
     <!--    Main activity   -->
@@ -30,18 +30,18 @@
     <!--    Publications activity   -->
     <string name="card_price">PRICE: %s €</string>
     <string name="card_punctuation">PUNCTUATION: %s/5 ★</string>
-    <!--    Add publication -->
+    <!--    Add publicationLocal -->
     <string name="add_publication_total_price">TOTAL PRICE: %s €</string>
     <string name="add_publication_total_punctuation">TOTAL PUNCTUATION: %s / 5 ★</string>
     <string name="add_publication_establishment_punctuation_print">%s / 5 ★</string>
-    <string name="add_product">Add product</string>
-    <string name="add_publication">Add publication</string>
+    <string name="add_product">Add productLocal</string>
+    <string name="add_publication">Add publicationLocal</string>
     <string name="submit">Submit</string>
     <string name="publication_created">Publication created</string>
     <string name="add_publication_add_image">Add image</string>
     <string name="add_publication_establishment_add">Select establishment</string>
     <string name="add_publication_establishment_punctuation">Establishment punctuation</string>
-    <!--    Add product     -->
+    <!--    Add productLocal     -->
     <string name="add_product_title">ADD PRODUCT</string>
     <string name="add_product_name">Name</string>
     <string name="add_product_price">Price</string>
@@ -55,7 +55,7 @@
     <string name="add_establishment">Add establishment</string>
     <string name="add_establishment_name">Name</string>
     <string name="add_establishment_punctuation">Punctuation</string>
-    <!--    Modify product  -->
+    <!--    Modify productLocal  -->
     <string name="modify_product_title">MODIFY PRODUCT</string>
     <string name="modify_product_name">Name</string>
     <string name="modify_product_price">Price</string>
@@ -66,13 +66,13 @@
     <string name="delete_product_message">Are you sure you want to delete %s?</string>
     <string name="delete_submit">Delete</string>
     <string name="delete_cancel">Cancel</string>
-    <!--    Delete publication  -->
-    <string name="delete_publication_message">Are you sure you want to delete the publication?</string>
+    <!--    Delete publicationLocal  -->
+    <string name="delete_publication_message">Are you sure you want to delete the publicationLocal?</string>
     <!--    Drawer  -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="nav_publications">Publications</string>
-    <string name="nav_add_publication">Add publication</string>
+    <string name="nav_add_publication">Add publicationLocal</string>
     <string name="nav_locations">Locations</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_logout">Sign out</string>

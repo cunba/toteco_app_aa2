@@ -2,7 +2,8 @@ package com.svalero.toteco_app_aa2.presenter;
 
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
 import com.svalero.toteco_app_aa2.model.AddPublicationModel;
@@ -21,7 +22,7 @@ public class AddPublicationPresenter implements AddPublicationContract.Presenter
     }
 
     @Override
-    public List<Product> loadProducts() {
+    public List<ProductLocal> loadProducts() {
         return model.loadProducts();
     }
 
@@ -36,12 +37,12 @@ public class AddPublicationPresenter implements AddPublicationContract.Presenter
     }
 
     @Override
-    public Establishment clearEstablishmentAux() {
+    public EstablishmentLocal clearEstablishmentAux() {
         return model.clearEstablishmentAux();
     }
 
     @Override
-    public Establishment getEstablishment() {
+    public EstablishmentLocal getEstablishment() {
         return model.getEstablishment();
     }
 

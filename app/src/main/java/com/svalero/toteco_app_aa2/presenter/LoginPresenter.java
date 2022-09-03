@@ -2,7 +2,7 @@ package com.svalero.toteco_app_aa2.presenter;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.LoginContract;
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.model.LoginModel;
 import com.svalero.toteco_app_aa2.view.LoginView;
 
@@ -24,10 +24,10 @@ public class LoginPresenter implements LoginContract.Presenter {
             view.showError(view.getString(R.string.error_field_empty));
         } else {
             // Get the user
-            List<User> user = model.getUser(username, password);
+            List<UserLocal> userLocal = model.getUser(username, password);
 
             // If the list is empty means that the user with this username and password doesn't exists
-            if (user.size() == 0) {
+            if (userLocal.size() == 0) {
                 view.showError(view.getString(R.string.error_user));
             } else {
                 view.showError("");

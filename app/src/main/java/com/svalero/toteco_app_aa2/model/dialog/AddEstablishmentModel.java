@@ -9,6 +9,7 @@ import com.svalero.toteco_app_aa2.contract.dialog.AddEstablishmentContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.Establishment;
 import com.svalero.toteco_app_aa2.domain.dto.AddEstablishmentDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class AddEstablishmentModel implements AddEstablishmentContract.Model {
     }
 
     @Override
-    public List<Establishment> loadEstablishments() {
+    public List<EstablishmentLocal> loadEstablishments() {
         return db.establishmentDao().findAllExceptAux();
     }
 
@@ -35,7 +36,7 @@ public class AddEstablishmentModel implements AddEstablishmentContract.Model {
         if (addEstablishmentDTO.getPunctuation().equals("")) {
             return context.getString(R.string.error_field_empty);
         }
-        Establishment establishment = addEstablishmentDTO.getEstablishment();
+        EstablishmentLocal establishment = addEstablishmentDTO.getEstablishment();
         float punctuation = Float.parseFloat(addEstablishmentDTO.getPunctuation());
         if (punctuation > 5) {
             return context.getString(R.string.add_product_error_punctuation);
@@ -50,8 +51,8 @@ public class AddEstablishmentModel implements AddEstablishmentContract.Model {
         establishment.setId(1);
         System.out.println(establishment);
         db.establishmentDao().update(establishment);
-        Establishment e = db.establishmentDao().findById(1);
-        List<Establishment> establishments = db.establishmentDao().findAll();
+        EstablishmentLocal e = db.establishmentDao().findById(1);
+        List<EstablishmentLocal> establishments = db.establishmentDao().findAll();
         System.out.println(establishments);
         System.out.println(e.toString());
 
@@ -59,7 +60,7 @@ public class AddEstablishmentModel implements AddEstablishmentContract.Model {
     }
 
     @Override
-    public List<Establishment> findByName(String name) {
+    public List<EstablishmentLocal> findByName(String name) {
         return db.establishmentDao().findByName(name);
     }
 }

@@ -1,31 +1,64 @@
 package com.svalero.toteco_app_aa2.domain;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.versionedparcelable.ParcelField;
 
-@Entity(tableName = "establishments")
-public class Establishment {
-    @PrimaryKey(autoGenerate = true)
+import com.svalero.toteco_app_aa2.domain.utils.Location;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+public class Establishment implements Parcelable {
+    @PrimaryKey(autoGenerate = false)
     private int id;
     @ColumnInfo
     private String name;
     @ColumnInfo
-    private double latitude;
+    private LocalDate creationDate;
     @ColumnInfo
-    private double longitude;
+    private Location location;
     @ColumnInfo
     private boolean open;
     @ColumnInfo
     private float punctuation;
 
-    public Establishment(String name, double latitude, double longitude, boolean open, float punctuation) {
+    public Establishment(String name, LocalDate creationDate, Location location, boolean open, float punctuation) {
         this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.creationDate = creationDate;
+        this.location = location;
         this.open = open;
         this.punctuation = punctuation;
     }
+
+    public Establishment() {
+    }
+
+    protected Establishment(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        creationDate = Instant.ofEpochMilli(in.readLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+        location = in.readParcelable(Location.class.getClassLoader());
+        open = in.readByte() != 0;
+        punctuation = in.readFloat();
+    }
+
+    public static final Creator<Establishment> CREATOR = new Creator<Establishment>() {
+        @Override
+        public Establishment createFromParcel(Parcel in) {
+            return new Establishment(in);
+        }
+
+        @Override
+        public Establishment[] newArray(int size) {
+            return new Establishment[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -43,20 +76,20 @@ public class Establishment {
         this.name = name;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public boolean isOpen() {
@@ -80,10 +113,25 @@ public class Establishment {
         return "Establishment{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", creationDate=" + creationDate +
+                ", location=" + location +
                 ", open=" + open +
                 ", punctuation=" + punctuation +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeLong(creationDate.toEpochDay());
+        parcel.writeParcelable(location, i);
+        parcel.writeBoolean(open);
+        parcel.writeFloat(punctuation);
     }
 }

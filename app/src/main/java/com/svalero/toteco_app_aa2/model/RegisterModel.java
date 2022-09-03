@@ -6,7 +6,7 @@ import androidx.room.Room;
 
 import com.svalero.toteco_app_aa2.contract.RegisterContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 
 import java.util.List;
 
@@ -20,12 +20,12 @@ public class RegisterModel implements RegisterContract.Model {
     }
 
     @Override
-    public void register(User user) {
-        db.userDao().insert(user);
+    public void register(UserLocal userLocal) {
+        db.userDao().insert(userLocal);
     }
 
     @Override
-    public List<User> getUser(String username) {
+    public List<UserLocal> getUser(String username) {
         return db.userDao().findByUsername(username);
     }
 }

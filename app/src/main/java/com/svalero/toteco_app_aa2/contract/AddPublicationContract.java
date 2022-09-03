@@ -1,20 +1,20 @@
 package com.svalero.toteco_app_aa2.contract;
 
-import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 
 import java.util.List;
 
 public interface AddPublicationContract {
 
     interface Model {
-        List<Product> loadProducts();
+        List<ProductLocal> loadProducts();
         AddPublicationSummaryDTO makeSummary(double establishmentPunctuation);
         void onPressSubmit(AddPublicationDTO addPublicationDTO);
-        Establishment clearEstablishmentAux();
-        Establishment getEstablishment();
+        EstablishmentLocal clearEstablishmentAux();
+        EstablishmentLocal getEstablishment();
     }
 
     interface View {
@@ -32,10 +32,10 @@ public interface AddPublicationContract {
     }
 
     interface Presenter {
-        List<Product> loadProducts();
+        List<ProductLocal> loadProducts();
         AddPublicationSummaryDTO makeSummary(double establishmentPunctuation);
         void onPressSubmit(AddPublicationDTO publicationDTO);
-        Establishment clearEstablishmentAux();
-        Establishment getEstablishment();
+        EstablishmentLocal clearEstablishmentAux();
+        EstablishmentLocal getEstablishment();
     }
 }

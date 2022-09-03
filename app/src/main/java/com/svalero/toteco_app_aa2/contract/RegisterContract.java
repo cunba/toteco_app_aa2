@@ -1,6 +1,6 @@
 package com.svalero.toteco_app_aa2.contract;
 
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.domain.dto.RegisterDTO;
 
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
 public interface RegisterContract {
 
     interface Model {
-        void register(User user);
-        List<User> getUser(String username);
+        void register(UserLocal userLocal);
+        List<UserLocal> getUser(String username);
     }
 
     interface View {

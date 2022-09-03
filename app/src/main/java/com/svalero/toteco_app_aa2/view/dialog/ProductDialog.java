@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.dialog.ProductDialogContract;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.ProductDialogDTO;
 import com.svalero.toteco_app_aa2.presenter.dialog.ProductDialogPresenter;
 import com.svalero.toteco_app_aa2.util.Utils;
@@ -25,10 +25,10 @@ public class ProductDialog extends DialogFragment implements ProductDialogContra
 
     private final AddPublicationFragment addPublicationFragment;
     private final ProductDialogPresenter presenter;
-    private Product product;
+    private ProductLocal productLocal;
 
-    public ProductDialog(AddPublicationFragment fragment, Product product) {
-        this.product = product;
+    public ProductDialog(AddPublicationFragment fragment, ProductLocal productLocal) {
+        this.productLocal = productLocal;
         addPublicationFragment = fragment;
         presenter = new ProductDialogPresenter(this, fragment.getContext());
     }
@@ -42,7 +42,7 @@ public class ProductDialog extends DialogFragment implements ProductDialogContra
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_product, null);
 
-        if (product != null) {
+        if (productLocal != null) {
             modifyProductTexts(view);
         } else {
             TextView tvTitle = view.findViewById(R.id.product_dialog_title);
@@ -71,9 +71,9 @@ public class ProductDialog extends DialogFragment implements ProductDialogContra
         EditText etPunctuation = view.findViewById(R.id.product_dialog_punctuation);
 
         tvTitle.setText("MODIFY PRODUCT");
-        etName.setText(product.getName());
-        etPrice.setText(String.valueOf(Utils.roundNumber(product.getPrice())));
-        etPunctuation.setText(String.valueOf(Utils.roundNumber(product.getPunctuation())));
+//        etName.setText(productLocal.getName());
+        etPrice.setText(String.valueOf(Utils.roundNumber(productLocal.getPrice())));
+        etPunctuation.setText(String.valueOf(Utils.roundNumber(productLocal.getPunctuation())));
     }
 
     @Override
@@ -88,10 +88,10 @@ public class ProductDialog extends DialogFragment implements ProductDialogContra
 
         String error;
         ProductDialogDTO productDialogDTO = new ProductDialogDTO(name, priceString, punctuationString);
-        if (product == null) {
+        if (productLocal == null) {
             error = presenter.addProduct(productDialogDTO);
         } else {
-            error = presenter.modifyProduct(productDialogDTO, product);
+            error = presenter.modifyProduct(productDialogDTO, productLocal);
         }
 
         if (error.equals("")) {
