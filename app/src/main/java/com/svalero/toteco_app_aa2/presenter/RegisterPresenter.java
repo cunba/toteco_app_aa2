@@ -39,12 +39,6 @@ public class RegisterPresenter implements RegisterContract.Presenter, RegisterCo
             return;
         }
 
-//        List<User> user = model.getUser(registerDTO.getUsername());
-//        if (user.isEmpty()) {
-//            view.showError(view.getString(R.string.error_username, registerDTO.getUsername()));
-//            return;
-//        }
-
         view.showError("");
 
         // If there is not errors we create the user

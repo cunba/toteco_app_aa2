@@ -13,6 +13,7 @@ import com.svalero.toteco_app_aa2.domain.User;
 import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.domain.login.JwtRequest;
 import com.svalero.toteco_app_aa2.domain.login.JwtResponse;
+import com.svalero.toteco_app_aa2.util.Utils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,15 +38,10 @@ public class LoginModel implements LoginContract.Model {
         call.enqueue(new Callback<JwtResponse>() {
             @Override
             public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
-                if (response.code() != 200) {
-                    switch (response.code()) {
-                        case 400:
-                            listener.onLoginError(context.getString(R.string.error_user));
-                            return;
-                        case 500:
-                            listener.onLoginError(context.getString(R.string.error_internal_server));
-                            return;
-                    }
+                if (!response.isSuccessful()) {
+                    String error = Utils.getErrorResponse(response.errorBody().charStream());
+                    listener.onLoginError(error);
+                    return;
                 }
 
                 JwtResponse jwtResponse = response.body();
@@ -66,15 +62,10 @@ public class LoginModel implements LoginContract.Model {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.code() != 200) {
-                    switch (response.code()) {
-                        case 400:
-                            listener.onGetUserLoggedError(context.getString(R.string.error_user));
-                            return;
-                        case 500:
-                            listener.onGetUserLoggedError(context.getString(R.string.error_internal_server));
-                            return;
-                    }
+                if (!response.isSuccessful()) {
+                    String error = Utils.getErrorResponse(response.errorBody().charStream());
+                    listener.onGetUserLoggedError(error);
+                    return;
                 }
 
                 User user = response.body();

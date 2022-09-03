@@ -11,8 +11,7 @@ import com.svalero.toteco_app_aa2.contract.RegisterContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.User;
 import com.svalero.toteco_app_aa2.domain.dto.UserDTO;
-
-import java.util.List;
+import com.svalero.toteco_app_aa2.util.Utils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,14 +36,9 @@ public class RegisterModel implements RegisterContract.Model {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    switch (response.code()) {
-                        case 400:
-                            listener.onRegisterError(context.getString(R.string.error_data));
-                            return;
-                        case 500:
-                            listener.onRegisterError(context.getString(R.string.error_internal_server));
-                            return;
-                    }
+                    String error = Utils.getErrorResponse(response.errorBody().charStream());
+                    listener.onRegisterError(error);
+                    return;
                 }
                 User user = response.body();
                 listener.onRegisterSuccess(user);
