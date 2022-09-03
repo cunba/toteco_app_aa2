@@ -1,6 +1,7 @@
 package com.svalero.toteco_app_aa2.model;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.room.Room;
 
@@ -15,11 +16,13 @@ import com.svalero.toteco_app_aa2.domain.login.JwtRequest;
 import com.svalero.toteco_app_aa2.domain.login.JwtResponse;
 import com.svalero.toteco_app_aa2.util.Utils;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginModel implements LoginContract.Model {
+public class LoginModel implements LoginContract.Model, LoginContract.Model.LoginListener {
 
     private final AppDatabase db;
     private final TotecoApiInterface api;
@@ -44,7 +47,7 @@ public class LoginModel implements LoginContract.Model {
                     return;
                 }
 
-                listener.onLoginSuccess(response.body());
+                listener.onLoginSuccess(response.body(), jwtRequest.getPassword());
             }
 
             @Override
@@ -55,7 +58,7 @@ public class LoginModel implements LoginContract.Model {
     }
 
     @Override
-    public void getUserLogged(GetUserLoggedListener listener, String token) {
+    public void getUserLogged(GetUserLoggedListener listener, String token, String password) {
         String authorization = "Bearer " + token;
         Call<User> call = api.getUserLoged(authorization);
         call.enqueue(new Callback<User>() {
@@ -68,6 +71,7 @@ public class LoginModel implements LoginContract.Model {
                 }
 
                 UserLocal userLocal = new UserLocal(response.body());
+                userLocal.setPassword(password);
                 userLocal.setToken(token);
                 db.userDao().insert(userLocal);
                 listener.onGetUserLoggedSuccess();
@@ -78,5 +82,30 @@ public class LoginModel implements LoginContract.Model {
                 listener.onGetUserLoggedError(context.getString(R.string.error_database));
             }
         });
+    }
+
+    @Override
+    public boolean isUserLogged() {
+        List<UserLocal> user = db.userDao().findAll();
+        if (!user.isEmpty()) {
+            JwtRequest jwtRequest = new JwtRequest(user.get(0).getUsername(), user.get(0).getPassword());
+            login(this, jwtRequest);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onLoginSuccess(JwtResponse jwtResponse, String password) {
+        // Refresh token
+        List<UserLocal> user = db.userDao().findAll();
+        UserLocal userLocal = user.get(0);
+        userLocal.setToken(jwtResponse.getToken());
+        db.userDao().update(userLocal);
+    }
+
+    @Override
+    public void onLoginError(String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 }

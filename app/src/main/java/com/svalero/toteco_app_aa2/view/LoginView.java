@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.LoginContract;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.presenter.LoginPresenter;
 
 public class LoginView extends AppCompatActivity implements LoginContract.View {
@@ -24,6 +25,7 @@ public class LoginView extends AppCompatActivity implements LoginContract.View {
         setContentView(R.layout.activity_login);
 
         presenter = new LoginPresenter(this);
+        presenter.isUserLogged();
     }
 
     @Override

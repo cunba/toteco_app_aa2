@@ -34,8 +34,16 @@ public class LoginPresenter implements LoginContract.Presenter, LoginContract.Mo
     }
 
     @Override
-    public void onLoginSuccess(JwtResponse jwtResponse) {
-        model.getUserLogged(this, jwtResponse.getToken());
+    public void isUserLogged() {
+        boolean isLogged = model.isUserLogged();
+        if (isLogged) {
+            view.onLogin();
+        }
+    }
+
+    @Override
+    public void onLoginSuccess(JwtResponse jwtResponse, String password) {
+        model.getUserLogged(this, jwtResponse.getToken(), password);
     }
 
     @Override
