@@ -2,6 +2,7 @@ package com.svalero.toteco_app_aa2.domain.localdb;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.svalero.toteco_app_aa2.domain.Product;
@@ -23,16 +24,17 @@ public class ProductLocal {
     @ColumnInfo(name = "publication_id")
     private int publicationId;
 
-    public ProductLocal(int id, boolean inMenu, float price, float punctuation, int typeId, int menuId, int publicationId) {
+    @Ignore
+    public ProductLocal(int id, boolean inMenu, float price, float punctuation, int typeId, int menuId) {
         this.id = id;
         this.inMenu = inMenu;
         this.price = price;
         this.punctuation = punctuation;
         this.typeId = typeId;
         this.menuId = menuId;
-        this.publicationId = publicationId;
     }
 
+    @Ignore
     public ProductLocal(Product product) {
         this.id = product.getId();
         this.inMenu = product.isInMenu();
@@ -101,9 +103,4 @@ public class ProductLocal {
     public void setPublicationId(int publicationId) {
         this.publicationId = publicationId;
     }
-    //    @NonNull
-//    @Override
-//    public String toString() {
-//        return "- " + name + "\n(" + price + "€, " + punctuation + "/5★)";
-//    }
 }

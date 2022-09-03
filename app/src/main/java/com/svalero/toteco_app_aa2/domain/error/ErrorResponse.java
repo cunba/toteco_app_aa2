@@ -45,8 +45,8 @@ public class ErrorResponse {
     @Override
     public String toString() {
         return "ErrorResponse{" +
-                "code='" + code + '\n' +
-                ", errors=" + errors + + '\n' +
+                "code='" + code + '\'' +
+                ", errors=" + errors + + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

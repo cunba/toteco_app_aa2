@@ -1,17 +1,16 @@
 package com.svalero.toteco_app_aa2.presenter;
 
 import com.svalero.toteco_app_aa2.contract.HomeContract;
-import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
-import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
+import com.svalero.toteco_app_aa2.domain.Publication;
 import com.svalero.toteco_app_aa2.model.HomeModel;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
 
 import java.util.List;
 
-public class HomePresenter implements HomeContract.Presenter {
+public class HomePresenter implements HomeContract.Presenter, HomeContract.Model.LoadPublicationsListener {
 
-    private HomeModel model;
-    private HomeFragment view;
+    private final HomeModel model;
+    private final HomeFragment view;
 
     public HomePresenter(HomeFragment view) {
         this.view = view;
@@ -19,18 +18,22 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public List<PublicationLocal> loadPublications() {
-        return model.loadPublications();
-    }
-
-    @Override
-    public List<PublicationToRecyclerView> convertPublications() {
-        return model.convertPublications();
+    public void loadPublications() {
+        model.loadPublications(this);
     }
 
     @Override
     public void deleteUnsavedProducts() {
-        model.deleteUnsavedProducts();
+        model.deleteUnsavedLocalProducts();
     }
 
+    @Override
+    public void loadPublicationsSuccess(List<Publication> publications) {
+        view.loadPublications(publications);
+    }
+
+    @Override
+    public void loadPublicationsError(String error) {
+        view.showToast(error);
+    }
 }

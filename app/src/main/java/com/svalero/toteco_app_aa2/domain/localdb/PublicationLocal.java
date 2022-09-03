@@ -2,6 +2,7 @@ package com.svalero.toteco_app_aa2.domain.localdb;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.svalero.toteco_app_aa2.domain.Publication;
@@ -25,6 +26,7 @@ public class PublicationLocal {
     @ColumnInfo(name = "establishment_id")
     private int establishmentId;
 
+    @Ignore
     public PublicationLocal(String date, float totalPrice, float totalPunctuation, int userId, int establishmentId) {
         this.date = date;
         this.totalPrice = totalPrice;
@@ -33,6 +35,7 @@ public class PublicationLocal {
         this.establishmentId = establishmentId;
     }
 
+    @Ignore
     public PublicationLocal(Publication publication) {
         this.id = publication.getId();
         this.date = publication.getDate();

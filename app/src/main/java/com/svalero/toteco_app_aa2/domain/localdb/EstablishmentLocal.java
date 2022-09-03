@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.svalero.toteco_app_aa2.domain.Establishment;
@@ -24,6 +25,7 @@ public class EstablishmentLocal implements Parcelable {
     @ColumnInfo
     private float punctuation;
 
+    @Ignore
     public EstablishmentLocal(String name, double latitude, double longitude, boolean open, float punctuation) {
         this.name = name;
         this.latitude = latitude;
@@ -32,6 +34,7 @@ public class EstablishmentLocal implements Parcelable {
         this.punctuation = punctuation;
     }
 
+    @Ignore
     protected EstablishmentLocal(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -44,6 +47,7 @@ public class EstablishmentLocal implements Parcelable {
     public EstablishmentLocal() {
     }
 
+    @Ignore
     public EstablishmentLocal(Establishment establishment) {
         this.id = establishment.getId();
         this.name = establishment.getName();

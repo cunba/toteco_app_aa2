@@ -17,12 +17,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.svalero.toteco_app_aa2.R;
+import com.svalero.toteco_app_aa2.contract.MainContract;
 import com.svalero.toteco_app_aa2.databinding.ActivityMainBinding;
+import com.svalero.toteco_app_aa2.presenter.MainPresenter;
 
-public class MainView extends AppCompatActivity {
+public class MainView extends AppCompatActivity implements MainContract.View {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class MainView extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        presenter = new MainPresenter(this);
     }
 
     @Override
@@ -61,6 +66,7 @@ public class MainView extends AppCompatActivity {
         int id = item.getItemId();
         Intent intent;
         if (id == R.id.actionbar_logout) {
+            deleteUser();
             intent = new Intent(this, LoginView.class);
             startActivity(intent);
             return true;
@@ -75,10 +81,13 @@ public class MainView extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void deleteUser() {
+        presenter.deleteUser();
     }
 }

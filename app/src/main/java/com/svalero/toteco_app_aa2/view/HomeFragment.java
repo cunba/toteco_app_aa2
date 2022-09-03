@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.HomeContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentHomeBinding;
-import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
-import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
+import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.Publication;
 import com.svalero.toteco_app_aa2.presenter.HomePresenter;
 import com.svalero.toteco_app_aa2.util.RecyclerViewAdapter;
+import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +32,9 @@ public class HomeFragment extends Fragment implements HomeContract.View,
 
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
-    private List<PublicationLocal> publicationLocals;
-    private List<PublicationToRecyclerView> publicationsToRecyclerView;
+    private List<Publication> publications;
+    private ArrayAdapter<Product> productsAdapter;
     private RecyclerView.Adapter adapter;
-    private RecyclerView rv;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,9 +42,9 @@ public class HomeFragment extends Fragment implements HomeContract.View,
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        presenter= new HomePresenter(this);
+        presenter = new HomePresenter(this);
         initializePublicationsList();
-        loadPublications();
+        presenter.loadPublications();
 
         return root;
     }
@@ -61,23 +64,19 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     }
 
     private void initializePublicationsList() {
-        publicationLocals = new ArrayList<>();
-        publicationsToRecyclerView = new ArrayList<>();
-        convertPublications();
+        publications = new ArrayList<>();
         createRecyclerView();
+        createProductsAdapter();
     }
 
-    @Override
-    public void convertPublications() {
-        publicationsToRecyclerView.clear();
-        List<PublicationToRecyclerView> publications = presenter.convertPublications();
-        publicationsToRecyclerView.addAll(publications);
+    private void createProductsAdapter() {
+        ArrayList<Product> products = new ArrayList<>();
+        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, products);
     }
 
-    @Override
-    public void createRecyclerView() {
+    private void createRecyclerView() {
         // Get the recycler view
-        rv = binding.getRoot().findViewById(R.id.publication_recycler_view);
+        RecyclerView rv = binding.getRoot().findViewById(R.id.publication_recycler_view);
         rv.setHasFixedSize(true);
 
         // Use the linear layout
@@ -85,28 +84,33 @@ public class HomeFragment extends Fragment implements HomeContract.View,
         rv.setLayoutManager(lManager);
 
         // Create the adapter
-        adapter = new RecyclerViewAdapter(getParentFragmentManager(), publicationsToRecyclerView, this);
+        adapter = new RecyclerViewAdapter(getParentFragmentManager(), publications, productsAdapter, this);
         rv.setAdapter(adapter);
     }
 
     @Override
-    public void loadPublications() {
-        publicationLocals.clear();
-        publicationLocals.addAll(presenter.loadPublications());
+    public void loadPublications(List<Publication> publications) {
+        this.publications.clear();
+        this.publications.addAll(publications);
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void refreshPublications() {
-        loadPublications();
-        convertPublications();
+        presenter.loadPublications();
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        return false;
+        Publication publication = publications.get(i);
+        DialogFragment newFragment = new DeletePublicationDialog(this, publication);
+        newFragment.show(getParentFragmentManager(), "delete");
+        return true;
     }
 
-
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
 }

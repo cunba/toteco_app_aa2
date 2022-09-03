@@ -2,6 +2,7 @@ package com.svalero.toteco_app_aa2.domain.localdb;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.svalero.toteco_app_aa2.domain.User;
@@ -38,6 +39,7 @@ public class UserLocal {
     @ColumnInfo
     private String token;
 
+    @Ignore
     public UserLocal(int id, String username, String name, String surname, String birthDate,
                      String email, String password, String creationDate, boolean active,
                      float moneySpent, int publicationsNumber, String role, String token) {
@@ -56,6 +58,7 @@ public class UserLocal {
         this.token = token;
     }
 
+    @Ignore
     public UserLocal(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
@@ -71,6 +74,7 @@ public class UserLocal {
         this.role = user.getRole();
     }
 
+    @Ignore
     public UserLocal(String username, String name, String surname, String birthDate, String email,
                      String password, String creationDate, boolean active, float moneySpent,
                      int publicationsNumber, String role) {

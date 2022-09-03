@@ -2,6 +2,7 @@ package com.svalero.toteco_app_aa2.domain.localdb;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.svalero.toteco_app_aa2.domain.Menu;
@@ -17,6 +18,7 @@ public class MenuLocal {
     @ColumnInfo
     private float punctuation;
 
+    @Ignore
     public MenuLocal(int id, String date, float price, float punctuation) {
         this.id = id;
         this.date = date;
@@ -24,6 +26,7 @@ public class MenuLocal {
         this.punctuation = punctuation;
     }
 
+    @Ignore
     public MenuLocal(String date, float price, float punctuation) {
         this.date = date;
         this.price = price;
@@ -33,6 +36,7 @@ public class MenuLocal {
     public MenuLocal() {
     }
 
+    @Ignore
     public MenuLocal(Menu menu) {
         this.id = menu.getId();
         this.date = menu.getDate();

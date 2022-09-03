@@ -16,7 +16,7 @@ import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 
 @Database(entities = {EstablishmentLocal.class, MenuLocal.class, ProductLocal.class, ProductTypeLocal.class,
-        PublicationLocal.class, UserLocal.class}, version = 1)
+        PublicationLocal.class, UserLocal.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract EstablishmentDao establishmentDao();

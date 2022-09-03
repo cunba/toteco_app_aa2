@@ -69,6 +69,7 @@
     <string name="delete_cancel">Cancelar</string>
     <!--    Delete publicationLocal  -->
     <string name="delete_publication_message">¿Estás seguro que quieres eliminar la publicación?</string>
+    <string name="delete_publication_success">Se ha borrado la publicación</string>
     <!--    Drawer  -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>

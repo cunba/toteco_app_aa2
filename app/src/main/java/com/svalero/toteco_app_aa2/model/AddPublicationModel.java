@@ -31,7 +31,7 @@ public class AddPublicationModel implements AddPublicationContract.Model {
     @Override
     public List<ProductLocal> loadProducts() {
         try {
-            return db.productDao().findByPublicationId(1);
+//            return db.productDao().findByPublicationId(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,8 +102,8 @@ public class AddPublicationModel implements AddPublicationContract.Model {
         PublicationLocal addedPublicationLocal = db.publicationDao().findLast();
 
         productLocals.stream().forEach(p -> {
-            p.setPublicationId(addedPublicationLocal.getId());
-            db.productDao().update(p);
+//            p.setPublicationId(addedPublicationLocal.getId());
+//            db.productDao().update(p);
         });
 
     }

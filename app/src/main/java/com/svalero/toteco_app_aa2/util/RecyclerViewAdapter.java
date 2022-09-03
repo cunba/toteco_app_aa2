@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,30 +18,33 @@ import androidx.room.Room;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
-import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
+import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
 import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private final List<PublicationToRecyclerView> publications;
+    private final List<Publication> publications;
     private FragmentManager mFragment;
     private HomeFragment homeFragment;
+    private ArrayAdapter<Product> productsAdapter;
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvCardTitle;
-        private final ImageView ivCardImage;
-        private final TextView tvCardProducts;
-        private final TextView tvCardPrice;
-        private final TextView tvCardPunctuation;
+        private final TextView tvPublicationItemEstablishment;
+        private final TextView tvPublicationItemUsername;
+        private final ImageView ivPublicationItemImage;
+//        private final TextView tvPublicationItemProducts;
+        private final TextView tvPublicationItemPrice;
+        private final TextView tvPublicationItemPunctuation;
+        private final ListView lvPublicationItemProductList;
         private View view;
 
         public ViewHolder(View view) {
@@ -47,31 +52,40 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.view = view;
             // Define click listener for the ViewHolder's View
 
-            tvCardTitle = (TextView) view.findViewById(R.id.card_title);
-            ivCardImage = (ImageView) view.findViewById(R.id.card_image);
-            tvCardProducts = (TextView) view.findViewById(R.id.card_products_list);
-            tvCardPrice = (TextView) view.findViewById(R.id.card_price);
-            tvCardPunctuation = (TextView) view.findViewById(R.id.card_punctuation);
+            tvPublicationItemEstablishment = view.findViewById(R.id.publication_item_establishment);
+            tvPublicationItemUsername = view.findViewById(R.id.publication_item_username);
+            ivPublicationItemImage = view.findViewById(R.id.publication_item_image);
+//            tvPublicationItemProducts = view.findViewById(R.id.publication_item_products_list);
+            tvPublicationItemPrice = view.findViewById(R.id.publication_item_price);
+            tvPublicationItemPunctuation = view.findViewById(R.id.publication_item_punctuation);
+            lvPublicationItemProductList = view.findViewById(R.id.publication_item_products_list);
         }
 
-        public TextView getTvCardTitle() {
-            return tvCardTitle;
+        public TextView getTvPublicationItemEstablishment() {
+            return tvPublicationItemEstablishment;
         }
 
-        public ImageView getIvCardImage() {
-            return ivCardImage;
+        public TextView getTvPublicationItemUsername() {
+            return tvPublicationItemUsername;
         }
 
-        public TextView getTvCardProducts() {
-            return tvCardProducts;
+        public ImageView getIvPublicationItemImage() {
+            return ivPublicationItemImage;
         }
 
-        public TextView getTvCardPrice() {
-            return tvCardPrice;
+//        public TextView getTvPublicationItemProducts() {
+//            return tvPublicationItemProducts;
+//        }
+        public ListView getLvPublicationItemProductList() {
+            return lvPublicationItemProductList;
         }
 
-        public TextView getTvCardPunctuation() {
-            return tvCardPunctuation;
+        public TextView getTvPublicationItemPrice() {
+            return tvPublicationItemPrice;
+        }
+
+        public TextView getTvPublicationItemPunctuation() {
+            return tvPublicationItemPunctuation;
         }
     }
 
@@ -81,10 +95,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * @param fragment
      * @param dataSet  String[] containing the data to populate views to be used
      */
-    public RecyclerViewAdapter(FragmentManager fragment, List<PublicationToRecyclerView> dataSet, HomeFragment homeFragment) {
+    public RecyclerViewAdapter(FragmentManager fragment, List<Publication> dataSet, ArrayAdapter<Product> productsAdapter, HomeFragment homeFragment) {
         publications = dataSet;
         mFragment = fragment;
         this.homeFragment = homeFragment;
+        this.productsAdapter = productsAdapter;
     }
 
     // Create new views (invoked by the layout manager)
@@ -104,31 +119,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         // Configuration of the listener when the publication is clicked
         viewHolder.view.setOnClickListener(v -> {
-            AppDatabase db = Room.databaseBuilder(viewHolder.itemView.getContext(),
-                            AppDatabase.class, "toteco").allowMainThreadQueries()
-                    .fallbackToDestructiveMigration().build();
-            PublicationToRecyclerView publicationToRecyclerView = publications.get(position);
-            PublicationLocal publicationLocal = db.publicationDao().findById(publicationToRecyclerView.getPublicationId());
-            DialogFragment newFragment = new DeletePublicationDialog(homeFragment, publicationLocal);
+            Publication publication = publications.get(position);
+            DialogFragment newFragment = new DeletePublicationDialog(homeFragment, publication);
             newFragment.show(mFragment, "delete");
         });
+
+        // Getting the user
+        AppDatabase db = Room.databaseBuilder(viewHolder.itemView.getContext(),
+                        AppDatabase.class, "toteco").allowMainThreadQueries()
+                .fallbackToDestructiveMigration().build();
+        List<UserLocal> user = db.userDao().findAll();
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
 
-        viewHolder.getTvCardTitle().setText(publications.get(position).getEstablishmentName());
+        viewHolder.getTvPublicationItemEstablishment().setText(publications.get(position).getEstablishment().getName());
+        viewHolder.getTvPublicationItemUsername().setText(user.get(0).getUsername());
 
-        Bitmap image = ImageAdapter.fromStringToBitmap(publications.get(position).getImage());
-        viewHolder.getIvCardImage().setImageBitmap(image);
+        Bitmap image = ImageAdapter.fromStringToBitmap(publications.get(position).getPhoto());
+        viewHolder.getIvPublicationItemImage().setImageBitmap(image);
 
-        AtomicReference<String> products = new AtomicReference<>("");
-        publications.get(position).getProducts().stream().forEach(p ->
-                products.set("" + products.get() + '\n' + p.toString() + '\n')
-        );
-        viewHolder.getTvCardProducts().setText(products.get());
+        productsAdapter.clear();
+        productsAdapter.addAll(publications.get(position).getProducts());
+        viewHolder.getLvPublicationItemProductList().setAdapter(productsAdapter);
 
-        viewHolder.getTvCardPrice().setText(publications.get(position).getTotalPrice());
-        viewHolder.getTvCardPunctuation().setText(publications.get(position).getTotalPunctuation());
+//        AtomicReference<String> products = new AtomicReference<>("");
+//        publications.get(position).getProducts().stream().forEach(p ->
+//                products.set("" + products.get() + '\n' + p.toString() + '\n')
+//        );
+//        viewHolder.getTvPublicationItemProducts().setText(products.get());
+
+        double totalPrice = Utils.roundNumber(publications.get(position).getTotalPrice());
+        viewHolder.getTvPublicationItemPrice().setText(String.valueOf(totalPrice));
+
+        double totalPunctuation = Utils.roundNumber(publications.get(position).getTotalPunctuation());
+        viewHolder.getTvPublicationItemPunctuation().setText(String.valueOf(totalPunctuation));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_products"
+    android:id="@+id/publication_item"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -25,12 +25,20 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/card_title"
+                android:id="@+id/publication_item_establishment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="TextView"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/publication_item_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="TextView"
+                android:textSize="12sp" />
 
             <View
                 android:id="@+id/divider"
@@ -47,20 +55,19 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/card_image"
+                    android:id="@+id/publication_item_image"
                     android:layout_width="320dp"
                     android:layout_height="207dp"
                     android:layout_weight="1"
                     android:paddingRight="10dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
-                <TextView
-                    android:id="@+id/card_products_list"
+                <ListView
+                    android:id="@+id/publication_item_products_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingLeft="10dp"
-                    android:text="TextView" />
+                    android:paddingLeft="10dp" />
 
             </LinearLayout>
 
@@ -79,7 +86,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/card_price"
+                    android:id="@+id/publication_item_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -87,7 +94,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/card_punctuation"
+                    android:id="@+id/publication_item_punctuation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"

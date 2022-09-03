@@ -51,18 +51,19 @@ public class Product implements Parcelable {
         parcel.writeFloat(price);
         parcel.writeFloat(punctuation);
         parcel.writeParcelable(menu, i);
+        parcel.writeParcelable(publication, i);
     }
 
-    public Product(String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu, Publication publication) {
+    public Product(String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu) {
         this.date = date;
         this.inMenu = inMenu;
         this.price = price;
         this.punctuation = punctuation;
         this.type = type;
         this.menu = menu;
-        this.publication = publication;
     }
-    public Product(int id, String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu, Publication publication) {
+
+    public Product(int id, String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu) {
         this.id = id;
         this.date = date;
         this.inMenu = inMenu;
@@ -70,16 +71,18 @@ public class Product implements Parcelable {
         this.punctuation = punctuation;
         this.type = type;
         this.menu = menu;
-        this.publication = publication;
     }
+
     public Product() {
     }
+
     public Product(String date, boolean inMenu, float price, float punctuation) {
         this.date = date;
         this.inMenu = inMenu;
         this.price = price;
         this.punctuation = punctuation;
     }
+
     public Product(int id, String date, boolean inMenu, float price, float punctuation) {
         this.id = id;
         this.date = date;
@@ -154,21 +157,7 @@ public class Product implements Parcelable {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", date=" + date +
-                ", inMenu=" + inMenu +
-                ", price=" + price +
-                ", punctuation=" + punctuation +
-                ", type=" + type +
-                ", menu=" + menu +
-                ", publication=" + publication +
-                '}';
+        return "- " + type.getType() + " " + type.getProductName() +
+                "\n(" + price + "€, " + punctuation + "/5★)";
     }
-
-    //    @NonNull
-//    @Override
-//    public String toString() {
-//        return "- " + name + "\n(" + price + "€, " + punctuation + "/5★)";
-//    }
 }

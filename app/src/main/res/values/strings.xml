@@ -71,7 +71,8 @@
     <string name="delete_submit">Delete</string>
     <string name="delete_cancel">Cancel</string>
     <!--    Delete publicationLocal  -->
-    <string name="delete_publication_message">Are you sure you want to delete the publicationLocal?</string>
+    <string name="delete_publication_message">Are you sure you want to delete the publication?</string>
+    <string name="delete_publication_success">Publication deleted</string>
     <!--    Drawer  -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>

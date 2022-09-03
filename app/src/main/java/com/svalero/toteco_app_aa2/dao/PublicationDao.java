@@ -37,14 +37,6 @@ public interface PublicationDao {
     @Delete
     void delete(PublicationLocal publicationLocal);
 
-//    @Transaction
-//    @Query("SELECT * FROM establishments WHERE id = (SELECT establishment_id FROM PublicationLocal WHERE id = :id)")
-//    EstablishmentWithPublication findEstablishmentByPublicationId(int id);
-
-//    @Transaction
-//    @Query("SELECT * FROM UserLocal WHERE id = (SELECT user_id FROM PublicationLocal WHERE id = :id)")
-//    UserWithPublication findUserByPublicationId(int id);
-
     @Query("SELECT SUM(price) AS suma FROM products WHERE publication_id = :id")
     float totalPrice(int id);
 

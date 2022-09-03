@@ -44,8 +44,7 @@ public class LoginModel implements LoginContract.Model {
                     return;
                 }
 
-                JwtResponse jwtResponse = response.body();
-                listener.onLoginSuccess(jwtResponse);
+                listener.onLoginSuccess(response.body());
             }
 
             @Override
@@ -68,9 +67,7 @@ public class LoginModel implements LoginContract.Model {
                     return;
                 }
 
-                User user = response.body();
-                System.out.println(user.toString());
-                UserLocal userLocal = new UserLocal(user);
+                UserLocal userLocal = new UserLocal(response.body());
                 userLocal.setToken(token);
                 db.userDao().insert(userLocal);
                 listener.onGetUserLoggedSuccess();
@@ -78,9 +75,6 @@ public class LoginModel implements LoginContract.Model {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                t.printStackTrace();
-                System.out.println(t.getCause());
-                System.out.println(t.getMessage());
                 listener.onGetUserLoggedError(context.getString(R.string.error_database));
             }
         });

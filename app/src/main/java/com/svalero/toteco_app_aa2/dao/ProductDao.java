@@ -21,10 +21,6 @@ public interface ProductDao {
     @Query("SELECT * FROM products")
     List<ProductLocal> findAll();
 
-//    @Transaction
-//    @Query("SELECT * FROM publications WHERE id = (SELECT publication_id FROM products WHERE id = :id)")
-//    PublicationWithProduct findPublicationByProductId(int id);
-
     @Insert
     void insert(ProductLocal productLocal);
 
