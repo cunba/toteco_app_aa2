@@ -2,7 +2,6 @@ package com.svalero.toteco_app_aa2.util;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,8 @@ import androidx.room.Room;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.domain.dto.PublicationToRecyclerView;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
 import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
 
@@ -80,7 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * Initialize the dataset of the Adapter.
      *
      * @param fragment
-     * @param dataSet String[] containing the data to populate views to be used
+     * @param dataSet  String[] containing the data to populate views to be used
      */
     public RecyclerViewAdapter(FragmentManager fragment, List<PublicationToRecyclerView> dataSet, HomeFragment homeFragment) {
         publications = dataSet;
@@ -99,7 +98,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-        // Replace the contents of a view (invoked by the layout manager)
+    // Replace the contents of a view (invoked by the layout manager)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
@@ -119,8 +118,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         viewHolder.getTvCardTitle().setText(publications.get(position).getEstablishmentName());
 
-        Bitmap image = BitmapFactory.decodeByteArray(publications.get(position).getImage(), 0,
-                publications.get(position).getImage().length);
+        Bitmap image = ImageAdapter.fromStringToBitmap(publications.get(position).getImage());
         viewHolder.getIvCardImage().setImageBitmap(image);
 
         AtomicReference<String> products = new AtomicReference<>("");

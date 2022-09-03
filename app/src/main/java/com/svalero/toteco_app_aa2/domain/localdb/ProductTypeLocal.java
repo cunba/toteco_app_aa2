@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.svalero.toteco_app_aa2.domain.ProductType;
+
 @Entity(tableName = "product_types")
 public class ProductTypeLocal {
     @PrimaryKey
@@ -17,6 +19,12 @@ public class ProductTypeLocal {
         this.id = id;
         this.productName = productName;
         this.type = type;
+    }
+
+    public ProductTypeLocal(ProductType productType) {
+        this.id = productType.getId();
+        this.productName = productType.getProductName();
+        this.type = productType.getType();
     }
 
     public ProductTypeLocal() {

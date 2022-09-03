@@ -5,9 +5,9 @@ import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 public class AddPublicationDTO {
     private EstablishmentLocal establishment;
     private String establishmentPunctuation;
-    private byte[] image;
+    private String image;
 
-    public AddPublicationDTO(EstablishmentLocal establishment, String establishmentPunctuation, byte[] image) {
+    public AddPublicationDTO(EstablishmentLocal establishment, String establishmentPunctuation, String image) {
         this.establishment = establishment;
         this.establishmentPunctuation = establishmentPunctuation;
         this.image = image;
@@ -21,11 +21,11 @@ public class AddPublicationDTO {
         this.establishment = establishment;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

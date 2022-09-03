@@ -4,6 +4,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.svalero.toteco_app_aa2.domain.User;
+
+import java.time.format.DateTimeFormatter;
+
 @Entity(tableName = "users")
 public class UserLocal {
 
@@ -31,10 +35,12 @@ public class UserLocal {
     private int publicationsNumber;
     @ColumnInfo
     private String role;
+    @ColumnInfo
+    private String token;
 
     public UserLocal(int id, String username, String name, String surname, String birthDate,
                      String email, String password, String creationDate, boolean active,
-                     float moneySpent, int publicationsNumber, String role) {
+                     float moneySpent, int publicationsNumber, String role, String token) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -47,6 +53,22 @@ public class UserLocal {
         this.moneySpent = moneySpent;
         this.publicationsNumber = publicationsNumber;
         this.role = role;
+        this.token = token;
+    }
+
+    public UserLocal(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.birthDate = user.getBirthDate();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.creationDate = user.getCreationDate();
+        this.active = user.isActive();
+        this.moneySpent = user.getMoneySpent();
+        this.publicationsNumber = user.getPublicationsNumber();
+        this.role = user.getRole();
     }
 
     public UserLocal(String username, String name, String surname, String birthDate, String email,
@@ -162,5 +184,13 @@ public class UserLocal {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -23,11 +23,10 @@ import com.squareup.picasso.Picasso;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentAddPublicationBinding;
-import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
-import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
 import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.presenter.AddPublicationPresenter;
 import com.svalero.toteco_app_aa2.util.ImageAdapter;
 import com.svalero.toteco_app_aa2.util.Utils;
@@ -173,7 +172,7 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
             showError(getString(R.string.error_establishment_empty));
             return;
         }
-        if (productLocals.size() == 0) {
+        if (productLocals.isEmpty()) {
             showError(getString(R.string.error_products_empty));
             return;
         }
@@ -182,7 +181,7 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
             return;
         }
 
-        byte[] publicationImage = ImageAdapter.fromImageViewToByteArray(ivPublication);
+        String publicationImage = ImageAdapter.fromImageViewToString(ivPublication);
 
         AddPublicationDTO addPublicationDTO = new AddPublicationDTO(
                 establishment,

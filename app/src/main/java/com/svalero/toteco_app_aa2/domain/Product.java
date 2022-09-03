@@ -3,17 +3,9 @@ package com.svalero.toteco_app_aa2.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 public class Product implements Parcelable {
     private int id;
-    private LocalDate date;
+    private String date;
     private boolean inMenu;
     private float price;
     private float punctuation;
@@ -24,7 +16,7 @@ public class Product implements Parcelable {
 
     protected Product(Parcel in) {
         id = in.readInt();
-        date = Instant.ofEpochMilli(in.readLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+        date = in.readString();
         inMenu = in.readByte() != 0;
         price = in.readFloat();
         punctuation = in.readFloat();
@@ -54,14 +46,14 @@ public class Product implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
 
         parcel.writeInt(id);
-        parcel.writeLong(date.toEpochDay());
+        parcel.writeString(date);
         parcel.writeByte((byte) (inMenu ? 1 : 0));
         parcel.writeFloat(price);
         parcel.writeFloat(punctuation);
         parcel.writeParcelable(menu, i);
     }
 
-    public Product(LocalDate date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu, Publication publication) {
+    public Product(String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu, Publication publication) {
         this.date = date;
         this.inMenu = inMenu;
         this.price = price;
@@ -70,7 +62,7 @@ public class Product implements Parcelable {
         this.menu = menu;
         this.publication = publication;
     }
-    public Product(int id, LocalDate date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu, Publication publication) {
+    public Product(int id, String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu, Publication publication) {
         this.id = id;
         this.date = date;
         this.inMenu = inMenu;
@@ -82,13 +74,13 @@ public class Product implements Parcelable {
     }
     public Product() {
     }
-    public Product(LocalDate date, boolean inMenu, float price, float punctuation) {
+    public Product(String date, boolean inMenu, float price, float punctuation) {
         this.date = date;
         this.inMenu = inMenu;
         this.price = price;
         this.punctuation = punctuation;
     }
-    public Product(int id, LocalDate date, boolean inMenu, float price, float punctuation) {
+    public Product(int id, String date, boolean inMenu, float price, float punctuation) {
         this.id = id;
         this.date = date;
         this.inMenu = inMenu;
@@ -104,11 +96,11 @@ public class Product implements Parcelable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

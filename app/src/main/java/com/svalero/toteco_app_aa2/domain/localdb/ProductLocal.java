@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.svalero.toteco_app_aa2.domain.Product;
+
 @Entity(tableName = "products")
 public class ProductLocal {
     @PrimaryKey(autoGenerate = true)
@@ -31,21 +33,16 @@ public class ProductLocal {
         this.publicationId = publicationId;
     }
 
-    public ProductLocal(boolean inMenu, float price, float punctuation, int typeId, int menuId, int publicationId) {
-        this.inMenu = inMenu;
-        this.price = price;
-        this.punctuation = punctuation;
-        this.typeId = typeId;
-        this.menuId = menuId;
-        this.publicationId = publicationId;
+    public ProductLocal(Product product) {
+        this.id = product.getId();
+        this.inMenu = product.isInMenu();
+        this.price = product.getPrice();
+        this.punctuation = product.getPunctuation();
+        this.typeId = product.getType().getId();
+        this.menuId = product.getMenu().getId();
+        this.publicationId = product.getPublication().getId();
     }
 
-    public ProductLocal(boolean inMenu, float price, float punctuation) {
-        this.inMenu = inMenu;
-        this.price = price;
-        this.punctuation = punctuation;
-    }
-    
     public ProductLocal() {
     }
 

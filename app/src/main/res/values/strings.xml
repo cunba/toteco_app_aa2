@@ -15,6 +15,9 @@
     <string name="error_products_empty">There are no added productLocals</string>
     <string name="error_establishment_empty">There is no establishment added</string>
     <string name="error_empty_image">There is no image added</string>
+    <string name="error_database">There was an error trying to connect with the host</string>
+    <string name="error_internal_server">Internal server error</string>
+    <string name="error_data">Data error or the username or email are already in use</string>
     <!--    Main activity   -->
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -24,6 +27,7 @@
     <string name="register">Register</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
+    <string name="email">Email</string>
     <string name="birthday">Birthday</string>
     <string name="confirm_password">Confirm password</string>
     <string name="user_create">User with username %s created.</string>

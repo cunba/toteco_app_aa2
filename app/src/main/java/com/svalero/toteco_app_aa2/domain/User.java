@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 
 public class User implements Parcelable {
@@ -12,15 +11,16 @@ public class User implements Parcelable {
     private String username;
     private String name;
     private String surname;
-    private LocalDate birthDate;
+    private String birthDate;
     private String email;
     private String password;
+    private String creationDate;
     private boolean active;
     private float moneySpent;
     private int publicationsNumber;
     private String role;
 
-    public User(int id, String username, String name, String surname, LocalDate birthDate, String email,
+    public User(int id, String username, String name, String surname, String birthDate, String email,
                 String password, boolean active, float moneySpent, int publicationsNumber, String role) {
         this.id = id;
         this.username = username;
@@ -35,7 +35,7 @@ public class User implements Parcelable {
         this.role = role;
     }
 
-    public User(String username, String name, String surname, LocalDate birthDate, String email, String password,
+    public User(String username, String name, String surname, String birthDate, String email, String password,
                 boolean active, float moneySpent, int publicationsNumber, String role) {
         this.username = username;
         this.name = name;
@@ -54,9 +54,10 @@ public class User implements Parcelable {
         username = in.readString();
         name = in.readString();
         surname = in.readString();
-        birthDate = Instant.ofEpochMilli(in.readLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+        birthDate = in.readString();
         email = in.readString();
         password = in.readString();
+        creationDate = in.readString();
         active = in.readByte() != 0;
         moneySpent = in.readFloat();
         publicationsNumber = in.readInt();
@@ -99,11 +100,11 @@ public class User implements Parcelable {
         this.name = name;
     }
 
-    public LocalDate getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -163,6 +164,14 @@ public class User implements Parcelable {
         this.surname = surname;
     }
 
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -173,6 +182,7 @@ public class User implements Parcelable {
                 ", birthDate=" + birthDate +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", creationDate='" + creationDate + '\'' +
                 ", active=" + active +
                 ", moneySpent=" + moneySpent +
                 ", publicationsNumber=" + publicationsNumber +
@@ -191,9 +201,10 @@ public class User implements Parcelable {
         parcel.writeString(username);
         parcel.writeString(name);
         parcel.writeString(surname);
-        parcel.writeLong(birthDate.toEpochDay());
+        parcel.writeString(birthDate);
         parcel.writeString(email);
         parcel.writeString(password);
+        parcel.writeString(creationDate);
         parcel.writeByte((byte) (active ? 1 : 0));
         parcel.writeFloat(moneySpent);
         parcel.writeInt(publicationsNumber);

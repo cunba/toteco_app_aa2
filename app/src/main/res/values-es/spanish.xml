@@ -12,6 +12,9 @@
     <string name="error_products_empty">No hay productos añadidos</string>
     <string name="error_establishment_empty">No hay establiecimiento añadido</string>
     <string name="error_empty_image">No hay imagen añadida</string>
+    <string name="error_database">Se ha productido un error al conectar con el servidor</string>
+    <string name="error_internal_server">Se ha producido un error interno en la api</string>
+    <string name="error_data">Error de datos o el usuario o el correo ya existen</string>
     <!--    Main activity   -->
     <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
@@ -22,6 +25,7 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="birthday">Birthday</string>
+    <string name="email">Email</string>
     <string name="confirm_password">Confirm password</string>
     <string name="user_create">Usuario con nombre %s creado con éxito.</string>
     <!--    Publications activity   -->

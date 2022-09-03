@@ -3,32 +3,17 @@ package com.svalero.toteco_app_aa2.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.versionedparcelable.ParcelField;
-
 import com.svalero.toteco_app_aa2.domain.utils.Location;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 public class Establishment implements Parcelable {
-    @PrimaryKey(autoGenerate = false)
     private int id;
-    @ColumnInfo
     private String name;
-    @ColumnInfo
-    private LocalDate creationDate;
-    @ColumnInfo
+    private String creationDate;
     private Location location;
-    @ColumnInfo
     private boolean open;
-    @ColumnInfo
     private float punctuation;
 
-    public Establishment(String name, LocalDate creationDate, Location location, boolean open, float punctuation) {
+    public Establishment(String name, String creationDate, Location location, boolean open, float punctuation) {
         this.name = name;
         this.creationDate = creationDate;
         this.location = location;
@@ -42,7 +27,7 @@ public class Establishment implements Parcelable {
     protected Establishment(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        creationDate = Instant.ofEpochMilli(in.readLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+        creationDate = in.readString();
         location = in.readParcelable(Location.class.getClassLoader());
         open = in.readByte() != 0;
         punctuation = in.readFloat();
@@ -76,11 +61,11 @@ public class Establishment implements Parcelable {
         this.name = name;
     }
 
-    public LocalDate getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -129,7 +114,7 @@ public class Establishment implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
         parcel.writeString(name);
-        parcel.writeLong(creationDate.toEpochDay());
+        parcel.writeString(creationDate);
         parcel.writeParcelable(location, i);
         parcel.writeBoolean(open);
         parcel.writeFloat(punctuation);

@@ -41,6 +41,7 @@ public class RegisterView extends AppCompatActivity implements RegisterContract.
         EditText etName = findViewById(R.id.register_name);
         EditText etSurname = findViewById(R.id.register_surname);
         EditText etBirthday = findViewById(R.id.register_birthday);
+        EditText etEmail = findViewById(R.id.register_email);
         EditText etPassword = findViewById(R.id.register_password);
         EditText etConfirmPassword = findViewById(R.id.register_confirm_password);
 
@@ -49,6 +50,7 @@ public class RegisterView extends AppCompatActivity implements RegisterContract.
         etName.clearFocus();
         etSurname.clearFocus();
         etBirthday.clearFocus();
+        etEmail.clearFocus();
         etPassword.clearFocus();
         etConfirmPassword.clearFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -59,6 +61,7 @@ public class RegisterView extends AppCompatActivity implements RegisterContract.
         String name = etName.getText().toString();
         String surname = etSurname.getText().toString();
         String birthday = etBirthday.getText().toString();
+        String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         String confirmPassword = etConfirmPassword.getText().toString();
 
@@ -67,6 +70,7 @@ public class RegisterView extends AppCompatActivity implements RegisterContract.
                 name,
                 surname,
                 birthday,
+                email,
                 password,
                 confirmPassword
         );
@@ -97,6 +101,7 @@ public class RegisterView extends AppCompatActivity implements RegisterContract.
         EditText etName = findViewById(R.id.register_name);
         EditText etSurname = findViewById(R.id.register_surname);
         EditText etBirthday = findViewById(R.id.register_birthday);
+        EditText etEmail = findViewById(R.id.register_email);
         EditText etPassword = findViewById(R.id.register_password);
         EditText etConfirmPassword = findViewById(R.id.register_confirm_password);
 
@@ -104,6 +109,7 @@ public class RegisterView extends AppCompatActivity implements RegisterContract.
         etName.setText("");
         etSurname.setText("");
         etBirthday.setText("");
+        etEmail.setText("");
         etPassword.setText("");
         etConfirmPassword.setText("");
         showError("");

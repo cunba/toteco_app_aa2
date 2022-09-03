@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.svalero.toteco_app_aa2.domain.Publication;
+
 import java.util.Arrays;
 
 @Entity(tableName = "publications")
@@ -11,24 +13,34 @@ public class PublicationLocal {
     @PrimaryKey(autoGenerate = false)
     private int id;
     @ColumnInfo
-    private long date;
+    private String date;
     @ColumnInfo(name = "total_price")
     private float totalPrice;
     @ColumnInfo(name = "total_punctuation")
     private float totalPunctuation;
     @ColumnInfo
-    private byte[] photo;
+    private String photo;
     @ColumnInfo(name = "user_id")
     private int userId;
     @ColumnInfo(name = "establishment_id")
     private int establishmentId;
 
-    public PublicationLocal(long date, float totalPrice, float totalPunctuation, int userId, int establishmentId) {
+    public PublicationLocal(String date, float totalPrice, float totalPunctuation, int userId, int establishmentId) {
         this.date = date;
         this.totalPrice = totalPrice;
         this.totalPunctuation = totalPunctuation;
         this.userId = userId;
         this.establishmentId = establishmentId;
+    }
+
+    public PublicationLocal(Publication publication) {
+        this.id = publication.getId();
+        this.date = publication.getDate();
+        this.totalPrice = publication.getTotalPrice();
+        this.totalPunctuation = publication.getTotalPunctuation();
+        this.photo = publication.getPhoto();
+        this.userId = publication.getUser().getId();
+        this.establishmentId = publication.getEstablishment().getId();
     }
 
     public PublicationLocal() {
@@ -74,19 +86,19 @@ public class PublicationLocal {
         this.totalPunctuation = totalPunctuation;
     }
 
-    public byte[] getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -97,7 +109,6 @@ public class PublicationLocal {
                 ", date=" + date +
                 ", totalPrice=" + totalPrice +
                 ", totalPunctuation=" + totalPunctuation +
-                ", photo=" + Arrays.toString(photo) +
                 ", userId=" + userId +
                 ", establishmentId=" + establishmentId +
                 '}';

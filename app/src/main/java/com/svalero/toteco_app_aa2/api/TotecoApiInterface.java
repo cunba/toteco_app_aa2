@@ -13,6 +13,8 @@ import com.svalero.toteco_app_aa2.domain.dto.ProductDTO;
 import com.svalero.toteco_app_aa2.domain.dto.ProductTypeDTO;
 import com.svalero.toteco_app_aa2.domain.dto.PublicationDTO;
 import com.svalero.toteco_app_aa2.domain.dto.UserDTO;
+import com.svalero.toteco_app_aa2.domain.login.JwtRequest;
+import com.svalero.toteco_app_aa2.domain.login.JwtResponse;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -57,19 +60,19 @@ public interface TotecoApiInterface {
                                                                     @Query("maxPunctuation") float maxPunctuation);
 
     @POST("establishments")
-    Call<Establishment> createEstablishment(@Body EstablishmentDTO establishmentDTO);
+    Call<Establishment> createEstablishment(@Header("Authorization") String authorization, @Body EstablishmentDTO establishmentDTO);
 
     @PUT("establishments/{id}")
-    Call<Establishment> updateEstablishment(@Body EstablishmentDTO establishment, @Path("id") int id);
+    Call<Establishment> updateEstablishment(@Header("Authorization") String authorization, @Body EstablishmentDTO establishment, @Path("id") int id);
 
     @PATCH("establishments/{id}/punctuation")
-    Call<String> updateEstablishmentsPunctuation(@Path("id") int id);
+    Call<String> updateEstablishmentsPunctuation(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("establishments/{id}")
-    Call<String> deleteEstablishment(@Path("id") int id);
+    Call<String> deleteEstablishment(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("establishments")
-    Call<String> deleteAllEstablishments();
+    Call<String> deleteAllEstablishments(@Header("Authorization") String authorization);
 
 
     // MENUS
@@ -100,16 +103,16 @@ public interface TotecoApiInterface {
     Call<List<Menu>> getAllMenus();
 
     @POST("menus")
-    Call<Menu> createMenu(@Body MenuDTO menuDTO);
+    Call<Menu> createMenu(@Header("Authorization") String authorization, @Body MenuDTO menuDTO);
 
     @PUT("menus/{id}")
-    Call<Menu> updateMenu(@Body MenuDTO menuDTO, @Path("id") int id);
+    Call<Menu> updateMenu(@Header("Authorization") String authorization, @Body MenuDTO menuDTO, @Path("id") int id);
 
     @DELETE("menus/{id}")
-    Call<String> deleteMenu(@Path("id") int id);
+    Call<String> deleteMenu(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("menus")
-    Call<String> deleteAllMenus();
+    Call<String> deleteAllMenus(@Header("Authorization") String authorization);
 
 
     // PRODUCTS
@@ -152,22 +155,22 @@ public interface TotecoApiInterface {
     Call<List<Product>> getProductsByPublicationId(@Path("id") int publicationId);
 
     @POST("products")
-    Call<Product> createProduct(@Body ProductDTO productDTO);
+    Call<Product> createProduct(@Header("Authorization") String authorization, @Body ProductDTO productDTO);
 
     @PUT("products/{id}")
-    Call<Product> updateProduct(@Body ProductDTO productDTO, @Path("id") int id);
+    Call<Product> updateProduct(@Header("Authorization") String authorization, @Body ProductDTO productDTO, @Path("id") int id);
 
     @PATCH("products/{id}/price/{price}")
-    Call<String> updateProductPrice(@Path("id") int id, @Path("price") float price);
+    Call<String> updateProductPrice(@Header("Authorization") String authorization, @Path("id") int id, @Path("price") float price);
 
     @PATCH("products/{id}/punctuation/{punctuation}")
-    Call<String> updateProductsPunctuation(@Path("id") int id, @Path("punctuation") float punctuation);
+    Call<String> updateProductsPunctuation(@Header("Authorization") String authorization, @Path("id") int id, @Path("punctuation") float punctuation);
 
     @DELETE("products/{id}")
-    Call<String> deleteProduct(@Path("id") int id);
+    Call<String> deleteProduct(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("products")
-    Call<String> deleteAllProducts();
+    Call<String> deleteAllProducts(@Header("Authorization") String authorization);
 
 
     // PRODUCT TYPES
@@ -188,16 +191,16 @@ public interface TotecoApiInterface {
     Call<List<ProductType>> getProductTypesByNameAndType(@Path("name") String name, @Path("type") String type);
 
     @POST("types")
-    Call<ProductType> createProductType(@Body ProductTypeDTO productTypeDTO);
+    Call<ProductType> createProductType(@Header("Authorization") String authorization, @Body ProductTypeDTO productTypeDTO);
 
     @PUT("types/{id}")
-    Call<ProductType> updateProductType(@Body ProductTypeDTO productTypeDTO, @Path("id") int id);
+    Call<ProductType> updateProductType(@Header("Authorization") String authorization, @Body ProductTypeDTO productTypeDTO, @Path("id") int id);
 
     @DELETE("types/{id}")
-    Call<String> deleteProductType(@Path("id") int id);
+    Call<String> deleteProductType(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("types")
-    Call<String> deleteAllProductTypes();
+    Call<String> deleteAllProductTypes(@Header("Authorization") String authorization);
 
 
     // PUBLICATIONS
@@ -247,45 +250,54 @@ public interface TotecoApiInterface {
                                                                                @Query("maxPunctuation") float maxPunctuation);
 
     @POST("publications")
-    Call<Publication> createPublication(@Body PublicationDTO publicationDTO);
+    Call<Publication> createPublication(@Header("Authorization") String authorization, @Body PublicationDTO publicationDTO);
 
     @PUT("publications/{id}")
-    Call<Publication> updatePublication(@Body PublicationDTO publicationDTO, @Path("id") int id);
+    Call<Publication> updatePublication(@Header("Authorization") String authorization, @Body PublicationDTO publicationDTO, @Path("id") int id);
 
     @PATCH("publications/{id}/price-punctuation")
-    Call<String> updatePublicationPriceAndPunctuation(@Path("id") int id);
+    Call<String> updatePublicationPriceAndPunctuation(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("publications/{id}")
-    Call<String> deletePublication(@Path("id") int id);
+    Call<String> deletePublication(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("publications")
-    Call<String> deleteAllPublications();
+    Call<String> deleteAllPublications(@Header("Authorization") String authorization);
 
 
     // USERS
 
     @GET("users")
-    Call<List<User>> getAllUsers();
+    Call<List<User>> getAllUsers(@Header("Authorization") String authorization);
 
     @GET("users/{id}")
-    Call<User> getUserById(@Path("id") int id);
+    Call<User> getUserById(@Header("Authorization") String authorization, @Path("id") int id);
+
+    @GET("user-loged")
+    Call<User> getUserLoged(@Header("Authorization") String authorization);
 
     @POST("users")
     Call<User> createUser(@Body UserDTO userDTO);
 
     @PATCH("users/{id}/publications-number")
-    Call<String> updateUserPublicationsNumber(@Path("id") int id);
+    Call<String> updateUserPublicationsNumber(@Header("Authorization") String authorization, @Path("id") int id);
 
     @PATCH("users/{id}/money-spent")
-    Call<String> updateUserMoneySpent(@Path("id") int id);
+    Call<String> updateUserMoneySpent(@Header("Authorization") String authorization, @Path("id") int id);
 
     @PATCH("users/{id}/password")
-    Call<String> updateUserPassword(@Path("id") int id, @Body PasswordChangeDTO passwordChangeDTO);
+    Call<String> updateUserPassword(@Header("Authorization") String authorization, @Path("id") int id, @Body PasswordChangeDTO passwordChangeDTO);
 
     @PATCH("users/{id}/disable")
-    Call<String> disableUser(@Path("id") int id);
+    Call<String> disableUser(@Header("Authorization") String authorization, @Path("id") int id);
 
     @PATCH("users/{id}/activate")
-    Call<String> activateUser(@Path("id") int id);
+    Call<String> activateUser(@Header("Authorization") String authorization, @Path("id") int id);
+
+
+    // LOGIN
+
+    @POST("login")
+    Call<JwtResponse> login(@Body JwtRequest jwtRequest);
 
 }

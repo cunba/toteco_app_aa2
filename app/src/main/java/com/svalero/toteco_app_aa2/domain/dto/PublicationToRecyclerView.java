@@ -8,12 +8,12 @@ public class PublicationToRecyclerView {
     private int publicationId;
     private String establishmentName;
     private String establishmentPunctuation;
-    private byte[] image;
+    private String image;
     private List<ProductLocal> productLocals;
     private String totalPrice;
     private String totalPunctuation;
 
-    public PublicationToRecyclerView(int publicationId, String establishmentName, String establishmentPunctuation, byte[] image, List<ProductLocal> productLocals, String totalPrice, String totalPunctuation) {
+    public PublicationToRecyclerView(int publicationId, String establishmentName, String establishmentPunctuation, String image, List<ProductLocal> productLocals, String totalPrice, String totalPunctuation) {
         this.publicationId = publicationId;
         this.establishmentName = establishmentName;
         this.establishmentPunctuation = establishmentPunctuation;
@@ -63,11 +63,11 @@ public class PublicationToRecyclerView {
         this.totalPunctuation = totalPunctuation;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

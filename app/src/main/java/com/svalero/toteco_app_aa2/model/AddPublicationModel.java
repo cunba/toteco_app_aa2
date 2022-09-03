@@ -41,7 +41,7 @@ public class AddPublicationModel implements AddPublicationContract.Model {
     @Override
     public AddPublicationSummaryDTO makeSummary(double establishmentPunctuation) {
         List<ProductLocal> productLocals = loadProducts();
-        if (productLocals.size() != 0) {
+        if (productLocals.isEmpty()) {
             totalPrice = productLocals.stream()
                     .map(ProductLocal::getPrice)
                     .mapToDouble(price -> price)
@@ -96,7 +96,7 @@ public class AddPublicationModel implements AddPublicationContract.Model {
 //                establishment.getId()
         );
 
-        publicationLocal.setPhoto(addPublicationDTO.getImage());
+//        publicationLocal.setPhoto(addPublicationDTO.getImage());
 
         db.publicationDao().insert(publicationLocal);
         PublicationLocal addedPublicationLocal = db.publicationDao().findLast();
@@ -129,7 +129,7 @@ public class AddPublicationModel implements AddPublicationContract.Model {
             EstablishmentLocal establishment = db.establishmentDao().findById(1);
             if (!establishment.getName().equals("")) {
                 List<EstablishmentLocal> exists = db.establishmentDao().findByNameExceptAux(establishment.getName());
-                if (exists.size() != 0) {
+                if (!exists.isEmpty()) {
                     exists.stream().forEach(e -> {
                         if (e.getLatitude() == establishment.getLatitude() &&
                                 e.getLongitude() == establishment.getLongitude()) {

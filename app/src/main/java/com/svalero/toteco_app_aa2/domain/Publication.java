@@ -3,13 +3,9 @@ package com.svalero.toteco_app_aa2.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 public class Publication implements Parcelable {
     private int id;
-    private LocalDate date;
+    private String date;
     private float totalPrice;
     private float totalPunctuation;
     private String photo;
@@ -17,7 +13,7 @@ public class Publication implements Parcelable {
     private User user;
     private Establishment establishment;
 
-    public Publication(int id, LocalDate date, float totalPrice, float totalPunctuation, String photo, User user, Establishment establishment) {
+    public Publication(int id, String date, float totalPrice, float totalPunctuation, String photo, User user, Establishment establishment) {
         this.id = id;
         this.date = date;
         this.totalPrice = totalPrice;
@@ -27,7 +23,7 @@ public class Publication implements Parcelable {
         this.establishment = establishment;
     }
 
-    public Publication(LocalDate date, float totalPrice, float totalPunctuation, String photo, User user, Establishment establishment) {
+    public Publication(String date, float totalPrice, float totalPunctuation, String photo, User user, Establishment establishment) {
         this.date = date;
         this.totalPrice = totalPrice;
         this.totalPunctuation = totalPunctuation;
@@ -36,7 +32,7 @@ public class Publication implements Parcelable {
         this.establishment = establishment;
     }
 
-    public Publication(int id, LocalDate date, float totalPrice, float totalPunctuation, String photo) {
+    public Publication(int id, String date, float totalPrice, float totalPunctuation, String photo) {
         this.id = id;
         this.date = date;
         this.totalPrice = totalPrice;
@@ -44,7 +40,7 @@ public class Publication implements Parcelable {
         this.photo = photo;
     }
 
-    public Publication(LocalDate date, float totalPrice, float totalPunctuation, String photo) {
+    public Publication(String date, float totalPrice, float totalPunctuation, String photo) {
         this.date = date;
         this.totalPrice = totalPrice;
         this.totalPunctuation = totalPunctuation;
@@ -56,7 +52,7 @@ public class Publication implements Parcelable {
 
     protected Publication(Parcel in) {
         id = in.readInt();
-        date = Instant.ofEpochMilli(in.readLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+        date = in.readString();
         totalPrice = in.readFloat();
         totalPunctuation = in.readFloat();
         photo = in.readString();
@@ -84,11 +80,11 @@ public class Publication implements Parcelable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -153,7 +149,7 @@ public class Publication implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
-        parcel.writeLong(date.toEpochDay());
+        parcel.writeString(date);
         parcel.writeFloat(totalPrice);
         parcel.writeFloat(totalPunctuation);
         parcel.writeString(photo);

@@ -4,31 +4,40 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.svalero.toteco_app_aa2.domain.Menu;
+
 @Entity(tableName = "menus")
 public class MenuLocal {
     @PrimaryKey
     private int id;
     @ColumnInfo
-    private long date;
+    private String date;
     @ColumnInfo
     private float price;
     @ColumnInfo
     private float punctuation;
 
-    public MenuLocal(int id, long date, float price, float punctuation) {
+    public MenuLocal(int id, String date, float price, float punctuation) {
         this.id = id;
         this.date = date;
         this.price = price;
         this.punctuation = punctuation;
     }
 
-    public MenuLocal(long date, float price, float punctuation) {
+    public MenuLocal(String date, float price, float punctuation) {
         this.date = date;
         this.price = price;
         this.punctuation = punctuation;
     }
 
     public MenuLocal() {
+    }
+
+    public MenuLocal(Menu menu) {
+        this.id = menu.getId();
+        this.date = menu.getDate();
+        this.price = menu.getPrice();
+        this.punctuation = menu.getPunctuation();
     }
 
     public int getId() {
@@ -39,11 +48,11 @@ public class MenuLocal {
         this.id = id;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

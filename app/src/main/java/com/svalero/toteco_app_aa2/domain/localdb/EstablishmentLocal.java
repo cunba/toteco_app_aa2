@@ -7,6 +7,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.svalero.toteco_app_aa2.domain.Establishment;
+
 @Entity(tableName = "establishments")
 public class EstablishmentLocal implements Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -40,6 +42,15 @@ public class EstablishmentLocal implements Parcelable {
     }
 
     public EstablishmentLocal() {
+    }
+
+    public EstablishmentLocal(Establishment establishment) {
+        this.id = establishment.getId();
+        this.name = establishment.getName();
+        this.latitude = establishment.getLocation().getLatitude();
+        this.longitude = establishment.getLocation().getLongitude();
+        this.open = establishment.isOpen();
+        this.punctuation = establishment.getPunctuation();
     }
 
     @Override

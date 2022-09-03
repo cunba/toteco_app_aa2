@@ -3,21 +3,13 @@ package com.svalero.toteco_app_aa2.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 public class Menu implements Parcelable {
     private int id;
-    private LocalDate date;
+    private String date;
     private float price;
     private float punctuation;
 
-    public Menu(LocalDate date, float price, float punctuation) {
+    public Menu(String date, float price, float punctuation) {
         this.date = date;
         this.price = price;
         this.punctuation = punctuation;
@@ -28,7 +20,7 @@ public class Menu implements Parcelable {
 
     protected Menu(Parcel in) {
         id = in.readInt();
-        date = Instant.ofEpochMilli(in.readLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+        date = in.readString();
         price = in.readFloat();
         punctuation = in.readFloat();
     }
@@ -53,11 +45,11 @@ public class Menu implements Parcelable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -95,7 +87,7 @@ public class Menu implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
-        parcel.writeLong(date.toEpochDay());
+        parcel.writeString(date);
         parcel.writeFloat(price);
         parcel.writeFloat(punctuation);
     }
