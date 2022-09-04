@@ -20,14 +20,14 @@ public interface AddPublicationContract {
         EstablishmentLocal getEstablishment();
 
         interface CreateEstablishmentListener {
-            void createEstablishmentSuccess(Establishment establishment, String image);
+            void createEstablishmentSuccess(Establishment establishment, byte[] image);
 
             void createEstablishmentError(String error);
         }
 
-        void createEstablishment(CreateEstablishmentListener listener, EstablishmentDTO establishmentDTO, String image);
+        void createEstablishment(CreateEstablishmentListener listener, EstablishmentDTO establishmentDTO, byte[] image);
 
-        void onPressSubmit(String image);
+        void onPressSubmit(byte[] image);
 
         interface CreatePublicationListener {
             void createPublicationSuccess(Publication publication);
@@ -43,7 +43,23 @@ public interface AddPublicationContract {
             void createProductsError(String error);
         }
 
-        void createProducts(CreateProductsListener listener, int publicationId);
+        void createProducts(CreateProductsListener listener);
+
+        interface UpdatePublicationPricePunctuationListener {
+            void updatePublicationPricePunctuationSuccess();
+
+            void updatePublicationPricePunctuationError(String error);
+        }
+
+        void updatePublicationPricePunctuation(UpdatePublicationPricePunctuationListener listener);
+
+        interface UpdateEstablishmentPunctuationListener {
+            void updateEstablishmentPunctuationSuccess();
+
+            void updateEstablishmentPunctuationError(String error);
+        }
+
+        void updateEstablishmentPunctuation(UpdateEstablishmentPunctuationListener listener);
     }
 
     interface View {
@@ -77,7 +93,7 @@ public interface AddPublicationContract {
 
         AddPublicationSummaryDTO makeSummary(double establishmentPunctuation);
 
-        void onPressSubmit(String image);
+        void onPressSubmit(byte[] image);
 
         EstablishmentLocal getEstablishment();
 

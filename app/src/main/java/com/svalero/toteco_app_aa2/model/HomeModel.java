@@ -50,6 +50,7 @@ public class HomeModel implements HomeContract.Model {
 
             @Override
             public void onFailure(Call<List<Publication>> call, Throwable t) {
+                t.printStackTrace();
                 listener.loadPublicationsError(context.getString(R.string.error_database));
             }
         });

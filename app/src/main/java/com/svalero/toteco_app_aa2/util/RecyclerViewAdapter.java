@@ -2,6 +2,7 @@ package com.svalero.toteco_app_aa2.util;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +135,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.getTvPublicationItemUsername().setText(user.getUsername());
 
         Bitmap image = ImageAdapter.fromStringToBitmap(publications.get(position).getPhoto());
+//        Bitmap image = BitmapFactory.decodeByteArray(publications.get(position).getPhoto(), 0,
+//                publications.get(position).getPhoto().length);
         viewHolder.getIvPublicationItemImage().setImageBitmap(image);
 
         productsAdapter.clear();

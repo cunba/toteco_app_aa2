@@ -4,18 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PublicationDTO implements Parcelable {
-    private String photo;
+    private byte[] photo;
     private int userId;
     private int establishmentId;
 
-    public PublicationDTO(String photo, int userId, int establishmentId) {
+    public PublicationDTO(byte[] photo, int userId, int establishmentId) {
         this.photo = photo;
         this.userId = userId;
         this.establishmentId = establishmentId;
     }
 
     protected PublicationDTO(Parcel in) {
-        photo = in.readString();
+        in.readByteArray(photo);
         userId = in.readInt();
         establishmentId = in.readInt();
     }
@@ -32,11 +32,11 @@ public class PublicationDTO implements Parcelable {
         }
     };
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
@@ -63,7 +63,7 @@ public class PublicationDTO implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(photo);
+        parcel.writeByteArray(photo);
         parcel.writeInt(userId);
         parcel.writeInt(establishmentId);
     }

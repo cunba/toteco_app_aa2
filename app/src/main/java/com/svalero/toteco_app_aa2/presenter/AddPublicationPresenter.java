@@ -31,7 +31,7 @@ public class AddPublicationPresenter implements AddPublicationContract.Presenter
     }
 
     @Override
-    public void onPressSubmit(String image) {
+    public void onPressSubmit(byte[] image) {
         model.onPressSubmit(image);
     }
 

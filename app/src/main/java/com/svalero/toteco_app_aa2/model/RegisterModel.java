@@ -46,6 +46,7 @@ public class RegisterModel implements RegisterContract.Model {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                t.printStackTrace();
                 listener.onRegisterError(context.getString(R.string.error_database));
             }
         });

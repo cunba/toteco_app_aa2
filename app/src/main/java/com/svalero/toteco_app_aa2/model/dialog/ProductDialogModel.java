@@ -10,8 +10,8 @@ import com.svalero.toteco_app_aa2.api.TotecoApiInterface;
 import com.svalero.toteco_app_aa2.contract.dialog.ProductDialogContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.ProductType;
-import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.domain.dto.view.ProductDialogDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.util.Utils;
 
 import java.util.List;
@@ -50,6 +50,7 @@ public class ProductDialogModel implements ProductDialogContract.Model {
 
             @Override
             public void onFailure(Call<List<ProductType>> call, Throwable t) {
+                t.printStackTrace();
                 listener.getTypesError(context.getString(R.string.error_database));
             }
         });
@@ -78,6 +79,7 @@ public class ProductDialogModel implements ProductDialogContract.Model {
         }
 
         ProductLocal newProductLocal = new ProductLocal();
+        newProductLocal.setName(productDialogDTO.getType().getProductName() + " " + productDialogDTO.getType().getType());
         newProductLocal.setPrice(price);
         newProductLocal.setPunctuation(punctuation);
         newProductLocal.setTypeId(productDialogDTO.getType().getId());
@@ -107,6 +109,7 @@ public class ProductDialogModel implements ProductDialogContract.Model {
             return context.getString(R.string.add_product_error_punctuation);
         }
 
+        productLocal.setName(productDialogDTO.getType().getProductName() + " " + productDialogDTO.getType().getType());
         productLocal.setPrice(price);
         productLocal.setPunctuation(punctuation);
         productLocal.setTypeId(productDialogDTO.getType().getId());

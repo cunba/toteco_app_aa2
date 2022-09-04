@@ -30,8 +30,8 @@ public interface ProductDialogContract {
     interface Presenter {
         void getTypes();
 
-        String addProduct(ProductDialogDTO productDialogDTO);
+        void addProduct(ProductDialogDTO productDialogDTO);
 
-        String modifyProduct(ProductDialogDTO productDialogDTO, ProductLocal productLocal);
+        void modifyProduct(ProductDialogDTO productDialogDTO, ProductLocal productLocal);
     }
 }

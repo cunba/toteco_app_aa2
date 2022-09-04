@@ -136,7 +136,6 @@ public class ProductDialog extends DialogFragment implements ProductDialogContra
     public void onSubmit(String error) {
         if (error.equals("")) {
             addPublicationFragment.refreshProductsList();
-            addPublicationFragment.makeSummary();
         } else {
             addPublicationFragment.showToast(error);
         }

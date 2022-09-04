@@ -30,13 +30,15 @@ public class ProductDialogPresenter implements ProductDialogContract.Presenter, 
     }
 
     @Override
-    public String addProduct(ProductDialogDTO productDialogDTO) {
-        return model.addProduct(productDialogDTO);
+    public void addProduct(ProductDialogDTO productDialogDTO) {
+        String error = model.addProduct(productDialogDTO);
+        view.onSubmit(error);
     }
 
     @Override
-    public String modifyProduct(ProductDialogDTO productDialogDTO, ProductLocal productLocal) {
-        return model.modifyProduct(productDialogDTO, productLocal);
+    public void modifyProduct(ProductDialogDTO productDialogDTO, ProductLocal productLocal) {
+        String error = model.modifyProduct(productDialogDTO, productLocal);
+        view.onSubmit(error);
     }
 
     @Override

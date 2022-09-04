@@ -119,12 +119,23 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
     public void refreshProductsList() {
         loadProducts();
         productsAdapter.notifyDataSetChanged();
+        makeSummary();
     }
 
     @Override
     public void makeSummary() {
         if (establishment != null) {
             AddPublicationSummaryDTO summary = presenter.makeSummary(establishment.getPunctuation());
+
+            TextView tvTotalPrice = binding.getRoot().findViewById(R.id.add_publication_total_price);
+            tvTotalPrice.setText(getString(R.string.add_publication_total_price,
+                    String.valueOf(summary.getTotalPrice())));
+
+            TextView tvTotalPunctuation = binding.getRoot().findViewById(R.id.add_publication_total_punctuation);
+            tvTotalPunctuation.setText(getString(R.string.add_publication_total_punctuation,
+                    String.valueOf(summary.getTotalPunctuation())));
+        } else {
+            AddPublicationSummaryDTO summary = presenter.makeSummary(100);
 
             TextView tvTotalPrice = binding.getRoot().findViewById(R.id.add_publication_total_price);
             tvTotalPrice.setText(getString(R.string.add_publication_total_price,
@@ -180,7 +191,7 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
             return;
         }
 
-        String image = ImageAdapter.fromImageViewToString(ivPublication);
+        byte[] image = ImageAdapter.fromImageViewToByteArray(ivPublication);
 
         presenter.onPressSubmit(image);
 

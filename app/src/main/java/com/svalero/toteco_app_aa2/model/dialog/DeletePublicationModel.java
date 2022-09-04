@@ -41,6 +41,7 @@ public class DeletePublicationModel implements DeletePublicationContract.Model {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
                 listener.deleteError(context.getString(R.string.error_database));
             }
         });

@@ -112,4 +112,16 @@ public class ProductDTO implements Parcelable {
         parcel.writeInt(menuId);
         parcel.writeInt(publicationId);
     }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "inMenu=" + inMenu +
+                ", price=" + price +
+                ", punctuation=" + punctuation +
+                ", typeId=" + typeId +
+                ", menuId=" + menuId +
+                ", publicationId=" + publicationId +
+                '}';
+    }
 }

@@ -52,6 +52,7 @@ public class LoginModel implements LoginContract.Model, LoginContract.Model.Logi
 
             @Override
             public void onFailure(Call<JwtResponse> call, Throwable t) {
+                t.printStackTrace();
                 listener.onLoginError(context.getString(R.string.error_database));
             }
         });
@@ -79,6 +80,7 @@ public class LoginModel implements LoginContract.Model, LoginContract.Model.Logi
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                t.printStackTrace();
                 listener.onGetUserLoggedError(context.getString(R.string.error_database));
             }
         });

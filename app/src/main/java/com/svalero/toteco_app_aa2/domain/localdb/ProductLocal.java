@@ -11,6 +11,8 @@ import com.svalero.toteco_app_aa2.domain.Product;
 public class ProductLocal {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo
+    private String name;
     @ColumnInfo(name = "in_menu")
     private boolean inMenu;
     @ColumnInfo
@@ -25,8 +27,9 @@ public class ProductLocal {
     private int publicationId;
 
     @Ignore
-    public ProductLocal(int id, boolean inMenu, float price, float punctuation, int typeId, int menuId) {
+    public ProductLocal(int id, String name, boolean inMenu, float price, float punctuation, int typeId, int menuId) {
         this.id = id;
+        this.name = name;
         this.inMenu = inMenu;
         this.price = price;
         this.punctuation = punctuation;
@@ -37,6 +40,7 @@ public class ProductLocal {
     @Ignore
     public ProductLocal(Product product) {
         this.id = product.getId();
+        this.name = product.getType().getType() + product.getType().getProductName();
         this.inMenu = product.isInMenu();
         this.price = product.getPrice();
         this.punctuation = product.getPunctuation();
@@ -102,5 +106,19 @@ public class ProductLocal {
 
     public void setPublicationId(int publicationId) {
         this.publicationId = publicationId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "- " + name +
+                "\n(" + price + "€, " + punctuation + "/5★)";
     }
 }

@@ -1,5 +1,7 @@
 package com.svalero.toteco_app_aa2.domain.localdb;
 
+import android.util.Base64;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -20,7 +22,7 @@ public class PublicationLocal {
     @ColumnInfo(name = "total_punctuation")
     private float totalPunctuation;
     @ColumnInfo
-    private String photo;
+    private byte[] photo;
     @ColumnInfo(name = "user_id")
     private int userId;
     @ColumnInfo(name = "establishment_id")
@@ -41,7 +43,7 @@ public class PublicationLocal {
         this.date = publication.getDate();
         this.totalPrice = publication.getTotalPrice();
         this.totalPunctuation = publication.getTotalPunctuation();
-        this.photo = publication.getPhoto();
+        this.photo = Base64.decode(publication.getPhoto().getBytes(), Base64.DEFAULT);
         this.userId = publication.getUser().getId();
         this.establishmentId = publication.getEstablishment().getId();
     }
@@ -89,11 +91,11 @@ public class PublicationLocal {
         this.totalPunctuation = totalPunctuation;
     }
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 

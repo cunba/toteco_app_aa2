@@ -29,6 +29,7 @@ public class HomePresenter implements HomeContract.Presenter, HomeContract.Model
 
     @Override
     public void loadPublicationsSuccess(List<Publication> publications) {
+        publications.stream().forEach(p -> System.out.println(p.toString()));
         view.loadPublications(publications);
     }
 

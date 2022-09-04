@@ -2,6 +2,7 @@ package com.svalero.toteco_app_aa2.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Base64;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class Publication implements Parcelable {
         date = in.readString();
         totalPrice = in.readFloat();
         totalPunctuation = in.readFloat();
-        photo = in.readString();
+//        in.readByteArray(photo);
         user = in.readParcelable(User.class.getClassLoader());
         establishment = in.readParcelable(Establishment.class.getClassLoader());
         products = in.readParcelableList(products, Product.class.getClassLoader());
@@ -148,7 +149,7 @@ public class Publication implements Parcelable {
                 ", date=" + date +
                 ", totalPrice=" + totalPrice +
                 ", totalPunctuation=" + totalPunctuation +
-                ", photo='" + photo + '\'' +
+//                ", photo='" + photo + '\'' +
                 ", user=" + user +
                 ", establishment=" + establishment +
                 '}';
@@ -165,7 +166,7 @@ public class Publication implements Parcelable {
         parcel.writeString(date);
         parcel.writeFloat(totalPrice);
         parcel.writeFloat(totalPunctuation);
-        parcel.writeString(photo);
+//        parcel.writeByteArray(photo);
         parcel.writeParcelable(user, i);
         parcel.writeParcelable(establishment, i);
         parcel.writeParcelableList(products, i);

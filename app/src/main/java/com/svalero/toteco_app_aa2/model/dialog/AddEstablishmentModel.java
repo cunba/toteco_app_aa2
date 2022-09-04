@@ -52,6 +52,7 @@ public class AddEstablishmentModel implements AddEstablishmentContract.Model {
 
             @Override
             public void onFailure(Call<List<Establishment>> call, Throwable t) {
+                t.printStackTrace();
                 listener.loadEstablishmentsError(context.getString(R.string.error_database));
             }
         });
