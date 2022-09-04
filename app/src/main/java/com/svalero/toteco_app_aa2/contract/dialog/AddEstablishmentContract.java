@@ -1,26 +1,29 @@
 package com.svalero.toteco_app_aa2.contract.dialog;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.dto.AddEstablishmentDTO;
-import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.dto.view.AddEstablishmentDTO;
 
 import java.util.List;
 
 public interface AddEstablishmentContract {
     interface Model {
-        List<EstablishmentLocal> loadEstablishments();
+        interface LoadEstablishmentsListener {
+            void loadEstablishmentsSuccess(List<Establishment> establishments);
+            void loadEstablishmentsError(String error);
+        }
+        void loadEstablishments(LoadEstablishmentsListener listener);
         String onPressSubmit(AddEstablishmentDTO addEstablishmentDTO);
-        List<EstablishmentLocal> findByName(String name);
+        Establishment findEstablishment(List<Establishment> establishments, Marker marker);
     }
     interface View {
-        void loadEstablishments();
-        void addEstablishment(LatLng latLng);
+        void loadEstablishments(List<Establishment> establishments);
         void onPressSubmit(android.view.View view);
+        void onSubmit(String error);
     }
     interface Presenter {
-        List<EstablishmentLocal> loadEstablishments();
-        String onPressSubmit(AddEstablishmentDTO addEstablishmentDTO);
-        List<EstablishmentLocal> findByName(String name);
+        void loadEstablishments();
+        Establishment findEstablishment(List<Establishment> establishments, Marker marker);
+        void onPressSubmit(AddEstablishmentDTO addEstablishmentDTO);
     }
 }

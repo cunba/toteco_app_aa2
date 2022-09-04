@@ -3,6 +3,8 @@ package com.svalero.toteco_app_aa2.domain.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
+
 public class ProductDTO implements Parcelable {
     private boolean inMenu;
     private float price;
@@ -27,6 +29,13 @@ public class ProductDTO implements Parcelable {
         typeId = in.readInt();
         menuId = in.readInt();
         publicationId = in.readInt();
+    }
+
+    public ProductDTO(ProductLocal product) {
+        this.inMenu = product.isInMenu();
+        this.price = product.getPrice();
+        this.punctuation = product.getPunctuation();
+        this.typeId = product.getTypeId();
     }
 
     public static final Creator<ProductDTO> CREATOR = new Creator<ProductDTO>() {

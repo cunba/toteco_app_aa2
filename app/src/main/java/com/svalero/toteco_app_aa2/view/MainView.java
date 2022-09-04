@@ -2,20 +2,19 @@ package com.svalero.toteco_app_aa2.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Menu;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.MainContract;
 import com.svalero.toteco_app_aa2.databinding.ActivityMainBinding;
@@ -37,7 +36,7 @@ public class MainView extends AppCompatActivity implements MainContract.View {
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.toolbar.setOnClickListener(view ->
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                        .setAction("Action", null).show()
         );
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -83,7 +82,6 @@ public class MainView extends AppCompatActivity implements MainContract.View {
 
     @Override
     public void onBackPressed() {
-
     }
 
     @Override

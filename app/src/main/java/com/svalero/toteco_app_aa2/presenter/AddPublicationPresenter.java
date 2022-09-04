@@ -1,11 +1,10 @@
 package com.svalero.toteco_app_aa2.presenter;
 
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
-import com.svalero.toteco_app_aa2.domain.Establishment;
+import com.svalero.toteco_app_aa2.domain.Publication;
 import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
-import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
-import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.AddPublicationSummaryDTO;
 import com.svalero.toteco_app_aa2.model.AddPublicationModel;
 import com.svalero.toteco_app_aa2.view.AddPublicationFragment;
 
@@ -18,7 +17,7 @@ public class AddPublicationPresenter implements AddPublicationContract.Presenter
 
     public AddPublicationPresenter(AddPublicationFragment view) {
         this.view = view;
-        model = new AddPublicationModel(view.getContext());
+        model = new AddPublicationModel(view.getContext(), this);
     }
 
     @Override
@@ -32,13 +31,8 @@ public class AddPublicationPresenter implements AddPublicationContract.Presenter
     }
 
     @Override
-    public void onPressSubmit(AddPublicationDTO publicationDTO) {
-        model.onPressSubmit(publicationDTO);
-    }
-
-    @Override
-    public EstablishmentLocal clearEstablishmentAux() {
-        return model.clearEstablishmentAux();
+    public void onPressSubmit(String image) {
+        model.onPressSubmit(image);
     }
 
     @Override
@@ -46,4 +40,8 @@ public class AddPublicationPresenter implements AddPublicationContract.Presenter
         return model.getEstablishment();
     }
 
+    @Override
+    public void onSubmit(String message) {
+        view.onSubmit(message);
+    }
 }

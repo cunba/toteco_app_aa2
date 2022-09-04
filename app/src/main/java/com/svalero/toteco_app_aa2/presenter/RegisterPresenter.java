@@ -3,12 +3,10 @@ package com.svalero.toteco_app_aa2.presenter;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.RegisterContract;
 import com.svalero.toteco_app_aa2.domain.User;
-import com.svalero.toteco_app_aa2.domain.dto.RegisterDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.RegisterDTO;
 import com.svalero.toteco_app_aa2.domain.dto.UserDTO;
 import com.svalero.toteco_app_aa2.model.RegisterModel;
 import com.svalero.toteco_app_aa2.view.RegisterView;
-
-import java.util.List;
 
 public class RegisterPresenter implements RegisterContract.Presenter, RegisterContract.Model.OnRegisterListener {
 

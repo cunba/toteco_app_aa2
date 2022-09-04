@@ -1,10 +1,8 @@
 package com.svalero.toteco_app_aa2.contract;
 
 import com.svalero.toteco_app_aa2.domain.User;
-import com.svalero.toteco_app_aa2.domain.dto.RegisterDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.RegisterDTO;
 import com.svalero.toteco_app_aa2.domain.dto.UserDTO;
-
-import java.util.List;
 
 public interface RegisterContract {
 

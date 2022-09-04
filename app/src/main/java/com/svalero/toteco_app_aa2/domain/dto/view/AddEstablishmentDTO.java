@@ -1,13 +1,13 @@
-package com.svalero.toteco_app_aa2.domain.dto;
+package com.svalero.toteco_app_aa2.domain.dto.view;
 
-import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.Establishment;
 
 public class AddEstablishmentDTO {
     private String name;
     private String Punctuation;
-    private EstablishmentLocal establishment;
+    private Establishment establishment;
 
-    public AddEstablishmentDTO(String name, String punctuation, EstablishmentLocal establishment) {
+    public AddEstablishmentDTO(String name, String punctuation, Establishment establishment) {
         this.name = name;
         Punctuation = punctuation;
         this.establishment = establishment;
@@ -29,11 +29,11 @@ public class AddEstablishmentDTO {
         Punctuation = punctuation;
     }
 
-    public EstablishmentLocal getEstablishment() {
+    public Establishment getEstablishment() {
         return establishment;
     }
 
-    public void setEstablishment(EstablishmentLocal establishment) {
+    public void setEstablishment(Establishment establishment) {
         this.establishment = establishment;
     }
 }

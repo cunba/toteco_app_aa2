@@ -31,7 +31,7 @@
     <!--    Publications activity   -->
     <string name="card_price">PRECIO: %s €</string>
     <string name="card_punctuation">PUNTUACIÓN: %s/5 ★</string>
-    <!--    Add publicationLocal -->
+    <!--    Add publication -->
     <string name="add_publication_total_price">PRECIO TOTAL: %s €</string>
     <string name="add_publication_total_punctuation">PUNTUACIÓN TOTAL: %s / 5 ★</string>
     <string name="add_publication_establishment_punctuation_print">%s / 5 ★</string>
@@ -42,7 +42,8 @@
     <string name="add_publication_add_image">Añadir imagen</string>
     <string name="add_publication_establishment_add">Selecciona establecimiento</string>
     <string name="add_publication_establishment_punctuation">Puntuación del lugar</string>
-    <!--    Add productLocal     -->
+    <string name="add_publication_success">Publicación creada con éxito</string>
+    <!--    Add product     -->
     <string name="add_product_title">AÑADIR PRODUCTO</string>
     <string name="add_product_name">Nombre</string>
     <string name="add_product_price">Precio</string>
@@ -56,27 +57,31 @@
     <string name="add_establishment">Añadir establecimiento</string>
     <string name="add_establishment_name">Nombre</string>
     <string name="add_establishment_punctuation">Puntuación</string>
-    <!--    Modify productLocal  -->
+    <!--    Modify product  -->
     <string name="modify_product_title">MODIFICAR PRODUCTO</string>
     <string name="modify_product_name">Nombre</string>
     <string name="modify_product_price">Precio</string>
     <string name="modify_product_punctuation">Punctuación</string>
     <string name="modify_product_submit">Modificar</string>
     <string name="modify_product_cancel">Cancelar</string>
-    <!--    Delete productLocal  -->
+    <!--    Delete product  -->
     <string name="delete_product_message">¿Estás seguro que quieres eliminar %s?</string>
     <string name="delete_submit">Eliminar</string>
     <string name="delete_cancel">Cancelar</string>
-    <!--    Delete publicationLocal  -->
+    <!--    Delete publication  -->
     <string name="delete_publication_message">¿Estás seguro que quieres eliminar la publicación?</string>
     <string name="delete_publication_success">Se ha borrado la publicación</string>
     <!--    Drawer  -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="nav_publications">Publicaciones</string>
+    <string name="nav_publications_toolbar">PUBLICACIONES</string>
     <string name="nav_add_publication">Añadir publicación</string>
+    <string name="nav_add_publication_toolbar">AÑADIR PUBLICACIÓN</string>
     <string name="nav_locations">Localizaciones</string>
+    <string name="nav_locations_toolbar">LOCALIZACIONES</string>
     <string name="nav_settings">Ajustes</string>
+    <string name="nav_settings_toolbar">AJUSTES</string>
     <string name="nav_logout">Cerrar sesión</string>
     <string name="nav_header_title">%1s %2s</string>
     <string name="nav_header_subtitle">%s</string>

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.RegisterContract;
-import com.svalero.toteco_app_aa2.domain.dto.RegisterDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.RegisterDTO;
 import com.svalero.toteco_app_aa2.presenter.RegisterPresenter;
 
 public class RegisterView extends AppCompatActivity implements RegisterContract.View {

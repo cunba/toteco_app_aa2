@@ -76,10 +76,6 @@ public class ProductType implements Parcelable {
 
     @Override
     public String toString() {
-        return "ProductType{" +
-                "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", type='" + type + '\'' +
-                '}';
+        return productName + " " + type;
     }
 }

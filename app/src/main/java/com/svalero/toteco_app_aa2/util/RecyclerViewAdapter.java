@@ -125,16 +125,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
         // Getting the user
-        AppDatabase db = Room.databaseBuilder(viewHolder.itemView.getContext(),
-                        AppDatabase.class, "toteco").allowMainThreadQueries()
-                .fallbackToDestructiveMigration().build();
-        List<UserLocal> user = db.userDao().findAll();
+        UserLocal user = Utils.getUserLogged(homeFragment.getContext());
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
 
         viewHolder.getTvPublicationItemEstablishment().setText(publications.get(position).getEstablishment().getName());
-        viewHolder.getTvPublicationItemUsername().setText(user.get(0).getUsername());
+        viewHolder.getTvPublicationItemUsername().setText(user.getUsername());
 
         Bitmap image = ImageAdapter.fromStringToBitmap(publications.get(position).getPhoto());
         viewHolder.getIvPublicationItemImage().setImageBitmap(image);
