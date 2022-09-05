@@ -23,9 +23,4 @@
         android:label="@string/nav_locations"
         tools:layout="@layout/fragment_locations" />
 
-    <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.svalero.toteco_app_aa2.view.LocationsFragment"
-        android:label="@string/nav_settings"
-        tools:layout="@layout/fragment_locations" />
 </navigation>

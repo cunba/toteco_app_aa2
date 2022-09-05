@@ -8,14 +8,21 @@ import java.util.List;
 public interface LocationsContract {
 
     interface Model {
-        List<EstablishmentLocal> loadEstablishments();
+        interface LoadEstablishmentsListener {
+            void loadEstablishmentsSuccess(List<Establishment> establishments);
+
+            void loadEstablishmentsError(String error);
+        }
+
+        void loadEstablishments(LoadEstablishmentsListener listener);
     }
 
     interface View {
-        void loadEstablishments();
+        void loadEstablishments(List<Establishment> establishments);
+        void showToast(String message);
     }
 
     interface Presenter {
-        List<EstablishmentLocal> loadEstablishments();
+        void loadEstablishments();
     }
 }

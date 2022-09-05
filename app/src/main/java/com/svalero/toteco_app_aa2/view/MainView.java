@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,12 +13,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.MainContract;
+import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.databinding.ActivityMainBinding;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity implements MainContract.View {
@@ -43,12 +47,20 @@ public class MainView extends AppCompatActivity implements MainContract.View {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_add_publication, R.id.nav_locations, R.id.nav_settings)
+                R.id.nav_home, R.id.nav_add_publication, R.id.nav_locations)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+//        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "toteco").allowMainThreadQueries()
+//                .fallbackToDestructiveMigration().build();
+//        UserLocal user = db.userDao().findAll().get(0);
+//        TextView tvUser = findViewById(R.id.drawer_user);
+//        tvUser.setText(user.getUsername());
+//        TextView tvEmail = findViewById(R.id.drawer_email);
+//        tvEmail.setText(user.getEmail());
 
         presenter = new MainPresenter(this);
     }
