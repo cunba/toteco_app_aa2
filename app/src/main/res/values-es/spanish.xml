@@ -31,6 +31,8 @@
     <!--    Publications activity   -->
     <string name="card_price">PRECIO: %s €</string>
     <string name="card_punctuation">PUNTUACIÓN: %s/5 ★</string>
+    <string name="add_favourite">Añadir a favoritos</string>
+    <string name="remove_favourite">Quitar de favoritos</string>
     <!--    Add publication -->
     <string name="add_publication_total_price">PRECIO TOTAL: %s €</string>
     <string name="add_publication_total_punctuation">PUNTUACIÓN TOTAL: %s / 5 ★</string>
@@ -85,4 +87,7 @@
     <string name="nav_logout">Cerrar sesión</string>
     <string name="nav_header_title">Usuario</string>
     <string name="nav_header_subtitle">Email</string>
+    <!-- Add favourite  -->
+    <string name="add_favourite_message">Añadir a favoritos</string>
+    <string name="add_favourite_submit">Añadir</string>
 </resources>

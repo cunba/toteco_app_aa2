@@ -18,6 +18,6 @@ public class DeleteProductPresenter implements DeleteProductContract.Presenter {
 
     @Override
     public void delete(ProductLocal productLocal) {
-
+        model.delete(productLocal);
     }
 }

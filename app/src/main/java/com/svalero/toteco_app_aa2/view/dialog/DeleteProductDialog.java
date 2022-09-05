@@ -15,12 +15,10 @@ import com.svalero.toteco_app_aa2.view.AddPublicationFragment;
 
 public class DeleteProductDialog extends DialogFragment {
 
-    private final AddPublicationFragment addPublicationFragment;
     private final DeleteProductPresenter presenter;
     private ProductLocal productLocal;
 
     public DeleteProductDialog(AddPublicationFragment addPublicationFragment, ProductLocal productLocal) {
-        this.addPublicationFragment = addPublicationFragment;
         presenter = new DeleteProductPresenter(this, addPublicationFragment.getContext());
         this.productLocal = productLocal;
     }

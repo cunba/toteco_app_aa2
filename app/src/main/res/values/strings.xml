@@ -34,6 +34,8 @@
     <!--    Publications activity   -->
     <string name="card_price">PRICE: %s €</string>
     <string name="card_punctuation">PUNCTUATION: %s/5 ★</string>
+    <string name="add_favourite">Add to favourites</string>
+    <string name="remove_favourite">Remove from favourites</string>
     <!--    Add publication -->
     <string name="add_publication_total_price">TOTAL PRICE: %s €</string>
     <string name="add_publication_total_punctuation">TOTAL PUNCTUATION: %s / 5 ★</string>
@@ -88,4 +90,7 @@
     <string name="nav_logout">Sign out</string>
     <string name="nav_header_title">User</string>
     <string name="nav_header_subtitle">Email</string>
+    <!-- Add favourite  -->
+    <string name="add_favourite_message">Add to favourites</string>
+    <string name="add_favourite_submit">Add</string>
 </resources>
