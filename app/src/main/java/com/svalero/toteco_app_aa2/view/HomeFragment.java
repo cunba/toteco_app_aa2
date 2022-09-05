@@ -88,17 +88,18 @@ public class HomeFragment extends Fragment implements HomeContract.View,
         rv.setAdapter(adapter);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void loadPublications(List<Publication> publications) {
         this.publications.clear();
         this.publications.addAll(publications);
+        adapter.notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void refreshPublications() {
         presenter.loadPublications();
-        adapter.notifyDataSetChanged();
     }
 
     @Override

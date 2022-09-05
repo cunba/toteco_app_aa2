@@ -41,11 +41,12 @@ public class AddPublicationModel implements AddPublicationContract.Model,
     private final TotecoApiInterface api;
     private final Context context;
     private final AddPublicationPresenter presenter;
-    private boolean submitError;
 
     private Establishment establishment;
     private Publication publication;
     private String authorization;
+    private int productCount = 0;
+    private List<ProductLocal> products;
 
     public AddPublicationModel(Context context, AddPublicationPresenter presenter) {
         db = Room.databaseBuilder(context,
@@ -96,7 +97,6 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
     @Override
     public void onPressSubmit(byte[] image) {
-        System.out.println(image);
         EstablishmentLocal establishment = db.establishmentDao().findAll().get(0);
         makeSummary(establishment.getPunctuation());
 
@@ -147,6 +147,7 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
     @Override
     public void createPublicationSuccess(Publication publication) {
+        System.out.println(publication);
         this.publication = publication;
         createProducts(this);
     }
@@ -234,8 +235,9 @@ public class AddPublicationModel implements AddPublicationContract.Model,
     @Override
     public void createProducts(CreateProductsListener listener) {
         List<ProductLocal> products = db.productDao().findAll();
+        this.products = products;
         products.stream().forEach(p -> {
-            submitError = true;
+            productCount++;
             ProductDTO productDTO = new ProductDTO(p);
             System.out.println(productDTO.toString());
             productDTO.setPublicationId(publication.getId());
@@ -259,16 +261,15 @@ public class AddPublicationModel implements AddPublicationContract.Model,
                 }
             });
         });
-
-        if (!submitError) {
-            clearProductsAux();
-            updatePublicationPricePunctuation(this);
-        }
     }
 
     @Override
     public void createProductsSuccess() {
-        submitError = false;
+        if (productCount == products.size()) {
+            productCount = 0;
+            clearProductsAux();
+            updatePublicationPricePunctuation(this);
+        }
     }
 
     @Override
