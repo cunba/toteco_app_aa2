@@ -3,9 +3,14 @@ package com.svalero.toteco_app_aa2.util;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,6 +28,7 @@ import com.svalero.toteco_app_aa2.domain.Product;
 import com.svalero.toteco_app_aa2.domain.Publication;
 import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
+import com.svalero.toteco_app_aa2.view.dialog.AddFavouritesDialog;
 import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
 
 import java.util.ArrayList;
@@ -120,10 +126,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         // Configuration of the listener when the publication is clicked
-        viewHolder.view.setOnClickListener(v -> {
+        viewHolder.view.setOnLongClickListener(v -> {
             Publication publication = publications.get(position);
             DialogFragment newFragment = new DeletePublicationDialog(homeFragment, publication);
             newFragment.show(mFragment, "delete");
+            return false;
+        });
+
+        viewHolder.view.setOnClickListener(v -> {
+            Publication publication = publications.get(position);
+            DialogFragment newFragment = new AddFavouritesDialog(homeFragment, publication);
+            newFragment.show(mFragment, "add favourite");
         });
 
         // Getting the user
