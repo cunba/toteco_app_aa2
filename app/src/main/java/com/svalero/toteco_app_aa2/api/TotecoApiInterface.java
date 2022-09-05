@@ -75,46 +75,6 @@ public interface TotecoApiInterface {
     Call<String> deleteAllEstablishments(@Header("Authorization") String authorization);
 
 
-    // MENUS
-
-    @GET("menus/date/{date}")
-    Call<List<Menu>> getMenuByDate(@Path("date") long date);
-
-    @GET("menus/date/between")
-    Call<List<Menu>> getMenusByDateBetween(@Query("minDate") long minDate, @Query("maxDate") long maxDate);
-
-    @GET("menus/price/{price}")
-    Call<List<Menu>> getMenusByPrice(@Path("price") float price);
-
-    @GET("menus/price/between")
-    Call<List<Menu>> getMenusByPriceBetween(@Query("minPrice") float minPrice, @Query("maxPrice") float maxPrice);
-
-    @GET("menus/punctuation/{punctuation}")
-    Call<List<Menu>> getMenusByPunctuation(@Path("punctuation") float punctuation);
-
-    @GET("menus/punctuation/between")
-    Call<List<Menu>> getMenusByPunctuationBetween(@Query("minPunctuation") float minPunctuation,
-                                                  @Query("maxPunctuation") float maxPunctuation);
-
-    @GET("menus/{id}")
-    Call<Menu> getMenuById(@Path("id") int id);
-
-    @GET("menus")
-    Call<List<Menu>> getAllMenus();
-
-    @POST("menus")
-    Call<Menu> createMenu(@Header("Authorization") String authorization, @Body MenuDTO menuDTO);
-
-    @PUT("menus/{id}")
-    Call<Menu> updateMenu(@Header("Authorization") String authorization, @Body MenuDTO menuDTO, @Path("id") int id);
-
-    @DELETE("menus/{id}")
-    Call<String> deleteMenu(@Header("Authorization") String authorization, @Path("id") int id);
-
-    @DELETE("menus")
-    Call<String> deleteAllMenus(@Header("Authorization") String authorization);
-
-
     // PRODUCTS
 
     @GET("products")
@@ -190,18 +150,6 @@ public interface TotecoApiInterface {
     @GET("types/name/{name}/type/{type}")
     Call<List<ProductType>> getProductTypesByNameAndType(@Path("name") String name, @Path("type") String type);
 
-    @POST("types")
-    Call<ProductType> createProductType(@Header("Authorization") String authorization, @Body ProductTypeDTO productTypeDTO);
-
-    @PUT("types/{id}")
-    Call<ProductType> updateProductType(@Header("Authorization") String authorization, @Body ProductTypeDTO productTypeDTO, @Path("id") int id);
-
-    @DELETE("types/{id}")
-    Call<String> deleteProductType(@Header("Authorization") String authorization, @Path("id") int id);
-
-    @DELETE("types")
-    Call<String> deleteAllProductTypes(@Header("Authorization") String authorization);
-
 
     // PUBLICATIONS
 
@@ -254,9 +202,6 @@ public interface TotecoApiInterface {
 
     @PUT("publications/{id}")
     Call<Publication> updatePublication(@Header("Authorization") String authorization, @Body PublicationDTO publicationDTO, @Path("id") int id);
-
-    @PATCH("publications/{id}/price-punctuation")
-    Call<String> updatePublicationPriceAndPunctuation(@Header("Authorization") String authorization, @Path("id") int id);
 
     @DELETE("publications/{id}")
     Call<String> deletePublication(@Header("Authorization") String authorization, @Path("id") int id);

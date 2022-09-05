@@ -66,13 +66,13 @@ public class HomeFragment extends Fragment implements HomeContract.View,
     private void initializePublicationsList() {
         publications = new ArrayList<>();
         createRecyclerView();
-        createProductsAdapter();
+//        createProductsAdapter();
     }
 
-    private void createProductsAdapter() {
-        ArrayList<Product> products = new ArrayList<>();
-        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, products);
-    }
+//    private void createProductsAdapter() {
+//        ArrayList<Product> products = new ArrayList<>();
+//        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, products);
+//    }
 
     private void createRecyclerView() {
         // Get the recycler view

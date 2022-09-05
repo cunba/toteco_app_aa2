@@ -7,11 +7,15 @@ public class PublicationDTO implements Parcelable {
     private byte[] photo;
     private int userId;
     private int establishmentId;
+    private float totalPunctuation;
+    private float totalPrice;
 
-    public PublicationDTO(byte[] photo, int userId, int establishmentId) {
+    public PublicationDTO(byte[] photo, int userId, int establishmentId, float totalPunctuation, float totalPrice) {
         this.photo = photo;
         this.userId = userId;
         this.establishmentId = establishmentId;
+        this.totalPunctuation = totalPunctuation;
+        this.totalPrice = totalPrice;
     }
 
     protected PublicationDTO(Parcel in) {
@@ -54,6 +58,22 @@ public class PublicationDTO implements Parcelable {
 
     public void setEstablishmentId(int establishmentId) {
         this.establishmentId = establishmentId;
+    }
+
+    public float getTotalPunctuation() {
+        return totalPunctuation;
+    }
+
+    public void setTotalPunctuation(float totalPunctuation) {
+        this.totalPunctuation = totalPunctuation;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     @Override

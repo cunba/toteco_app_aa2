@@ -20,6 +20,11 @@ public class ImageAdapter {
         return bos.toByteArray();
     }
 
+    public static String fromImageViewToString(ImageView imageView) {
+        byte [] imageByteArray = fromImageViewToByteArray(imageView);
+        return Base64.encodeToString(imageByteArray, Base64.DEFAULT);
+    }
+
     public static Bitmap fromStringToBitmap(String input) {
         byte[] decodedBytes = Base64.decode(input.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);

@@ -25,6 +25,7 @@ import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
 import com.svalero.toteco_app_aa2.view.dialog.DeletePublicationDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -139,9 +140,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //                publications.get(position).getPhoto().length);
         viewHolder.getIvPublicationItemImage().setImageBitmap(image);
 
-        productsAdapter.clear();
-        productsAdapter.addAll(publications.get(position).getProducts());
-        viewHolder.getLvPublicationItemProductList().setAdapter(productsAdapter);
+        List<Product> products = new ArrayList<>();
+        ListView lvProducts = viewHolder.getLvPublicationItemProductList();
+        products.addAll(publications.get(position).getProducts());
+        productsAdapter = new ArrayAdapter<>(lvProducts.getContext(), android.R.layout.simple_list_item_1, products);
+        lvProducts.setAdapter(productsAdapter);
 
 //        AtomicReference<String> products = new AtomicReference<>("");
 //        publications.get(position).getProducts().stream().forEach(p ->
@@ -154,6 +157,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         double totalPunctuation = Utils.roundNumber(publications.get(position).getTotalPunctuation());
         viewHolder.getTvPublicationItemPunctuation().setText(String.valueOf(totalPunctuation));
+        System.out.println(publications.get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

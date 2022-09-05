@@ -32,8 +32,7 @@ import retrofit2.Response;
 
 public class AddPublicationModel implements AddPublicationContract.Model,
         AddPublicationContract.Model.CreateEstablishmentListener, AddPublicationContract.Model.CreatePublicationListener,
-        AddPublicationContract.Model.CreateProductsListener, AddPublicationContract.Model.UpdatePublicationPricePunctuationListener,
-        AddPublicationContract.Model.UpdateEstablishmentPunctuationListener {
+        AddPublicationContract.Model.CreateProductsListener, AddPublicationContract.Model.UpdateEstablishmentPunctuationListener {
 
     private final AppDatabase db;
     private double totalPrice = 0;
@@ -115,7 +114,9 @@ public class AddPublicationModel implements AddPublicationContract.Model,
         PublicationDTO publicationDTO = new PublicationDTO(
                 image,
                 user.getId(),
-                establishment.getId() - 100
+                establishment.getId() - 100,
+                (float) totalPunctuation,
+                (float) totalPrice
         );
         createPublication(this, publicationDTO);
     }
@@ -139,6 +140,7 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
             @Override
             public void onFailure(Call<Publication> call, Throwable t) {
+                System.out.println("create establishment");
                 t.printStackTrace();
                 listener.createPublicationError(context.getString(R.string.error_database));
             }
@@ -147,7 +149,6 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
     @Override
     public void createPublicationSuccess(Publication publication) {
-        System.out.println(publication);
         this.publication = publication;
         createProducts(this);
     }
@@ -176,6 +177,7 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
             @Override
             public void onFailure(Call<Establishment> call, Throwable t) {
+                System.out.println("create establishment");
                 t.printStackTrace();
                 listener.createEstablishmentError(context.getString(R.string.error_database));
             }
@@ -189,7 +191,9 @@ public class AddPublicationModel implements AddPublicationContract.Model,
         PublicationDTO publicationDTO = new PublicationDTO(
                 image,
                 user.getId(),
-                establishment.getId()
+                establishment.getId(),
+                (float) totalPunctuation,
+                (float) totalPrice
         );
         createPublication(this, publicationDTO);
     }
@@ -239,8 +243,8 @@ public class AddPublicationModel implements AddPublicationContract.Model,
         products.stream().forEach(p -> {
             productCount++;
             ProductDTO productDTO = new ProductDTO(p);
-            System.out.println(productDTO.toString());
             productDTO.setPublicationId(publication.getId());
+            System.out.println(productDTO);
             Call<Product> call = api.createProduct(authorization, productDTO);
             call.enqueue(new Callback<Product>() {
                 @Override
@@ -256,6 +260,7 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
                 @Override
                 public void onFailure(Call<Product> call, Throwable t) {
+                    System.out.println("update establishment punctuation");
                     t.printStackTrace();
                     listener.createProductsError(context.getString(R.string.error_database));
                 }
@@ -268,7 +273,7 @@ public class AddPublicationModel implements AddPublicationContract.Model,
         if (productCount == products.size()) {
             productCount = 0;
             clearProductsAux();
-            updatePublicationPricePunctuation(this);
+            updateEstablishmentPunctuation(this);
         }
     }
 
@@ -294,6 +299,7 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("update establishment punctuation");
                 t.printStackTrace();
                 listener.updateEstablishmentPunctuationError(context.getString(R.string.error_database));
             }
@@ -307,39 +313,6 @@ public class AddPublicationModel implements AddPublicationContract.Model,
 
     @Override
     public void updateEstablishmentPunctuationError(String error) {
-        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void updatePublicationPricePunctuation(UpdatePublicationPricePunctuationListener listener) {
-        Call<String> call = api.updatePublicationPriceAndPunctuation(authorization, publication.getId());
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (!response.isSuccessful()) {
-                    String error = Utils.getErrorResponse(response.errorBody().charStream());
-                    listener.updatePublicationPricePunctuationError(error);
-                    return;
-                }
-
-                listener.updatePublicationPricePunctuationSuccess();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                t.printStackTrace();
-                listener.updatePublicationPricePunctuationError(context.getString(R.string.error_database));
-            }
-        });
-    }
-
-    @Override
-    public void updatePublicationPricePunctuationSuccess() {
-        updateEstablishmentPunctuation(this);
-    }
-
-    @Override
-    public void updatePublicationPricePunctuationError(String error) {
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 }

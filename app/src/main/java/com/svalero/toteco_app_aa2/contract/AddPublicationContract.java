@@ -45,14 +45,6 @@ public interface AddPublicationContract {
 
         void createProducts(CreateProductsListener listener);
 
-        interface UpdatePublicationPricePunctuationListener {
-            void updatePublicationPricePunctuationSuccess();
-
-            void updatePublicationPricePunctuationError(String error);
-        }
-
-        void updatePublicationPricePunctuation(UpdatePublicationPricePunctuationListener listener);
-
         interface UpdateEstablishmentPunctuationListener {
             void updateEstablishmentPunctuationSuccess();
 
