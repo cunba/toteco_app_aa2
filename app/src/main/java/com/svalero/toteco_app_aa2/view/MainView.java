@@ -2,27 +2,33 @@ package com.svalero.toteco_app_aa2.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Menu;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.svalero.toteco_app_aa2.R;
+import com.svalero.toteco_app_aa2.contract.MainContract;
+import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.databinding.ActivityMainBinding;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
+import com.svalero.toteco_app_aa2.presenter.MainPresenter;
 
-public class MainView extends AppCompatActivity {
+public class MainView extends AppCompatActivity implements MainContract.View {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +40,29 @@ public class MainView extends AppCompatActivity {
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.toolbar.setOnClickListener(view ->
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                        .setAction("Action", null).show()
         );
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_add_publication, R.id.nav_locations, R.id.nav_settings)
+                R.id.nav_home, R.id.nav_add_publication, R.id.nav_locations)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+//        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "toteco").allowMainThreadQueries()
+//                .fallbackToDestructiveMigration().build();
+//        UserLocal user = db.userDao().findAll().get(0);
+//        TextView tvUser = findViewById(R.id.drawer_user);
+//        tvUser.setText(user.getUsername());
+//        TextView tvEmail = findViewById(R.id.drawer_email);
+//        tvEmail.setText(user.getEmail());
+
+        presenter = new MainPresenter(this);
     }
 
     @Override
@@ -61,6 +77,7 @@ public class MainView extends AppCompatActivity {
         int id = item.getItemId();
         Intent intent;
         if (id == R.id.actionbar_logout) {
+            deleteUser();
             intent = new Intent(this, LoginView.class);
             startActivity(intent);
             return true;
@@ -75,10 +92,12 @@ public class MainView extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-
     @Override
     public void onBackPressed() {
+    }
 
+    @Override
+    public void deleteUser() {
+        presenter.deleteUser();
     }
 }

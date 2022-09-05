@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 
 import java.util.List;
 
@@ -14,26 +14,26 @@ import java.util.List;
 public interface UserDao {
 
     @Query("SELECT * FROM users")
-    List<User> findAll();
+    List<UserLocal> findAll();
 
     @Query("SELECT * FROM users WHERE username = :username AND password = :password")
-    List<User> findByUsernameAndPassword(String username, String password);
+    List<UserLocal> findByUsernameAndPassword(String username, String password);
 
     @Query("SELECT * FROM users WHERE username = :username")
-    List<User> findByUsername(String username);
+    List<UserLocal> findByUsername(String username);
 
     @Query("SELECT id FROM users WHERE username = :username")
     List<Integer> findIdByUsername(String username);
 
     @Insert
-    void insert(User user);
+    void insert(UserLocal userLocal);
 
     @Query("UPDATE users SET password = :password WHERE id = :id")
     void updatePassword(int id, String password);
 
     @Update
-    void update(User user);
+    void update(UserLocal userLocal);
 
     @Delete
-    void delete(User user);
+    void delete(UserLocal userLocal);
 }

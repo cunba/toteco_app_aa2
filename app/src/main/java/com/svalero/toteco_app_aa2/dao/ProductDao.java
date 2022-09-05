@@ -4,37 +4,31 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.svalero.toteco_app_aa2.domain.Product;
-import com.svalero.toteco_app_aa2.domain.relation.PublicationWithProduct;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 
 import java.util.List;
 
 @Dao
 public interface ProductDao {
     @Query("SELECT * FROM products WHERE publication_id = :publicationId")
-    List<Product> findByPublicationId(int publicationId);
+    List<ProductLocal> findByPublicationId(int publicationId);
 
     @Query("SELECT * FROM products WHERE id = :id")
-    Product findById(int id);
+    ProductLocal findById(int id);
 
     @Query("SELECT * FROM products")
-    List<Product> findAll();
-
-    @Transaction
-    @Query("SELECT * FROM publications WHERE id = (SELECT publication_id FROM products WHERE id = :id)")
-    PublicationWithProduct findPublicationByProductId(int id);
+    List<ProductLocal> findAll();
 
     @Insert
-    void insert(Product product);
+    void insert(ProductLocal productLocal);
 
     @Update
-    void update(Product product);
+    void update(ProductLocal productLocal);
 
     @Delete
-    void delete(Product product);
+    void delete(ProductLocal productLocal);
 
     @Query("DELETE FROM products WHERE publication_id = :publication_id")
     void deleteByPublicationId(int publication_id);

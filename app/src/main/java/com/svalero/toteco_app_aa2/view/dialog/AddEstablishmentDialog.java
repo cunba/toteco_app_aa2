@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.dialog.AddEstablishmentContract;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.dto.AddEstablishmentDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.AddEstablishmentDTO;
 import com.svalero.toteco_app_aa2.presenter.dialog.AddEstablishmentPresenter;
 import com.svalero.toteco_app_aa2.view.AddPublicationFragment;
 
@@ -38,6 +37,7 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
 
     private final AddPublicationFragment addPublicationFragment;
     private final AddEstablishmentPresenter presenter;
+    private List<Establishment> establishments;
     private Establishment establishment;
     private GoogleMap map;
     private static View view;
@@ -93,7 +93,7 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
         map.addMarker(new MarkerOptions()
                 .position(latLng)
                 .snippet("new")
-                .title("new establishment"));
+                .title("new"));
         addEstablishment(latLng);
     }
 
@@ -105,8 +105,7 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
             // If the establishment does exists we print the name in the editor
             etEstablishmentName.setText(marker.getTitle());
             etEstablishmentName.setEnabled(false);
-            List<Establishment> establishment1 = presenter.findByName(marker.getTitle());
-            establishment = establishment1.get(0);
+            establishment = presenter.findEstablishment(establishments, marker);
         } else {
             etEstablishmentName.setText("");
             etEstablishmentName.setEnabled(true);
@@ -131,14 +130,14 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
         }
         googleMap.setMyLocationEnabled(true);
 
-        loadEstablishments();
+        presenter.loadEstablishments();
     }
 
     @Override
-    public void loadEstablishments() {
-        List<Establishment> establishments = presenter.loadEstablishments();
+    public void loadEstablishments(List<Establishment> establishments) {
+        this.establishments = establishments;
         establishments.stream().forEach(p -> {
-            LatLng latLng = new LatLng(p.getLatitude(), p.getLongitude());
+            LatLng latLng = new LatLng(p.getLocation().getLatitude(), p.getLocation().getLongitude());
             map.addMarker(new MarkerOptions()
                     .position(latLng)
                     .snippet(getString(R.string.add_publication_establishment_punctuation_print, String.valueOf(p.getPunctuation())))
@@ -146,17 +145,18 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
         });
     }
 
-    @Override
-    public void addEstablishment(LatLng latLng) {
-        EditText etEstablishmentName = view.findViewById(R.id.add_establishment_name);
-        etEstablishmentName.setEnabled(true);
-        String establishmentName = etEstablishmentName.getText().toString();
-        establishment = new Establishment(
-                establishmentName,
-                latLng.latitude,
-                latLng.longitude,
-                true,
-                0);
+    private void addEstablishment(LatLng latLng) {
+        EditText etName = view.findViewById(R.id.add_establishment_name);
+        EditText etPunctuation = view.findViewById(R.id.add_establishment_punctuation);
+        etName.setEnabled(true);
+        String name = etName.getText().toString();
+        float punctuation = 0;
+        if (!etPunctuation.equals("")) {
+            punctuation = Float.parseFloat(etPunctuation.getText().toString());
+        }
+        establishment = new Establishment();
+        establishment.setName(name);
+        establishment.setPunctuation(punctuation);
     }
 
     @Override
@@ -173,8 +173,11 @@ public class AddEstablishmentDialog extends DialogFragment implements OnMapReady
                 establishment
         );
 
-        String error = presenter.onPressSubmit(addEstablishmentDTO);
+        presenter.onPressSubmit(addEstablishmentDTO);
+    }
 
+    @Override
+    public void onSubmit(String error) {
         if (error.equals("")) {
             addPublicationFragment.setEstablishment();
         } else {

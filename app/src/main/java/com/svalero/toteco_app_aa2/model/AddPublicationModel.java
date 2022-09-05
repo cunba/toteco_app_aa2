@@ -1,41 +1,65 @@
 package com.svalero.toteco_app_aa2.model;
 
 import android.content.Context;
+import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.room.Room;
 
+import com.svalero.toteco_app_aa2.R;
+import com.svalero.toteco_app_aa2.api.TotecoApi;
+import com.svalero.toteco_app_aa2.api.TotecoApiInterface;
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
 import com.svalero.toteco_app_aa2.database.AppDatabase;
 import com.svalero.toteco_app_aa2.domain.Establishment;
 import com.svalero.toteco_app_aa2.domain.Product;
 import com.svalero.toteco_app_aa2.domain.Publication;
-import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
-import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.dto.EstablishmentDTO;
+import com.svalero.toteco_app_aa2.domain.dto.ProductDTO;
+import com.svalero.toteco_app_aa2.domain.dto.PublicationDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
+import com.svalero.toteco_app_aa2.domain.utils.Location;
+import com.svalero.toteco_app_aa2.presenter.AddPublicationPresenter;
 import com.svalero.toteco_app_aa2.util.Utils;
 
 import java.util.List;
 
-import okhttp3.internal.Util;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class AddPublicationModel implements AddPublicationContract.Model {
+public class AddPublicationModel implements AddPublicationContract.Model,
+        AddPublicationContract.Model.CreateEstablishmentListener, AddPublicationContract.Model.CreatePublicationListener,
+        AddPublicationContract.Model.CreateProductsListener, AddPublicationContract.Model.UpdateEstablishmentPunctuationListener {
 
     private final AppDatabase db;
     private double totalPrice = 0;
     private double totalPunctuation = 0;
+    private final TotecoApiInterface api;
+    private final Context context;
+    private final AddPublicationPresenter presenter;
 
-    public AddPublicationModel(Context context) {
+    private Establishment establishment;
+    private Publication publication;
+    private String authorization;
+    private int productCount = 0;
+    private List<ProductLocal> products;
+
+    public AddPublicationModel(Context context, AddPublicationPresenter presenter) {
         db = Room.databaseBuilder(context,
                         AppDatabase.class, "toteco").allowMainThreadQueries()
                 .fallbackToDestructiveMigration().build();
+        api = TotecoApi.buildInstance();
+        this.presenter = presenter;
+        this.context = context;
     }
 
     @Override
-    public List<Product> loadProducts() {
+    public List<ProductLocal> loadProducts() {
         try {
-            return db.productDao().findByPublicationId(1);
+            return db.productDao().findAll();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,18 +68,25 @@ public class AddPublicationModel implements AddPublicationContract.Model {
 
     @Override
     public AddPublicationSummaryDTO makeSummary(double establishmentPunctuation) {
-        List<Product> products = loadProducts();
-        if (products.size() != 0) {
-            totalPrice = products.stream()
-                    .map(Product::getPrice)
+        List<ProductLocal> productLocals = loadProducts();
+        if (!productLocals.isEmpty()) {
+            totalPrice = productLocals.stream()
+                    .map(ProductLocal::getPrice)
                     .mapToDouble(price -> price)
                     .sum();
             totalPrice = Utils.roundNumber(totalPrice);
 
-            totalPunctuation = (products.stream()
-                    .map(Product::getPunctuation)
-                    .mapToDouble(punctuation -> punctuation)
-                    .sum() + establishmentPunctuation) / (products.size() + 1);
+            if (establishmentPunctuation == 100) {
+                totalPunctuation = productLocals.stream()
+                        .map(ProductLocal::getPunctuation)
+                        .mapToDouble(punctuation -> punctuation)
+                        .sum() / productLocals.size();
+            } else {
+                totalPunctuation = (productLocals.stream()
+                        .map(ProductLocal::getPunctuation)
+                        .mapToDouble(punctuation -> punctuation)
+                        .sum() + establishmentPunctuation) / (productLocals.size() + 1);
+            }
             totalPunctuation = Utils.roundNumber(totalPunctuation);
             return new AddPublicationSummaryDTO(totalPrice, totalPunctuation);
         }
@@ -64,77 +95,134 @@ public class AddPublicationModel implements AddPublicationContract.Model {
     }
 
     @Override
-    public void onPressSubmit(AddPublicationDTO addPublicationDTO) {
-        Establishment establishment = addPublicationDTO.getEstablishment();
-//        String p = addPublicationDTO.getEstablishmentPunctuation();
-//        double newEstablishmentPunctuation = Utils.roundNumber(Float.parseFloat(p));
-//        AddPublicationSummaryDTO summary = makeSummary(newEstablishmentPunctuation);
-        List<Product> products = loadProducts();
-//        double establishmentPunctuation = summary.getTotalPunctuation();
+    public void onPressSubmit(byte[] image) {
+        EstablishmentLocal establishment = db.establishmentDao().findAll().get(0);
+        makeSummary(establishment.getPunctuation());
 
-        // if the establishment doesnt exists we create it
-        if (establishment.getId() == 1) {
-            Establishment newEstablishment = new Establishment(
+        // if the establishment does not exists we create it
+        if ((establishment.getId() - 100) == 0) {
+            EstablishmentDTO establishmentDTO = new EstablishmentDTO(
                     establishment.getName(),
-                    establishment.getLatitude(),
-                    establishment.getLongitude(),
-                    true,
-                    (float) totalPunctuation
+                    new Location((float) establishment.getLatitude(), (float) establishment.getLongitude()),
+                    true
             );
-            db.establishmentDao().insert(newEstablishment);
-            establishment = db.establishmentDao().findLast();
-        } else {
-            // Recalculate the establishment punctuation
-            int establishmentPublications = db.establishmentDao().countPublicationsByEstablishmentId(establishment.getId()) + 1;
-            Establishment e = db.establishmentDao().findById(establishment.getId());
-            float punctuation = (float) ((e.getPunctuation() + totalPunctuation) / establishmentPublications);
-            System.out.println(punctuation);
-            establishment.setPunctuation(punctuation);
-            db.establishmentDao().update(establishment);
+            createEstablishment(this, establishmentDTO, image);
+            return;
         }
 
-        Publication publication = new Publication(
-                (float) totalPrice,
+        UserLocal user = Utils.getUserLogged(context);
+        PublicationDTO publicationDTO = new PublicationDTO(
+                image,
+                user.getId(),
+                establishment.getId() - 100,
                 (float) totalPunctuation,
-                1,
-                establishment.getId());
-
-        publication.setImage(addPublicationDTO.getImage());
-
-        db.publicationDao().insert(publication);
-        Publication addedPublication = db.publicationDao().findLast();
-
-        products.stream().forEach(p -> {
-            p.setPublicationId(addedPublication.getId());
-            db.productDao().update(p);
-        });
-
-    }
-
-    @Override
-    public Establishment clearEstablishmentAux() {
-        Establishment establishment = new Establishment(
-                "",
-                0,
-                0,
-                true,
-                0
+                (float) totalPrice
         );
-        establishment.setId(1);
-        db.establishmentDao().update(establishment);
-
-        return establishment;
+        createPublication(this, publicationDTO);
     }
 
     @Override
-    public Establishment getEstablishment() {
+    public void createPublication(CreatePublicationListener listener, PublicationDTO publicationDTO) {
+        UserLocal user = Utils.getUserLogged(context);
+        authorization = "Bearer " + user.getToken();
+        Call<Publication> call = api.createPublication(authorization, publicationDTO);
+        call.enqueue(new Callback<Publication>() {
+            @Override
+            public void onResponse(Call<Publication> call, Response<Publication> response) {
+                if (!response.isSuccessful()) {
+                    String error = Utils.getErrorResponse(response.errorBody().charStream());
+                    listener.createPublicationError(error);
+                    return;
+                }
+
+                listener.createPublicationSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Publication> call, Throwable t) {
+                System.out.println("create establishment");
+                t.printStackTrace();
+                listener.createPublicationError(context.getString(R.string.error_database));
+            }
+        });
+    }
+
+    @Override
+    public void createPublicationSuccess(Publication publication) {
+        this.publication = publication;
+        createProducts(this);
+    }
+
+    @Override
+    public void createPublicationError(String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void createEstablishment(CreateEstablishmentListener listener, EstablishmentDTO establishmentDTO, byte[] image) {
+        UserLocal user = Utils.getUserLogged(context);
+        String authorization = "Bearer " + user.getToken();
+        Call<Establishment> call = api.createEstablishment(authorization, establishmentDTO);
+        call.enqueue(new Callback<Establishment>() {
+            @Override
+            public void onResponse(Call<Establishment> call, Response<Establishment> response) {
+                if (!response.isSuccessful()) {
+                    String error = Utils.getErrorResponse(response.errorBody().charStream());
+                    listener.createEstablishmentError(error);
+                    return;
+                }
+
+                listener.createEstablishmentSuccess(response.body(), image);
+            }
+
+            @Override
+            public void onFailure(Call<Establishment> call, Throwable t) {
+                System.out.println("create establishment");
+                t.printStackTrace();
+                listener.createEstablishmentError(context.getString(R.string.error_database));
+            }
+        });
+    }
+
+    @Override
+    public void createEstablishmentSuccess(Establishment establishment, byte[] image) {
+        clearEstablishmentAux();
+        UserLocal user = Utils.getUserLogged(context);
+        PublicationDTO publicationDTO = new PublicationDTO(
+                image,
+                user.getId(),
+                establishment.getId(),
+                (float) totalPunctuation,
+                (float) totalPrice
+        );
+        createPublication(this, publicationDTO);
+    }
+
+    @Override
+    public void createEstablishmentError(String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearEstablishmentAux() {
+        List<EstablishmentLocal> establishments = db.establishmentDao().findAll();
+        establishments.stream().forEach(e -> db.establishmentDao().delete(e));
+    }
+
+    private void clearProductsAux() {
+        List<ProductLocal> products = db.productDao().findAll();
+        products.stream().forEach(p -> db.productDao().delete(p));
+    }
+
+    @Override
+    public EstablishmentLocal getEstablishment() {
         try {
-            Establishment establishment = db.establishmentDao().findById(1);
+            EstablishmentLocal establishment = db.establishmentDao().findAll().get(0);
             if (!establishment.getName().equals("")) {
-                List<Establishment> exists = db.establishmentDao().findByNameExceptAux(establishment.getName());
-                if (exists.size() != 0) {
+                List<EstablishmentLocal> exists = db.establishmentDao().findByName(establishment.getName());
+                if (!exists.isEmpty()) {
                     exists.stream().forEach(e -> {
-                        if (e.getLatitude() == establishment.getLatitude() && e.getLongitude() == establishment.getLongitude()) {
+                        if (e.getLatitude() == establishment.getLatitude() &&
+                                e.getLongitude() == establishment.getLongitude()) {
                             establishment.setId(e.getId());
                             establishment.setOpen(e.isOpen());
                         }
@@ -146,5 +234,85 @@ public class AddPublicationModel implements AddPublicationContract.Model {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void createProducts(CreateProductsListener listener) {
+        List<ProductLocal> products = db.productDao().findAll();
+        this.products = products;
+        products.stream().forEach(p -> {
+            productCount++;
+            ProductDTO productDTO = new ProductDTO(p);
+            productDTO.setPublicationId(publication.getId());
+            System.out.println(productDTO);
+            Call<Product> call = api.createProduct(authorization, productDTO);
+            call.enqueue(new Callback<Product>() {
+                @Override
+                public void onResponse(Call<Product> call, Response<Product> response) {
+                    if (!response.isSuccessful()) {
+                        String error = Utils.getErrorResponse(response.errorBody().charStream());
+                        listener.createProductsError(error);
+                        return;
+                    }
+
+                    listener.createProductsSuccess();
+                }
+
+                @Override
+                public void onFailure(Call<Product> call, Throwable t) {
+                    System.out.println("update establishment punctuation");
+                    t.printStackTrace();
+                    listener.createProductsError(context.getString(R.string.error_database));
+                }
+            });
+        });
+    }
+
+    @Override
+    public void createProductsSuccess() {
+        if (productCount == products.size()) {
+            productCount = 0;
+            clearProductsAux();
+            updateEstablishmentPunctuation(this);
+        }
+    }
+
+    @Override
+    public void createProductsError(String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateEstablishmentPunctuation(UpdateEstablishmentPunctuationListener listener) {
+        Call<String> call = api.updateEstablishmentsPunctuation(authorization, establishment.getId());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (!response.isSuccessful()) {
+                    String error = Utils.getErrorResponse(response.errorBody().charStream());
+                    listener.updateEstablishmentPunctuationError(error);
+                    return;
+                }
+
+                listener.updateEstablishmentPunctuationSuccess();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("update establishment punctuation");
+                t.printStackTrace();
+                listener.updateEstablishmentPunctuationError(context.getString(R.string.error_database));
+            }
+        });
+    }
+
+    @Override
+    public void updateEstablishmentPunctuationSuccess() {
+        presenter.onSubmit(context.getString(R.string.add_publication_success));
+    }
+
+    @Override
+    public void updateEstablishmentPunctuationError(String error) {
+        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
     }
 }

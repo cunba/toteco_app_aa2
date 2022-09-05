@@ -1,58 +1,82 @@
 package com.svalero.toteco_app_aa2.domain;
 
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Base64;
 
-@Entity(tableName = "publications",foreignKeys = {
-        @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id", onDelete = ForeignKey.CASCADE),
-        @ForeignKey(entity = Establishment.class, parentColumns = "id", childColumns = "establishment_id", onDelete = ForeignKey.CASCADE)
-    },
-    indices = {
-        @Index(value = "user_id", unique = false),
-        @Index(value = "establishment_id", unique = false)
-    }
-)
-public class Publication {
-    @PrimaryKey(autoGenerate = true)
+import java.util.List;
+
+public class Publication implements Parcelable {
     private int id;
-    @ColumnInfo(name = "total_price")
+    private String date;
     private float totalPrice;
-    @ColumnInfo(name = "total_punctuation")
     private float totalPunctuation;
-    @ColumnInfo
-    @Nullable
-    private byte[] image;
-    @ColumnInfo(name = "user_id")
-    private int userId;
-    @ColumnInfo(name = "establishment_id")
-    private int establishmentId;
+    private String photo;
 
-    public Publication(float totalPrice, float totalPunctuation, int userId, int establishmentId) {
+    private User user;
+    private Establishment establishment;
+
+    private List<Product> products;
+
+    public Publication(int id, String date, float totalPrice, float totalPunctuation, String photo, User user, Establishment establishment) {
+        this.id = id;
+        this.date = date;
         this.totalPrice = totalPrice;
         this.totalPunctuation = totalPunctuation;
-        this.userId = userId;
-        this.establishmentId = establishmentId;
+        this.photo = photo;
+        this.user = user;
+        this.establishment = establishment;
     }
 
-    public int getUserId() {
-        return userId;
+    public Publication(String date, float totalPrice, float totalPunctuation, String photo, User user, Establishment establishment) {
+        this.date = date;
+        this.totalPrice = totalPrice;
+        this.totalPunctuation = totalPunctuation;
+        this.photo = photo;
+        this.user = user;
+        this.establishment = establishment;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public Publication(int id, String date, float totalPrice, float totalPunctuation, String photo) {
+        this.id = id;
+        this.date = date;
+        this.totalPrice = totalPrice;
+        this.totalPunctuation = totalPunctuation;
+        this.photo = photo;
     }
 
-    public int getEstablishmentId() {
-        return establishmentId;
+    public Publication(String date, float totalPrice, float totalPunctuation, String photo) {
+        this.date = date;
+        this.totalPrice = totalPrice;
+        this.totalPunctuation = totalPunctuation;
+        this.photo = photo;
     }
 
-    public void setEstablishmentId(int establishmentId) {
-        this.establishmentId = establishmentId;
+    public Publication() {
     }
+
+    protected Publication(Parcel in) {
+        id = in.readInt();
+        date = in.readString();
+        totalPrice = in.readFloat();
+        totalPunctuation = in.readFloat();
+//        in.readByteArray(photo);
+        user = in.readParcelable(User.class.getClassLoader());
+        establishment = in.readParcelable(Establishment.class.getClassLoader());
+        products = in.readParcelableList(products, Product.class.getClassLoader());
+    }
+
+    public static final Creator<Publication> CREATOR = new Creator<Publication>() {
+        @Override
+        public Publication createFromParcel(Parcel in) {
+            return new Publication(in);
+        }
+
+        @Override
+        public Publication[] newArray(int size) {
+            return new Publication[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -60,6 +84,14 @@ public class Publication {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public float getTotalPrice() {
@@ -78,22 +110,65 @@ public class Publication {
         this.totalPunctuation = totalPunctuation;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Establishment getEstablishment() {
+        return establishment;
+    }
+
+    public void setEstablishment(Establishment establishment) {
+        this.establishment = establishment;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
     public String toString() {
         return "Publication{" +
                 "id=" + id +
+                ", date=" + date +
                 ", totalPrice=" + totalPrice +
                 ", totalPunctuation=" + totalPunctuation +
-                ", userId=" + userId +
-                ", establishmentId=" + establishmentId +
+//                ", photo='" + photo + '\'' +
+                ", user=" + user +
+                ", establishment=" + establishment +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(date);
+        parcel.writeFloat(totalPrice);
+        parcel.writeFloat(totalPunctuation);
+//        parcel.writeByteArray(photo);
+        parcel.writeParcelable(user, i);
+        parcel.writeParcelable(establishment, i);
+        parcel.writeParcelableList(products, i);
     }
 }

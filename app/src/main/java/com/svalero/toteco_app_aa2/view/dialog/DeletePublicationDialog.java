@@ -2,22 +2,19 @@ package com.svalero.toteco_app_aa2.view.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.svalero.toteco_app_aa2.R;
-import com.svalero.toteco_app_aa2.database.AppDatabase;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.contract.dialog.DeletePublicationContract;
 import com.svalero.toteco_app_aa2.domain.Publication;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 import com.svalero.toteco_app_aa2.presenter.dialog.DeletePublicationPresenter;
-import com.svalero.toteco_app_aa2.presenter.dialog.ProductDialogPresenter;
-import com.svalero.toteco_app_aa2.view.AddPublicationFragment;
 import com.svalero.toteco_app_aa2.view.HomeFragment;
 
-public class DeletePublicationDialog extends DialogFragment {
+public class DeletePublicationDialog extends DialogFragment implements DeletePublicationContract.View {
 
     private final HomeFragment homeFragment;
     private final DeletePublicationPresenter presenter;
@@ -42,11 +39,16 @@ public class DeletePublicationDialog extends DialogFragment {
         builder.setMessage(R.string.delete_publication_message)
                 .setPositiveButton(R.string.delete_submit, (dialog, id) -> {
                     presenter.delete(publication);
-                    homeFragment.refreshPublications();
                 })
                 .setNegativeButton(R.string.delete_cancel, (dialog, id) ->
                         DeletePublicationDialog.this.getDialog().cancel()
                 );
         return builder.create();
+    }
+
+    @Override
+    public void onDelete(String message) {
+        homeFragment.showToast(message);
+        homeFragment.refreshPublications();
     }
 }

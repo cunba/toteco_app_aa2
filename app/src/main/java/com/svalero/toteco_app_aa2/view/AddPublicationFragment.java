@@ -23,10 +23,9 @@ import com.squareup.picasso.Picasso;
 import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.AddPublicationContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentAddPublicationBinding;
-import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
-import com.svalero.toteco_app_aa2.domain.dto.AddPublicationDTO;
-import com.svalero.toteco_app_aa2.domain.dto.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.dto.view.AddPublicationSummaryDTO;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.presenter.AddPublicationPresenter;
 import com.svalero.toteco_app_aa2.util.ImageAdapter;
 import com.svalero.toteco_app_aa2.util.Utils;
@@ -42,9 +41,9 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
 
     private FragmentAddPublicationBinding binding;
     private AddPublicationPresenter presenter;
-    private List<Product> products;
-    private ArrayAdapter<Product> productsAdapter;
-    private Establishment establishment;
+    private List<ProductLocal> productLocals;
+    private ArrayAdapter<ProductLocal> productsAdapter;
+    private EstablishmentLocal establishment;
     private final int SELECT_PICTURE_RESULT = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -89,9 +88,9 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
 
     @Override
     public void initializeProducts() {
-        products = new ArrayList<>();
+        productLocals = new ArrayList<>();
         ListView lvProducts = binding.getRoot().findViewById(R.id.add_publication_product_list);
-        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, products);
+        productsAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, productLocals);
         lvProducts.setAdapter(productsAdapter);
         lvProducts.setOnItemClickListener(this);
         lvProducts.setOnItemLongClickListener(this);
@@ -120,12 +119,23 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
     public void refreshProductsList() {
         loadProducts();
         productsAdapter.notifyDataSetChanged();
+        makeSummary();
     }
 
     @Override
     public void makeSummary() {
         if (establishment != null) {
             AddPublicationSummaryDTO summary = presenter.makeSummary(establishment.getPunctuation());
+
+            TextView tvTotalPrice = binding.getRoot().findViewById(R.id.add_publication_total_price);
+            tvTotalPrice.setText(getString(R.string.add_publication_total_price,
+                    String.valueOf(summary.getTotalPrice())));
+
+            TextView tvTotalPunctuation = binding.getRoot().findViewById(R.id.add_publication_total_punctuation);
+            tvTotalPunctuation.setText(getString(R.string.add_publication_total_punctuation,
+                    String.valueOf(summary.getTotalPunctuation())));
+        } else {
+            AddPublicationSummaryDTO summary = presenter.makeSummary(100);
 
             TextView tvTotalPrice = binding.getRoot().findViewById(R.id.add_publication_total_price);
             tvTotalPrice.setText(getString(R.string.add_publication_total_price,
@@ -172,7 +182,7 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
             showError(getString(R.string.error_establishment_empty));
             return;
         }
-        if (products.size() == 0) {
+        if (productLocals.isEmpty()) {
             showError(getString(R.string.error_products_empty));
             return;
         }
@@ -181,27 +191,37 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
             return;
         }
 
-        byte[] publicationImage = ImageAdapter.fromImageViewToByteArray(ivPublication);
+        byte[] image = ImageAdapter.fromImageViewToByteArray(ivPublication);
 
-        AddPublicationDTO addPublicationDTO = new AddPublicationDTO(
-                establishment,
-                establishmentPunctuationString,
-                publicationImage
-        );
-
-        presenter.onPressSubmit(addPublicationDTO);
+        presenter.onPressSubmit(image);
 
         showToast(getString(R.string.publication_created));
 
         tvEstablishmentName.setText(R.string.add_publication_establishment_add);
         tvEstablishmentPunctuation.setText(R.string.add_publication_establishment_punctuation);
         showError("");
-        products.clear();
+        productLocals.clear();
 
-        establishment = presenter.clearEstablishmentAux();
+        establishment = null;
 
         Navigation.findNavController(getView()).navigate(R.id.nav_home);
-        establishment = presenter.clearEstablishmentAux();
+        establishment = null;
+    }
+
+    @Override
+    public void onSubmit(String message) {
+        TextView tvEstablishmentName = binding.getRoot().findViewById(R.id.add_publication_establishment_name);
+        TextView tvEstablishmentPunctuation = binding.getRoot().findViewById(R.id.add_publication_establishment_punctuation);
+        showToast(getString(R.string.publication_created));
+
+        tvEstablishmentName.setText(R.string.add_publication_establishment_add);
+        tvEstablishmentPunctuation.setText(R.string.add_publication_establishment_punctuation);
+        showError("");
+        productLocals.clear();
+
+        establishment = null;
+
+        Navigation.findNavController(getView()).navigate(R.id.nav_home);
     }
 
     @Override
@@ -217,21 +237,21 @@ public class AddPublicationFragment extends Fragment implements AddPublicationCo
 
     @Override
     public void loadProducts() {
-        products.clear();
-        products.addAll(presenter.loadProducts());
+        productLocals.clear();
+        productLocals.addAll(presenter.loadProducts());
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Product product = products.get(i);
-        DialogFragment newFragment = new ProductDialog(this, product);
+        ProductLocal productLocal = productLocals.get(i);
+        DialogFragment newFragment = new ProductDialog(this, productLocal);
         newFragment.show(getParentFragmentManager(), "modify");
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Product product = products.get(i);
-        DialogFragment newFragment = new DeleteProductDialog(this, product);
+        ProductLocal productLocal = productLocals.get(i);
+        DialogFragment newFragment = new DeleteProductDialog(this, productLocal);
         newFragment.show(getParentFragmentManager(), "delete");
         return true;
     }

@@ -7,37 +7,38 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.svalero.toteco_app_aa2.domain.Establishment;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 
 import java.util.List;
 
 @Dao
 public interface EstablishmentDao {
     @Query("SELECT * FROM establishments WHERE name = :name")
-    List<Establishment> findByName(String name);
+    List<EstablishmentLocal> findByName(String name);
 
     @Query("SELECT * FROM establishments WHERE name = :name AND id != 1")
-    List<Establishment> findByNameExceptAux(String name);
+    List<EstablishmentLocal> findByNameExceptAux(String name);
 
     @Query("SELECT * FROM establishments WHERE id = :id")
-    Establishment findById(int id);
+    EstablishmentLocal findById(int id);
 
     @Query("SELECT * FROM establishments")
-    List<Establishment> findAll();
+    List<EstablishmentLocal> findAll();
 
     @Query("SELECT * FROM establishments WHERE id != 1")
-    List<Establishment> findAllExceptAux();
+    List<EstablishmentLocal> findAllExceptAux();
 
     @Query("SELECT * FROM establishments ORDER BY id DESC LIMIT 1")
-    Establishment findLast();
+    EstablishmentLocal findLast();
 
     @Insert
-    void insert(Establishment establishment);
+    void insert(EstablishmentLocal establishment);
 
     @Update
-    void update(Establishment establishment);
+    void update(EstablishmentLocal establishment);
 
     @Delete
-    void delete(Establishment establishment);
+    void delete(EstablishmentLocal establishment);
 
     @Query(value = "SELECT SUM(total_punctuation) FROM publications WHERE establishment_id = :id")
     float sumPunctuation(int id);

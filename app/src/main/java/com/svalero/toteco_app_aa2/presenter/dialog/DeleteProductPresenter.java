@@ -3,7 +3,7 @@ package com.svalero.toteco_app_aa2.presenter.dialog;
 import android.content.Context;
 
 import com.svalero.toteco_app_aa2.contract.dialog.DeleteProductContract;
-import com.svalero.toteco_app_aa2.domain.Product;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
 import com.svalero.toteco_app_aa2.model.dialog.DeleteProductModel;
 import com.svalero.toteco_app_aa2.view.dialog.DeleteProductDialog;
 
@@ -17,7 +17,7 @@ public class DeleteProductPresenter implements DeleteProductContract.Presenter {
     }
 
     @Override
-    public void delete(Product product) {
+    public void delete(ProductLocal productLocal) {
 
     }
 }

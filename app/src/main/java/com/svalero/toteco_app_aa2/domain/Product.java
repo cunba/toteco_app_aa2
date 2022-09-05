@@ -1,34 +1,94 @@
 package com.svalero.toteco_app_aa2.domain;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-@Entity(tableName = "products", foreignKeys = {
-        @ForeignKey(entity = com.svalero.toteco_app_aa2.domain.Publication.class, parentColumns = "id", childColumns = "publication_id", onDelete = ForeignKey.CASCADE)
-    },
-    indices = {@Index(value = "publication_id", unique = false)}
-)
-public class Product {
-    @PrimaryKey(autoGenerate = true)
+public class Product implements Parcelable {
     private int id;
-    @ColumnInfo
-    private String name;
-    @ColumnInfo
+    private String date;
+    private boolean inMenu;
     private float price;
-    @ColumnInfo
     private float punctuation;
-    @ColumnInfo(name = "publication_id")
-    private int publicationId;
 
-    public Product(String name, float price, float punctuation, int publicationId) {
+    private ProductType type;
+    private Menu menu;
+    private Publication publication;
+
+    protected Product(Parcel in) {
+        id = in.readInt();
+        date = in.readString();
+        inMenu = in.readByte() != 0;
+        price = in.readFloat();
+        punctuation = in.readFloat();
+        type = in.readParcelable(ProductType.class.getClassLoader());
+        menu = in.readParcelable(Menu.class.getClassLoader());
+        publication = in.readParcelable(Publication.class.getClassLoader());
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeInt(id);
+        parcel.writeString(date);
+        parcel.writeByte((byte) (inMenu ? 1 : 0));
+        parcel.writeFloat(price);
+        parcel.writeFloat(punctuation);
+        parcel.writeParcelable(menu, i);
+        parcel.writeParcelable(publication, i);
+    }
+
+    public Product(String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu) {
+        this.date = date;
+        this.inMenu = inMenu;
         this.price = price;
         this.punctuation = punctuation;
-        this.name = name;
-        this.publicationId = publicationId;
+        this.type = type;
+        this.menu = menu;
+    }
+
+    public Product(int id, String date, boolean inMenu, float price, float punctuation, ProductType type, Menu menu) {
+        this.id = id;
+        this.date = date;
+        this.inMenu = inMenu;
+        this.price = price;
+        this.punctuation = punctuation;
+        this.type = type;
+        this.menu = menu;
+    }
+
+    public Product() {
+    }
+
+    public Product(String date, boolean inMenu, float price, float punctuation) {
+        this.date = date;
+        this.inMenu = inMenu;
+        this.price = price;
+        this.punctuation = punctuation;
+    }
+
+    public Product(int id, String date, boolean inMenu, float price, float punctuation) {
+        this.id = id;
+        this.date = date;
+        this.inMenu = inMenu;
+        this.price = price;
+        this.punctuation = punctuation;
     }
 
     public int getId() {
@@ -37,6 +97,22 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public boolean isInMenu() {
+        return inMenu;
+    }
+
+    public void setInMenu(boolean inMenu) {
+        this.inMenu = inMenu;
     }
 
     public float getPrice() {
@@ -55,25 +131,33 @@ public class Product {
         this.punctuation = punctuation;
     }
 
-    public String getName() {
-        return name;
+    public ProductType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
-    public int getPublicationId() {
-        return publicationId;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setPublicationId(int publicationId) {
-        this.publicationId = publicationId;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
-    @NonNull
+    public Publication getPublication() {
+        return publication;
+    }
+
+    public void setPublication(Publication publication) {
+        this.publication = publication;
+    }
+
     @Override
     public String toString() {
-        return "- " + name + "\n(" + price + "€, " + punctuation + "/5★)";
+        return "- " + type.getType() + " " + type.getProductName() +
+                "\n(" + price + "€, " + punctuation + "/5★)";
     }
 }

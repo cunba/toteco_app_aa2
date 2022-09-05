@@ -12,6 +12,9 @@
     <string name="error_products_empty">No hay productos añadidos</string>
     <string name="error_establishment_empty">No hay establiecimiento añadido</string>
     <string name="error_empty_image">No hay imagen añadida</string>
+    <string name="error_database">Se ha productido un error al conectar con el servidor</string>
+    <string name="error_internal_server">Se ha producido un error interno en la api</string>
+    <string name="error_data">Error de datos o el usuario o el correo ya existen</string>
     <!--    Main activity   -->
     <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
@@ -22,6 +25,7 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="birthday">Birthday</string>
+    <string name="email">Email</string>
     <string name="confirm_password">Confirm password</string>
     <string name="user_create">Usuario con nombre %s creado con éxito.</string>
     <!--    Publications activity   -->
@@ -38,6 +42,7 @@
     <string name="add_publication_add_image">Añadir imagen</string>
     <string name="add_publication_establishment_add">Selecciona establecimiento</string>
     <string name="add_publication_establishment_punctuation">Puntuación del lugar</string>
+    <string name="add_publication_success">Publicación creada con éxito</string>
     <!--    Add product     -->
     <string name="add_product_title">AÑADIR PRODUCTO</string>
     <string name="add_product_name">Nombre</string>
@@ -65,14 +70,19 @@
     <string name="delete_cancel">Cancelar</string>
     <!--    Delete publication  -->
     <string name="delete_publication_message">¿Estás seguro que quieres eliminar la publicación?</string>
+    <string name="delete_publication_success">Se ha borrado la publicación</string>
     <!--    Drawer  -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="nav_publications">Publicaciones</string>
+    <string name="nav_publications_toolbar">PUBLICACIONES</string>
     <string name="nav_add_publication">Añadir publicación</string>
+    <string name="nav_add_publication_toolbar">AÑADIR PUBLICACIÓN</string>
     <string name="nav_locations">Localizaciones</string>
+    <string name="nav_locations_toolbar">LOCALIZACIONES</string>
     <string name="nav_settings">Ajustes</string>
+    <string name="nav_settings_toolbar">AJUSTES</string>
     <string name="nav_logout">Cerrar sesión</string>
-    <string name="nav_header_title">%1s %2s</string>
-    <string name="nav_header_subtitle">%s</string>
+    <string name="nav_header_title">Usuario</string>
+    <string name="nav_header_subtitle">Email</string>
 </resources>

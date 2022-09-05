@@ -1,4 +1,4 @@
-package com.svalero.toteco_app_aa2.domain.dto;
+package com.svalero.toteco_app_aa2.domain.dto.view;
 
 public class AddPublicationSummaryDTO {
     private double totalPrice;

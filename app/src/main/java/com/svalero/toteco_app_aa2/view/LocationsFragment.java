@@ -1,6 +1,7 @@
 package com.svalero.toteco_app_aa2.view;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,18 +22,14 @@ import com.svalero.toteco_app_aa2.R;
 import com.svalero.toteco_app_aa2.contract.LocationsContract;
 import com.svalero.toteco_app_aa2.databinding.FragmentLocationsBinding;
 import com.svalero.toteco_app_aa2.domain.Establishment;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
 import com.svalero.toteco_app_aa2.presenter.LocationsPresenter;
 
 import java.util.List;
 
-public class LocationsFragment extends Fragment implements LocationsContract.View,
-        OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class LocationsFragment extends Fragment {
 
     private FragmentLocationsBinding binding;
-    private List<Establishment> establishments;
-    private GoogleMap map;
-    private LocationsPresenter presenter;
-    private SupportMapFragment supportMapFragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,13 +37,8 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
         binding = FragmentLocationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        supportMapFragment = (SupportMapFragment) getParentFragmentManager()
-                .findFragmentById(R.id.locations_map);
-        if (supportMapFragment != null) {
-            supportMapFragment.getMapAsync(this);
-        }
-
-        presenter = new LocationsPresenter(this);
+        Intent intent = new Intent(getActivity(), LocationActivity.class);
+        startActivity(intent);
 
         return root;
     }
@@ -55,56 +47,5 @@ public class LocationsFragment extends Fragment implements LocationsContract.Vie
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        if (null != supportMapFragment) {
-            getParentFragmentManager().beginTransaction()
-                    .remove(supportMapFragment)
-                    .commit();
-        }
     }
-
-    @Override
-    public void loadEstablishments() {
-        establishments = presenter.loadEstablishments();
-        establishments.stream().forEach(p -> {
-            LatLng latLng = new LatLng(p.getLatitude(), p.getLongitude());
-            map.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .snippet(getString(R.string.add_publication_establishment_punctuation_print, String.valueOf(p.getPunctuation())))
-                    .title(p.getName()));
-        });
-    }
-
-    @Override
-    public boolean onMarkerClick(@NonNull Marker marker) {
-        return false;
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        System.out.println("entra");
-        map = googleMap;
-        googleMap.setOnMarkerClickListener(this);
-
-        // give the permissions to access to users device
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            return;
-        }
-        googleMap.setMyLocationEnabled(true);
-
-        loadEstablishments();
-    }
-
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        if (null != supportMapFragment) {
-//            getParenstFragmentActivity().beginTransaction()
-//                    .remove(supportMapFragment)
-//                    .commit();
-//        }
-//    }
 }

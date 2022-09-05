@@ -8,12 +8,17 @@ import com.svalero.toteco_app_aa2.dao.ProductDao;
 import com.svalero.toteco_app_aa2.dao.PublicationDao;
 import com.svalero.toteco_app_aa2.dao.UserDao;
 import com.svalero.toteco_app_aa2.domain.Establishment;
-import com.svalero.toteco_app_aa2.domain.Product;
-import com.svalero.toteco_app_aa2.domain.Publication;
-import com.svalero.toteco_app_aa2.domain.User;
+import com.svalero.toteco_app_aa2.domain.localdb.EstablishmentLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.MenuLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.ProductTypeLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
+import com.svalero.toteco_app_aa2.domain.localdb.UserLocal;
 
-@Database(entities = {Establishment.class, Product.class, Publication.class, User.class}, version = 5)
+@Database(entities = {EstablishmentLocal.class, ProductLocal.class,
+        PublicationLocal.class, UserLocal.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
+
     public abstract EstablishmentDao establishmentDao();
 
     public abstract ProductDao productDao();

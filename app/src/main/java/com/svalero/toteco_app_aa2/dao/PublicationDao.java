@@ -4,12 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.svalero.toteco_app_aa2.domain.Publication;
-import com.svalero.toteco_app_aa2.domain.relation.EstablishmentWithPublication;
-import com.svalero.toteco_app_aa2.domain.relation.UserWithPublication;
+import com.svalero.toteco_app_aa2.domain.localdb.PublicationLocal;
 
 import java.util.List;
 
@@ -17,36 +14,28 @@ import java.util.List;
 public interface PublicationDao {
 
     @Query("SELECT * FROM publications WHERE id = :id")
-    Publication findById(int id);
+    PublicationLocal findById(int id);
 
     @Query("SELECT * FROM publications")
-    List<Publication> findAll();
+    List<PublicationLocal> findAll();
 
     @Query("SELECT * FROM publications WHERE id != 1 ORDER BY id DESC")
-    List<Publication> findAllExceptAux();
+    List<PublicationLocal> findAllExceptAux();
 
     @Query("SELECT * FROM publications ORDER BY id DESC LIMIT 1")
-    Publication findLast();
+    PublicationLocal findLast();
 
     @Query("SELECT id FROM publications ORDER BY id DESC LIMIT 1")
     int findLastId();
 
     @Insert
-    void insert(Publication publication);
+    void insert(PublicationLocal publicationLocal);
 
     @Update
-    void update(Publication publication);
+    void update(PublicationLocal publicationLocal);
 
     @Delete
-    void delete(Publication publication);
-
-    @Transaction
-    @Query("SELECT * FROM establishments WHERE id = (SELECT establishment_id FROM publications WHERE id = :id)")
-    EstablishmentWithPublication findEstablishmentByPublicationId(int id);
-
-    @Transaction
-    @Query("SELECT * FROM users WHERE id = (SELECT user_id FROM publications WHERE id = :id)")
-    UserWithPublication findUserByPublicationId(int id);
+    void delete(PublicationLocal publicationLocal);
 
     @Query("SELECT SUM(price) AS suma FROM products WHERE publication_id = :id")
     float totalPrice(int id);

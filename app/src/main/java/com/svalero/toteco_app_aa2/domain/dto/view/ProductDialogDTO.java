@@ -1,22 +1,24 @@
-package com.svalero.toteco_app_aa2.domain.dto;
+package com.svalero.toteco_app_aa2.domain.dto.view;
+
+import com.svalero.toteco_app_aa2.domain.ProductType;
 
 public class ProductDialogDTO {
-    private String name;
+    private ProductType type;
     private String price;
     private String punctuation;
 
-    public ProductDialogDTO(String name, String price, String punctuation) {
-        this.name = name;
+    public ProductDialogDTO(ProductType type, String price, String punctuation) {
+        this.type = type;
         this.price = price;
         this.punctuation = punctuation;
     }
 
-    public String getName() {
-        return name;
+    public ProductType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
     public String getPrice() {

@@ -1,15 +1,17 @@
 package com.svalero.toteco_app_aa2.contract;
 
 import com.svalero.toteco_app_aa2.domain.User;
-import com.svalero.toteco_app_aa2.domain.dto.RegisterDTO;
-
-import java.util.List;
+import com.svalero.toteco_app_aa2.domain.dto.view.RegisterDTO;
+import com.svalero.toteco_app_aa2.domain.dto.UserDTO;
 
 public interface RegisterContract {
 
     interface Model {
-        void register(User user);
-        List<User> getUser(String username);
+        interface OnRegisterListener {
+            void onRegisterSuccess(User user);
+            void onRegisterError(String error);
+        }
+        void register(OnRegisterListener listener, UserDTO userDTO);
     }
 
     interface View {
